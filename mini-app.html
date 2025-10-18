@@ -6,7 +6,6 @@
     <title>Zephurium Game</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Ваши существующие стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -704,7 +703,6 @@
             tg = {
                 sendData: function(data) {
                     console.log("Данные отправлены в бот:", data);
-                    // В реальном Telegram здесь данные отправляются боту
                     return true;
                 },
                 showPopup: function(params) {
@@ -743,7 +741,7 @@
         // Обновление реферальной ссылки
         function updateReferralLink() {
             const userId = tg.initDataUnsafe.user?.id || '123456789';
-            const botUsername = 'your_bot_username'; // Замените на username вашего бота
+            const botUsername = 'your_bot_username';
             const link = `https://t.me/${botUsername}?start=${userId}`;
             document.getElementById('referralLink').value = link;
         }
@@ -1090,17 +1088,20 @@
             }
         }
         
-        // Фильтрация NFT по категориям
+        // Фильтрация NFT по категориям - ИСПРАВЛЕННАЯ ВЕРСИЯ
         function filterNFTs(category) {
+            // Убираем active со всех категорий
             document.querySelectorAll('.nft-category').forEach(cat => {
                 cat.classList.remove('active');
             });
+            
+            // Добавляем active к выбранной категории
             event.target.classList.add('active');
             
             updateNFTDisplay(category);
         }
         
-        // Обновление отображения NFT
+        // Обновление отображения NFT - ИСПРАВЛЕННАЯ ВЕРСИЯ
         function updateNFTDisplay(filterCategory = 'common') {
             const nftGrid = document.getElementById('nftGrid');
             const myNftGrid = document.getElementById('myNftGrid');
@@ -1110,6 +1111,7 @@
             myNftGrid.innerHTML = '';
             nftSelect.innerHTML = '<option value="">Выбери NFT</option>';
             
+            // Отображаем NFT магазина по выбранной категории
             Object.entries(nftCollection).forEach(([id, nft]) => {
                 if (nft.category === filterCategory) {
                     const nftElement = document.createElement('div');
@@ -1129,13 +1131,23 @@
                     `;
                     nftGrid.appendChild(nftElement);
                 }
-                
-                if (userData.nftCollection.includes(parseInt(id))) {
+            });
+            
+            // Обновляем выпадающий список для PVP
+            userData.nftCollection.forEach(nftId => {
+                const nft = nftCollection[nftId];
+                if (nft) {
                     const option = document.createElement('option');
-                    option.value = id;
+                    option.value = nftId;
                     option.textContent = `${nft.image} ${nft.name} (⚔️${nft.attack} ❤️${nft.health})`;
                     nftSelect.appendChild(option);
-                    
+                }
+            });
+            
+            // Отображаем коллекцию игрока
+            userData.nftCollection.forEach(nftId => {
+                const nft = nftCollection[nftId];
+                if (nft) {
                     const myNftElement = document.createElement('div');
                     myNftElement.className = `nft-item ${nft.category} owned`;
                     myNftElement.innerHTML = `
@@ -1200,13 +1212,22 @@
             }
             
             const playerNft = nftCollection[selectedNftId];
+            if (!playerNft) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Выбранный NFT не найден',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
             
+            // Создаем противника
             let availableNfts = Object.entries(nftCollection).filter(([id, nft]) => 
-                id !== selectedNftId && Math.random() > 0.3
+                parseInt(id) !== parseInt(selectedNftId)
             );
             
             if (availableNfts.length === 0) {
-                availableNfts = Object.entries(nftCollection).filter(([id]) => id !== selectedNftId);
+                availableNfts = Object.entries(nftCollection);
             }
             
             const randomNft = availableNfts[Math.floor(Math.random() * availableNfts.length)];
@@ -1281,6 +1302,7 @@
             const player = currentBattle.player;
             const enemy = currentBattle.enemy;
             
+            // Ход игрока
             const playerDamage = Math.floor(Math.random() * (player.attack * 0.3)) + Math.floor(player.attack * 0.7);
             enemy.currentHealth -= playerDamage;
             addBattleMessage(`🎯 Вы наносите ${playerDamage} урона!`, 'player');
@@ -1296,6 +1318,7 @@
                 return;
             }
             
+            // Ход противника
             setTimeout(() => {
                 const enemyDamage = calculateAIDamage(enemy, player);
                 player.currentHealth -= enemyDamage;
@@ -1343,29 +1366,10 @@
                 userData.diamonds += rewardDiamonds;
                 userData.pvpWins++;
                 addBattleMessage(`🎉 Вы победили! Награда: +${rewardCoins} 💰 ${rewardDiamonds > 0 ? '+'+rewardDiamonds+' 💎' : ''}`, 'system');
-                
-                try {
-                    tg.sendData(JSON.stringify({
-                        type: 'pvp_result',
-                        result: 'win',
-                        battle_id: Date.now()
-                    }));
-                } catch (error) {
-                    console.error("Ошибка отправки результатов PVP:", error);
-                }
             } else {
+                userData.balance += rewardCoins;
                 userData.pvpLosses++;
                 addBattleMessage(`💔 Вы проиграли... Сопротивление вознаграждается: +${rewardCoins} 💰`, 'system');
-                
-                try {
-                    tg.sendData(JSON.stringify({
-                        type: 'pvp_result',
-                        result: 'lose',
-                        battle_id: Date.now()
-                    }));
-                } catch (error) {
-                    console.error("Ошибка отправки результатов PVP:", error);
-                }
             }
             
             saveUserData();
@@ -1391,6 +1395,11 @@
             
             document.getElementById(tabName + 'Section').classList.add('active');
             event.target.classList.add('active');
+            
+            // При переключении на NFT вкладку обновляем отображение
+            if (tabName === 'nft') {
+                updateNFTDisplay();
+            }
         }
         
         // Инициализация
