@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Game</title>
+    <title>Zephurium Game</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -14,7 +14,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
             color: white;
@@ -23,26 +23,48 @@
         .container {
             max-width: 400px;
             margin: 0 auto;
+            position: relative;
         }
         
         .header {
             text-align: center;
             margin-bottom: 20px;
+            position: relative;
         }
         
-        .balance-display {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 20px;
+        .language-switcher {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
             backdrop-filter: blur(10px);
         }
         
-        .balance-amount {
-            font-size: 2.5em;
+        .currency-display {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .currency-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .currency-amount {
+            font-size: 1.5em;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 5px 0;
         }
         
         .tab-buttons {
@@ -51,6 +73,7 @@
             border-radius: 15px;
             padding: 5px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
         .tab-button {
@@ -58,10 +81,12 @@
             background: none;
             border: none;
             color: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-width: 60px;
+            font-size: 0.9em;
         }
         
         .tab-button.active {
@@ -83,25 +108,36 @@
         
         /* Кликер секция */
         .coin {
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #FFD700, #B8860B);
             border-radius: 50%;
             margin: 20px auto;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3em;
+            font-size: 4em;
             box-shadow: 
-                0 0 20px rgba(255, 215, 0, 0.5),
-                inset 0 -8px 15px rgba(0,0,0,0.3);
+                0 0 30px rgba(255, 215, 0, 0.6),
+                inset 0 -10px 20px rgba(0,0,0,0.4),
+                inset 0 10px 20px rgba(255,255,255,0.3);
             transition: transform 0.1s;
             user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coin::before {
+            content: "₿";
+            position: absolute;
+            font-size: 3em;
+            color: #8B7500;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         
         .coin:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
         
         .stats {
@@ -116,6 +152,19 @@
             padding: 10px;
             border-radius: 10px;
             text-align: center;
+        }
+        
+        .upgrade-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .upgrade-item:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         /* Рекламная секция */
@@ -150,65 +199,139 @@
             transform: none;
         }
         
-        /* Реферальная секция */
-        .referral-link {
+        /* Обмен */
+        .exchange-item {
             background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 10px;
             margin: 10px 0;
-            word-break: break-all;
+            text-align: center;
         }
         
-        .copy-button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+        .exchange-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 10px;
-            cursor: pointer;
+            padding: 10px;
+            color: white;
+            width: 100%;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        /* NFT секция */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-top: 10px;
         }
         
-        .upgrade-item {
+        .nft-item {
             background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 10px;
-            margin: 10px 0;
+            text-align: center;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
         
-        .upgrade-item:hover {
+        .nft-item:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .nft-item.owned {
+            border: 2px solid #4CAF50;
+        }
+        
+        .nft-image {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        /* PVP секция */
+        .pvp-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .battle-arena {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .fighter {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .fighter-image {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+        
+        .health-bar {
+            background: #333;
+            border-radius: 10px;
+            height: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .health-fill {
+            background: #4CAF50;
+            height: 100%;
+            transition: width 0.3s;
+        }
+        
+        .vs {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🪙 Clicker Game</h1>
-            <p>Кликай и зарабатывай монеты!</p>
+            <h1>💎 Zephurium Game</h1>
+            <p>Крипто-кликер с PVP боями!</p>
+            <button class="language-switcher" onclick="switchLanguage()" id="languageBtn">RU</button>
         </div>
         
-        <div class="balance-display">
-            <div>Ваш баланс</div>
-            <div class="balance-amount" id="balance">0</div>
-            <div>монет</div>
+        <div class="currency-display">
+            <div class="currency-item">
+                <div>💰 Монеты</div>
+                <div class="currency-amount" id="balance">0</div>
+            </div>
+            <div class="currency-item">
+                <div>💎 Алмазы</div>
+                <div class="currency-amount" id="diamonds">0</div>
+            </div>
         </div>
         
         <div class="tab-buttons">
             <button class="tab-button active" onclick="showTab('clicker')">🎮 Кликер</button>
-            <button class="tab-button" onclick="showTab('referral')">👥 Реф система</button>
+            <button class="tab-button" onclick="showTab('referral')">👥 Рефы</button>
             <button class="tab-button" onclick="showTab('ads')">📺 Заработок</button>
+            <button class="tab-button" onclick="showTab('exchange')">💱 Обмен</button>
+            <button class="tab-button" onclick="showTab('nft')">🖼️ NFT</button>
+            <button class="tab-button" onclick="showTab('pvp')">⚔️ PVP</button>
         </div>
         
         <!-- Секция Кликер -->
         <div class="section active" id="clickerSection">
             <div class="coin" onclick="clickCoin()" id="coin">
-                🪙
+                <!-- Bitcoin символ будет через CSS -->
             </div>
             <div style="text-align: center; margin: 10px 0;">
-                <strong>Кликай по монете!</strong><br>
+                <strong>Кликай по крипто-монете!</strong><br>
                 <small>+<span id="coinsPerClick">1</span> монет за клик</small>
             </div>
             
@@ -228,6 +351,11 @@
                 <strong>⚡ Усилитель клика</strong><br>
                 <small>+1 монета за клик</small><br>
                 <strong>Цена: 100 монет</strong>
+            </div>
+            <div class="upgrade-item" onclick="buyUpgrade('auto_click')">
+                <strong>🤖 Автокликер</strong><br>
+                <small>Уровень: <span id="autoClickLevel">0</span></small><br>
+                <strong>Цена: 500 монет</strong>
             </div>
         </div>
         
@@ -289,17 +417,154 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Секция Обмен -->
+        <div class="section" id="exchangeSection">
+            <h3>💱 Обмен валют</h3>
+            <p>Курс: 1 💎 = 100,000 💰</p>
+            
+            <div class="exchange-item">
+                <h4>💰 → 💎</h4>
+                <p>Обмен монет на алмазы</p>
+                <input type="number" class="exchange-input" id="coinsToDiamonds" placeholder="Количество алмазов" min="1">
+                <button class="ad-button" onclick="exchange('coins_to_diamonds')">
+                    Обменять
+                </button>
+                <small>Нужно монет: <span id="coinsNeeded">0</span></small>
+            </div>
+            
+            <div class="exchange-item">
+                <h4>💎 → 💰</h4>
+                <p>Обмен алмазов на монеты</p>
+                <input type="number" class="exchange-input" id="diamondsToCoins" placeholder="Количество алмазов" min="1">
+                <button class="ad-button" onclick="exchange('diamonds_to_coins')">
+                    Обменять
+                </button>
+                <small>Получите монет: <span id="coinsGet">0</span></small>
+            </div>
+        </div>
+        
+        <!-- Секция NFT -->
+        <div class="section" id="nftSection">
+            <h3>🖼️ NFT Коллекция</h3>
+            <p>Приобретай NFT для PVP сражений!</p>
+            
+            <div class="nft-grid" id="nftGrid">
+                <!-- NFT будут добавлены через JavaScript -->
+            </div>
+            
+            <h4 style="margin-top: 20px;">🎪 Ваша коллекция</h4>
+            <div class="nft-grid" id="myNftGrid">
+                <!-- Приобретенные NFT -->
+            </div>
+        </div>
+        
+        <!-- Секция PVP -->
+        <div class="section" id="pvpSection">
+            <h3>⚔️ PVP Сражения</h3>
+            <p>Сражайся с другими игроками!</p>
+            
+            <div class="pvp-item">
+                <h4>🎯 Статистика</h4>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div>🏆 Побед</div>
+                        <div id="pvpWins">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>💔 Поражений</div>
+                        <div id="pvpLosses">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pvp-item">
+                <h4>⚔️ Начать битву</h4>
+                <p>Выбери NFT для сражения:</p>
+                <select class="exchange-input" id="selectedNft">
+                    <option value="">Выбери NFT</option>
+                </select>
+                <button class="ad-button" onclick="startPvP()" id="pvpButton">
+                    🔍 Искать противника
+                </button>
+            </div>
+            
+            <div class="pvp-item" id="battleArena" style="display: none;">
+                <h4>🎪 Арена</h4>
+                <div class="battle-arena">
+                    <div class="fighter">
+                        <div class="fighter-image" id="playerFighter">⚔️</div>
+                        <div>Вы</div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="playerHealth" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="fighter">
+                        <div class="fighter-image" id="enemyFighter">🐲</div>
+                        <div>Противник</div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="enemyHealth" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="ad-button" onclick="nextBattleTurn()" id="battleButton">
+                    🎯 Атаковать!
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
         // Данные пользователя
         let userData = {
             balance: 0,
+            diamonds: 0,
             clicks: 0,
             clickPower: 1,
+            autoClickLevel: 0,
             adsWatched: 0,
             adsEarned: 0,
-            referrals: 0
+            referrals: 0,
+            language: 'RU',
+            nftCollection: [],
+            pvpWins: 0,
+            pvpLosses: 0
+        };
+        
+        // Автокликер
+        let autoClickInterval = null;
+        
+        // NFT данные
+        const nftCollection = {
+            1: { name: "Крипто-Воин", price: 5, attack: 15, health: 100, image: "⚔️" },
+            2: { name: "Биткоин-Дракон", price: 10, attack: 25, health: 120, image: "🐲" },
+            3: { name: "Эфириум-Маг", price: 8, attack: 20, health: 90, image: "🧙" },
+            4: { name: "Сатоши-Ниндзя", price: 12, attack: 30, health: 80, image: "🥷" },
+            5: { name: "Альткоин-Рыцарь", price: 7, attack: 18, health: 110, image: "🛡️" },
+            6: { name: "Мемкоин-Шут", price: 3, attack: 10, health: 70, image: "🤡" }
+        };
+        
+        // Тексты на разных языках
+        const texts = {
+            'RU': {
+                gameName: 'Zephurium Game',
+                clickCoin: 'Кликай по крипто-монете!',
+                coinsPerClick: 'монет за клик',
+                // ... остальные тексты
+            },
+            'ENG': {
+                gameName: 'Zephurium Game',
+                clickCoin: 'Click the crypto coin!',
+                coinsPerClick: 'coins per click',
+                // ... остальные тексты
+            },
+            'DE': {
+                gameName: 'Zephurium Game',
+                clickCoin: 'Klicke auf die Krypto-Münze!',
+                coinsPerClick: 'Münzen pro Klick',
+                // ... остальные тексты
+            }
         };
         
         // Инициализация Telegram Web App
@@ -309,28 +574,40 @@
         
         // Загрузка данных
         function loadUserData() {
-            const saved = localStorage.getItem('clickerData');
+            const saved = localStorage.getItem('zephuriumData');
             if (saved) {
                 const data = JSON.parse(saved);
                 userData = { ...userData, ...data };
             }
             updateUI();
+            startAutoClicker();
         }
         
         // Сохранение данных
         function saveUserData() {
-            localStorage.setItem('clickerData', JSON.stringify(userData));
+            localStorage.setItem('zephuriumData', JSON.stringify(userData));
         }
         
         // Обновление интерфейса
         function updateUI() {
             document.getElementById('balance').textContent = userData.balance;
+            document.getElementById('diamonds').textContent = userData.diamonds;
             document.getElementById('clickCount').textContent = userData.clicks;
             document.getElementById('clickPower').textContent = userData.clickPower;
             document.getElementById('coinsPerClick').textContent = userData.clickPower;
             document.getElementById('adsWatched').textContent = userData.adsWatched;
             document.getElementById('adsEarned').textContent = userData.adsEarned;
             document.getElementById('referralCount').textContent = userData.referrals;
+            document.getElementById('autoClickLevel').textContent = userData.autoClickLevel;
+            document.getElementById('pvpWins').textContent = userData.pvpWins;
+            document.getElementById('pvpLosses').textContent = userData.pvpLosses;
+            document.getElementById('languageBtn').textContent = userData.language;
+            
+            // Обновление расчетов обмена
+            updateExchangeCalculations();
+            
+            // Обновление NFT
+            updateNFTDisplay();
             
             // Генерация реферальной ссылки
             if (tg.initDataUnsafe.user) {
@@ -365,7 +642,7 @@
             
             // Анимация клика
             const coin = document.getElementById('coin');
-            coin.style.transform = 'scale(0.95)';
+            coin.style.transform = 'scale(0.92)';
             setTimeout(() => {
                 coin.style.transform = 'scale(1)';
             }, 100);
@@ -393,6 +670,7 @@
             floatingText.style.fontSize = '1.2em';
             floatingText.style.pointerEvents = 'none';
             floatingText.style.animation = 'floatUp 1s ease-out forwards';
+            floatingText.style.zIndex = '1000';
             
             const coin = document.getElementById('coin');
             const coinRect = coin.getBoundingClientRect();
@@ -403,7 +681,9 @@
             document.body.appendChild(floatingText);
             
             setTimeout(() => {
-                document.body.removeChild(floatingText);
+                if (document.body.contains(floatingText)) {
+                    document.body.removeChild(floatingText);
+                }
             }, 1000);
         }
         
@@ -429,6 +709,44 @@
                         buttons: [{ type: 'ok' }]
                     });
                 }
+            } else if (type === 'auto_click') {
+                const cost = 500;
+                if (userData.balance >= cost) {
+                    userData.balance -= cost;
+                    userData.autoClickLevel += 1;
+                    saveUserData();
+                    updateUI();
+                    startAutoClicker();
+                    
+                    tg.showPopup({
+                        title: '🤖 Автокликер улучшен!',
+                        message: `Теперь уровень ${userData.autoClickLevel}`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно средств',
+                        message: `Нужно ${cost} монет`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            }
+        }
+        
+        // Запуск автокликера
+        function startAutoClicker() {
+            if (autoClickInterval) {
+                clearInterval(autoClickInterval);
+            }
+            
+            if (userData.autoClickLevel > 0) {
+                const interval = Math.max(1000, 5000 - (userData.autoClickLevel * 200));
+                autoClickInterval = setInterval(() => {
+                    userData.balance += userData.autoClickLevel;
+                    userData.clicks += userData.autoClickLevel;
+                    saveUserData();
+                    updateUI();
+                }, interval);
             }
         }
         
@@ -440,7 +758,7 @@
             };
             
             const reward = rewards[type] || 15;
-            const time = type === 'short' ? 5 : 10;
+            const time = type === 'short' ? 3 : 6;
             
             const button = event.target;
             button.disabled = true;
@@ -473,7 +791,7 @@
                 btn.disabled = false;
                 if (btn.textContent.includes('Короткая')) {
                     btn.textContent = 'Смотреть рекламу (+15)';
-                } else {
+                } else if (btn.textContent.includes('Длинная')) {
                     btn.textContent = 'Смотреть рекламу (+30)';
                 }
             });
@@ -503,6 +821,300 @@
             });
         }
         
+        // Смена языка
+        function switchLanguage() {
+            const languages = ['RU', 'ENG', 'DE'];
+            const currentIndex = languages.indexOf(userData.language);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            userData.language = languages[nextIndex];
+            
+            saveUserData();
+            updateUI();
+            
+            // Отправка данных в бот
+            tg.sendData(JSON.stringify({
+                type: 'language_change',
+                language: userData.language
+            }));
+        }
+        
+        // Обновление расчетов обмена
+        function updateExchangeCalculations() {
+            const diamondsInput = document.getElementById('coinsToDiamonds');
+            const coinsInput = document.getElementById('diamondsToCoins');
+            
+            if (diamondsInput.value) {
+                const diamonds = parseInt(diamondsInput.value) || 0;
+                document.getElementById('coinsNeeded').textContent = diamonds * 100000;
+            }
+            
+            if (coinsInput.value) {
+                const diamonds = parseInt(coinsInput.value) || 0;
+                document.getElementById('coinsGet').textContent = diamonds * 100000;
+            }
+        }
+        
+        // Функция обмена
+        function exchange(direction) {
+            if (direction === 'coins_to_diamonds') {
+                const input = document.getElementById('coinsToDiamonds');
+                const amount = parseInt(input.value) || 0;
+                
+                if (amount <= 0) {
+                    tg.showPopup({
+                        title: '❌ Ошибка',
+                        message: 'Введите корректное количество',
+                        buttons: [{ type: 'ok' }]
+                    });
+                    return;
+                }
+                
+                const coinsNeeded = amount * 100000;
+                if (userData.balance >= coinsNeeded) {
+                    userData.balance -= coinsNeeded;
+                    userData.diamonds += amount;
+                    saveUserData();
+                    updateUI();
+                    input.value = '';
+                    
+                    tg.sendData(JSON.stringify({
+                        type: 'exchange',
+                        direction: direction,
+                        amount: amount
+                    }));
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно средств',
+                        message: `Нужно ${coinsNeeded} монет`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            } else if (direction === 'diamonds_to_coins') {
+                const input = document.getElementById('diamondsToCoins');
+                const amount = parseInt(input.value) || 0;
+                
+                if (amount <= 0) {
+                    tg.showPopup({
+                        title: '❌ Ошибка',
+                        message: 'Введите корректное количество',
+                        buttons: [{ type: 'ok' }]
+                    });
+                    return;
+                }
+                
+                if (userData.diamonds >= amount) {
+                    userData.diamonds -= amount;
+                    userData.balance += amount * 100000;
+                    saveUserData();
+                    updateUI();
+                    input.value = '';
+                    
+                    tg.sendData(JSON.stringify({
+                        type: 'exchange',
+                        direction: direction,
+                        amount: amount
+                    }));
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно алмазов',
+                        message: `Нужно ${amount} алмазов`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            }
+        }
+        
+        // Обновление отображения NFT
+        function updateNFTDisplay() {
+            const nftGrid = document.getElementById('nftGrid');
+            const myNftGrid = document.getElementById('myNftGrid');
+            const nftSelect = document.getElementById('selectedNft');
+            
+            nftGrid.innerHTML = '';
+            myNftGrid.innerHTML = '';
+            nftSelect.innerHTML = '<option value="">Выбери NFT</option>';
+            
+            // Отображение всех NFT
+            Object.entries(nftCollection).forEach(([id, nft]) => {
+                const nftElement = document.createElement('div');
+                nftElement.className = 'nft-item';
+                if (userData.nftCollection.includes(parseInt(id))) {
+                    nftElement.classList.add('owned');
+                }
+                nftElement.innerHTML = `
+                    <div class="nft-image">${nft.image}</div>
+                    <strong>${nft.name}</strong><br>
+                    <small>⚔️ ${nft.attack} ❤️ ${nft.health}</small><br>
+                    <strong>💎 ${nft.price}</strong>
+                    ${!userData.nftCollection.includes(parseInt(id)) ? 
+                        `<br><button onclick="buyNFT(${id})" style="margin-top: 5px; padding: 5px 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Купить</button>` : 
+                        '<br><small>✅ Владеете</small>'
+                    }
+                `;
+                nftGrid.appendChild(nftElement);
+                
+                // Добавление в выпадающий список для PVP
+                if (userData.nftCollection.includes(parseInt(id))) {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = `${nft.image} ${nft.name} (⚔️${nft.attack} ❤️${nft.health})`;
+                    nftSelect.appendChild(option);
+                    
+                    // Отображение в коллекции
+                    const myNftElement = document.createElement('div');
+                    myNftElement.className = 'nft-item owned';
+                    myNftElement.innerHTML = `
+                        <div class="nft-image">${nft.image}</div>
+                        <strong>${nft.name}</strong><br>
+                        <small>⚔️ ${nft.attack} ❤️ ${nft.health}</small>
+                    `;
+                    myNftGrid.appendChild(myNftElement);
+                }
+            });
+        }
+        
+        // Покупка NFT
+        function buyNFT(nftId) {
+            const nft = nftCollection[nftId];
+            if (!nft) return;
+            
+            if (userData.diamonds >= nft.price) {
+                userData.diamonds -= nft.price;
+                if (!userData.nftCollection.includes(nftId)) {
+                    userData.nftCollection.push(nftId);
+                }
+                saveUserData();
+                updateUI();
+                
+                tg.sendData(JSON.stringify({
+                    type: 'buy_nft',
+                    nft_id: nftId
+                }));
+            } else {
+                tg.showPopup({
+                    title: '❌ Недостаточно алмазов',
+                    message: `Нужно ${nft.price} алмазов`,
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+        
+        // PVP система
+        let currentBattle = null;
+        
+        function startPvP() {
+            const selectedNftId = document.getElementById('selectedNft').value;
+            if (!selectedNftId) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Выберите NFT для битвы',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            const playerNft = nftCollection[selectedNftId];
+            
+            // Создание противника (случайный NFT)
+            const availableNfts = Object.entries(nftCollection).filter(([id]) => id !== selectedNftId);
+            const randomNft = availableNfts[Math.floor(Math.random() * availableNfts.length)];
+            const enemyNft = randomNft ? nftCollection[randomNft[0]] : nftCollection[1];
+            
+            currentBattle = {
+                player: { ...playerNft, currentHealth: playerNft.health },
+                enemy: { ...enemyNft, currentHealth: enemyNft.health },
+                turn: 0
+            };
+            
+            // Показать арену
+            document.getElementById('battleArena').style.display = 'block';
+            document.getElementById('pvpButton').disabled = true;
+            
+            updateBattleUI();
+        }
+        
+        function updateBattleUI() {
+            if (!currentBattle) return;
+            
+            document.getElementById('playerFighter').textContent = currentBattle.player.image;
+            document.getElementById('enemyFighter').textContent = currentBattle.enemy.image;
+            
+            const playerHealthPercent = (currentBattle.player.currentHealth / currentBattle.player.health) * 100;
+            const enemyHealthPercent = (currentBattle.enemy.currentHealth / currentBattle.enemy.health) * 100;
+            
+            document.getElementById('playerHealth').style.width = playerHealthPercent + '%';
+            document.getElementById('enemyHealth').style.width = enemyHealthPercent + '%';
+        }
+        
+        function nextBattleTurn() {
+            if (!currentBattle) return;
+            
+            // Ход игрока
+            const playerDamage = Math.floor(Math.random() * currentBattle.player.attack) + 1;
+            currentBattle.enemy.currentHealth -= playerDamage;
+            
+            // Проверка победы
+            if (currentBattle.enemy.currentHealth <= 0) {
+                endBattle(true);
+                return;
+            }
+            
+            // Ход противника
+            const enemyDamage = Math.floor(Math.random() * currentBattle.enemy.attack) + 1;
+            currentBattle.player.currentHealth -= enemyDamage;
+            
+            // Проверка поражения
+            if (currentBattle.player.currentHealth <= 0) {
+                endBattle(false);
+                return;
+            }
+            
+            currentBattle.turn++;
+            updateBattleUI();
+        }
+        
+        function endBattle(playerWon) {
+            if (playerWon) {
+                tg.sendData(JSON.stringify({
+                    type: 'pvp_result',
+                    battle_id: Date.now(),
+                    result: 'win'
+                }));
+                
+                tg.showPopup({
+                    title: '🎉 Вы выиграли!',
+                    message: '+0.01 💎 и +2500 💰',
+                    buttons: [{ type: 'ok' }]
+                });
+            } else {
+                tg.sendData(JSON.stringify({
+                    type: 'pvp_result',
+                    battle_id: Date.now(),
+                    result: 'lose'
+                }));
+                
+                tg.showPopup({
+                    title: '💔 Вы проиграли',
+                    message: 'Попробуйте еще раз!',
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+            
+            // Сброс битвы
+            document.getElementById('battleArena').style.display = 'none';
+            document.getElementById('pvpButton').disabled = false;
+            currentBattle = null;
+            
+            // Обновление статистики
+            if (playerWon) {
+                userData.pvpWins++;
+            } else {
+                userData.pvpLosses++;
+            }
+            saveUserData();
+            updateUI();
+        }
+        
         // Добавляем CSS анимацию
         const style = document.createElement('style');
         style.textContent = `
@@ -518,6 +1130,10 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // Слушатели событий для обновления расчетов обмена
+        document.getElementById('coinsToDiamonds').addEventListener('input', updateExchangeCalculations);
+        document.getElementById('diamondsToCoins').addEventListener('input', updateExchangeCalculations);
         
         // Инициализация
         loadUserData();
