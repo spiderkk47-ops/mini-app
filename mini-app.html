@@ -527,6 +527,15 @@
             font-size: 2.5em;
             margin-bottom: 8px;
         }
+
+        .no-nft-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px 0;
+            border: 2px dashed #FFD700;
+        }
         
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
@@ -771,7 +780,7 @@
             </div>
         </div>
         
-        <!-- Секция PVP - ПОЛНОСТЬЮ ПЕРЕРАБОТАНА -->
+        <!-- Секция PVP - ИСПРАВЛЕНА -->
         <div class="section" id="pvpSection">
             <h3>⚔️ PVP Сражения</h3>
             <p>Сражайся с другими игроками и зарабатывай награды!</p>
@@ -815,6 +824,14 @@
                         <div>⚔️ Атака: <span class="stat-value" id="previewNftAttack">0</span></div>
                         <div>❤️ Здоровье: <span class="stat-value" id="previewNftHealth">0</span></div>
                     </div>
+                </div>
+
+                <div id="noNftMessage" class="no-nft-message" style="display: none;">
+                    <h4>🎯 У вас нет NFT для сражений!</h4>
+                    <p>Перейдите в раздел 🖼️ NFT чтобы приобрести своего первого бойца</p>
+                    <button class="ad-button" onclick="showTab('nft')">
+                        🖼️ Перейти к NFT
+                    </button>
                 </div>
                 
                 <button class="ad-button" onclick="startPvP()" id="pvpButton">
@@ -1450,11 +1467,31 @@
             });
         }
         
-        // Обновление выпадающего списка NFT для PVP
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ: Обновление выпадающего списка NFT для PVP
         function updatePvPNFTSelect() {
             const nftSelect = document.getElementById('selectedNft');
+            const noNftMessage = document.getElementById('noNftMessage');
+            const pvpButton = document.getElementById('pvpButton');
+            
+            // Очищаем текущий список
             nftSelect.innerHTML = '<option value="">-- Выбери своего бойца --</option>';
             
+            // Проверяем есть ли NFT у игрока
+            if (userData.nftCollection.length === 0) {
+                // Если нет NFT, показываем сообщение и отключаем кнопку
+                nftSelect.style.display = 'none';
+                noNftMessage.style.display = 'block';
+                pvpButton.disabled = true;
+                document.getElementById('selectedNftPreview').style.display = 'none';
+                return;
+            } else {
+                // Если есть NFT, показываем селект и скрываем сообщение
+                nftSelect.style.display = 'block';
+                noNftMessage.style.display = 'none';
+                pvpButton.disabled = false;
+            }
+            
+            // Добавляем NFT из коллекции игрока в выпадающий список
             userData.nftCollection.forEach(nftId => {
                 const nft = nftCollection[nftId];
                 if (nft) {
@@ -1483,6 +1520,12 @@
                     preview.style.display = 'none';
                 }
             };
+            
+            // Автоматически выбираем первый доступный NFT
+            if (userData.nftCollection.length > 0) {
+                nftSelect.value = userData.nftCollection[0];
+                nftSelect.onchange(); // Вызываем событие change для обновления превью
+            }
         }
         
         // Покупка NFT
