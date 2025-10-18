@@ -306,300 +306,7 @@
         .legendary { background: linear-gradient(135deg, #AB47BC, #8E24AA); color: #F3E5F5; }
         .mythical { background: linear-gradient(135deg, #FF5722, #D84315); color: #FFE0B2; }
         
-        /* НОВЫЕ СТИЛИ ДЛЯ АЗАРТНЫХ ИГР */
-        .gambling-section {
-            text-align: center;
-        }
-        
-        .game-selection {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .game-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .game-card:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-            border-color: #FFD700;
-        }
-        
-        .game-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .rocket-game {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .rocket-container {
-            position: relative;
-            height: 300px;
-            margin: 20px 0;
-            background: linear-gradient(180deg, #0c0c2e 0%, #1a1a3e 50%, #0c0c2e 100%);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-        
-        .rocket {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 3em;
-            transition: bottom 4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            filter: drop-shadow(0 0 10px #ff4444);
-            z-index: 10;
-        }
-        
-        .rocket-trail {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 0;
-            background: linear-gradient(180deg, transparent, #ff4444, #ffaa00);
-            transition: height 4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        
-        .multiplier-display {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #FFD700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            z-index: 5;
-        }
-        
-        .multiplier-line {
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.3);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .multiplier-line.active {
-            opacity: 1;
-        }
-        
-        .multiplier-label {
-            position: absolute;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8em;
-            color: #FFD700;
-        }
-        
-        .bet-controls {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-        
-        .bet-input-group {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .bet-input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 12px;
-            color: white;
-            font-size: 1.1em;
-            text-align: center;
-        }
-        
-        .bet-input:focus {
-            outline: none;
-            border-color: #FFD700;
-        }
-        
-        .quick-bet-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin: 10px 0;
-        }
-        
-        .quick-bet {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 8px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .quick-bet:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .game-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .game-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .play-btn {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-        }
-        
-        .play-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-        }
-        
-        .stop-btn {
-            background: linear-gradient(135deg, #f44336, #da190b);
-            color: white;
-        }
-        
-        .stop-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
-        }
-        
-        .game-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        .history-section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .history-title {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #FFD700;
-            font-weight: bold;
-        }
-        
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 12px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            font-size: 0.9em;
-        }
-        
-        .history-win {
-            background: rgba(76, 175, 80, 0.2);
-            color: #8BC34A;
-        }
-        
-        .history-loss {
-            background: rgba(244, 67, 54, 0.2);
-            color: #ff9800;
-        }
-        
-        .result-display {
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 15px 0;
-            font-size: 1.2em;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-        }
-        
-        .win-result {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.1));
-            border: 2px solid #4CAF50;
-            color: #8BC34A;
-        }
-        
-        .loss-result {
-            background: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(244, 67, 54, 0.1));
-            border: 2px solid #f44336;
-            color: #ff9800;
-        }
-        
-        .explosion {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle, rgba(255,68,68,0.8) 0%, rgba(255,68,68,0) 70%);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 20;
-        }
-        
-        @keyframes explosion {
-            0% { transform: scale(0); opacity: 1; }
-            50% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-        
-        @keyframes rocketShake {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            25% { transform: translateX(-50%) translateY(-2px) translateX(1px); }
-            50% { transform: translateX(-50%) translateY(1px) translateX(-1px); }
-            75% { transform: translateX(-50%) translateY(-1px) translateX(2px); }
-        }
-        
-        @keyframes multiplierGlow {
-            0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6); }
-        }
-
-        /* Стили для PVP (существующие) */
+        /* НОВЫЕ СТИЛИ ДЛЯ PVP */
         .pvp-item {
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
@@ -836,6 +543,7 @@
             border: 2px dashed #FFD700;
         }
 
+        /* НОВЫЙ СТИЛЬ ДЛЯ ВЫБОРА NFT В PVP */
         .pvp-nft-selection {
             margin: 15px 0;
         }
@@ -978,7 +686,7 @@
     <div class="container">
         <div class="header">
             <h1>💎 Zephurium Game</h1>
-            <p>Крипто-кликер с PVP боями и азартными играми!</p>
+            <p>Крипто-кликер с PVP боями!</p>
             <button class="language-switcher" onclick="switchLanguage()" id="languageBtn">RU</button>
         </div>
         
@@ -993,10 +701,8 @@
             </div>
         </div>
         
-        <!-- ДОБАВЛЕНА КНОПКА АЗАРТ -->
         <div class="tab-buttons">
             <button class="tab-button active" onclick="showTab('clicker')">🎮 Кликер</button>
-            <button class="tab-button" onclick="showTab('gambling')">🎰 Азарт</button>
             <button class="tab-button" onclick="showTab('referral')">👥 Рефы</button>
             <button class="tab-button" onclick="showTab('ads')">📺 Реклама</button>
             <button class="tab-button" onclick="showTab('exchange')">💱 Обмен</button>
@@ -1040,91 +746,6 @@
                 <small>Уровень: <span id="autoClickLevel">0</span>/1000</small><br>
                 <small>+<span id="autoClickPower">0</span> монет/сек</small><br>
                 <strong>Цена: 500 монет</strong>
-            </div>
-        </div>
-        
-        <!-- НОВАЯ СЕКЦИЯ: Азартные игры -->
-        <div class="section" id="gamblingSection">
-            <div class="gambling-section">
-                <h3>🎰 Азартные игры</h3>
-                <p>Испытай удачу и умножай свои алмазы!</p>
-                
-                <div class="game-selection">
-                    <div class="game-card rocket-game" onclick="showGame('rocket')">
-                        <div class="game-icon">🚀</div>
-                        <strong>Ракета</strong>
-                        <p>Успей остановить ракету до взрыва!</p>
-                    </div>
-                    <div class="game-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <div class="game-icon">🎲</div>
-                        <strong>Скоро</strong>
-                        <p>Новые игры в разработке</p>
-                    </div>
-                </div>
-                
-                <!-- Игра Ракета -->
-                <div id="rocketGame" style="display: none;">
-                    <h4>🚀 Игра "Ракета"</h4>
-                    <p>Сделай ставку и успей остановить ракету до взрыва!</p>
-                    
-                    <div class="rocket-container" id="rocketContainer">
-                        <div class="multiplier-display" id="multiplierDisplay">1.00x</div>
-                        <div class="rocket" id="rocket">🚀</div>
-                        <div class="rocket-trail" id="rocketTrail"></div>
-                        <div class="explosion" id="explosion"></div>
-                        
-                        <!-- Линии множителей -->
-                        <div class="multiplier-line" style="top: 80%;" data-multiplier="1.5">
-                            <div class="multiplier-label">1.5x</div>
-                        </div>
-                        <div class="multiplier-line" style="top: 65%;" data-multiplier="2.0">
-                            <div class="multiplier-label">2.0x</div>
-                        </div>
-                        <div class="multiplier-line" style="top: 50%;" data-multiplier="3.0">
-                            <div class="multiplier-label">3.0x</div>
-                        </div>
-                        <div class="multiplier-line" style="top: 35%;" data-multiplier="5.0">
-                            <div class="multiplier-label">5.0x</div>
-                        </div>
-                        <div class="multiplier-line" style="top: 20%;" data-multiplier="10.0">
-                            <div class="multiplier-label">10.0x</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bet-controls">
-                        <h4>💎 Ставка алмазами</h4>
-                        <div class="bet-input-group">
-                            <input type="number" class="bet-input" id="betAmount" placeholder="Количество алмазов" min="1" max="1000">
-                        </div>
-                        
-                        <div class="quick-bet-buttons">
-                            <button class="quick-bet" onclick="setBetAmount(1)">1</button>
-                            <button class="quick-bet" onclick="setBetAmount(5)">5</button>
-                            <button class="quick-bet" onclick="setBetAmount(10)">10</button>
-                            <button class="quick-bet" onclick="setBetAmount(50)">50</button>
-                        </div>
-                        
-                        <div class="game-buttons">
-                            <button class="game-btn play-btn" onclick="startRocketGame()" id="playBtn">
-                                🚀 Играть
-                            </button>
-                            <button class="game-btn stop-btn" onclick="stopRocketGame()" id="stopBtn" disabled>
-                                ⏹️ СТОП
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="result-display" id="gameResult" style="display: none;">
-                        <!-- Результат игры будет отображаться здесь -->
-                    </div>
-                    
-                    <div class="history-section">
-                        <div class="history-title">📊 История игр</div>
-                        <div class="history-list" id="gameHistory">
-                            <!-- История будет заполняться динамически -->
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         
@@ -1227,7 +848,7 @@
             </div>
         </div>
         
-        <!-- Секция PVP -->
+        <!-- Секция PVP - ПОЛНОСТЬЮ ПЕРЕРАБОТАНА -->
         <div class="section" id="pvpSection">
             <h3>⚔️ PVP Сражения</h3>
             <p>Сражайся с другими игроками и зарабатывай награды!</p>
@@ -1362,7 +983,7 @@
     </div>
 
     <script>
-        // Данные пользователя (добавляем данные для азартных игр)
+        // Данные пользователя
         let userData = {
             balance: 0,
             diamonds: 0,
@@ -1380,23 +1001,9 @@
             totalPvPEarned: 0,
             energy: 25000,
             maxEnergy: 25000,
-            lastEnergyUpdate: Date.now(),
-            // Новые данные для азартных игр
-            gamblingHistory: [],
-            totalGamblingWins: 0,
-            totalGamblingLosses: 0
+            lastEnergyUpdate: Date.now()
         };
         
-        // Переменные для игры Ракета
-        let rocketGame = {
-            isPlaying: false,
-            currentMultiplier: 1.0,
-            targetMultiplier: 1.0,
-            betAmount: 0,
-            rocketInterval: null,
-            explosionTime: 0
-        };
-
         // Текущий выбранный NFT для PVP
         let selectedPvpNftId = null;
         
@@ -1409,7 +1016,74 @@
             // Common (серый) - 10 NFT
             1: { name: "Каменный Воин", price: 2, attack: 8, health: 70, image: "🗿", category: "common" },
             2: { name: "Железный Страж", price: 3, attack: 10, health: 75, image: "🛡️", category: "common" },
-            // ... остальные NFT ...
+            3: { name: "Деревянный Лучник", price: 2, attack: 7, health: 65, image: "🏹", category: "common" },
+            4: { name: "Бронзовый Рыцарь", price: 4, attack: 12, health: 80, image: "⚔️", category: "common" },
+            5: { name: "Глиняный Голем", price: 3, attack: 9, health: 85, image: "🗿", category: "common" },
+            6: { name: "Стальной Защитник", price: 5, attack: 11, health: 78, image: "🛡️", category: "common" },
+            7: { name: "Огненный Дух", price: 4, attack: 13, health: 60, image: "🔥", category: "common" },
+            8: { name: "Водный Странник", price: 3, attack: 8, health: 72, image: "💧", category: "common" },
+            9: { name: "Земляной Титан", price: 6, attack: 14, health: 90, image: "⛰️", category: "common" },
+            10: { name: "Воздушный Ассасин", price: 4, attack: 15, health: 55, image: "💨", category: "common" },
+            
+            // Uncommon (зеленый) - 10 NFT
+            11: { name: "Лесной Эльф", price: 8, attack: 18, health: 70, image: "🧝", category: "uncommon" },
+            12: { name: "Ядовитый Разведчик", price: 10, attack: 20, health: 65, image: "🕷️", category: "uncommon" },
+            13: { name: "Ветряной Маг", price: 9, attack: 16, health: 75, image: "🌪️", category: "uncommon" },
+            14: { name: "Болотный Шаман", price: 11, attack: 19, health: 80, image: "🔮", category: "uncommon" },
+            15: { name: "Хранитель Леса", price: 12, attack: 22, health: 85, image: "🌳", category: "uncommon" },
+            16: { name: "Лунный Охотник", price: 10, attack: 21, health: 68, image: "🌙", category: "uncommon" },
+            17: { name: "Солнечный Рыцарь", price: 13, attack: 23, health: 82, image: "☀️", category: "uncommon" },
+            18: { name: "Грозовой Воин", price: 11, attack: 24, health: 77, image: "⚡", category: "uncommon" },
+            19: { name: "Ледяной Призыватель", price: 14, attack: 17, health: 88, image: "❄️", category: "uncommon" },
+            20: { name: "Песчаный Номад", price: 9, attack: 19, health: 73, image: "🏜️", category: "uncommon" },
+            
+            // Rare (синий) - 10 NFT
+            21: { name: "Морской Воин", price: 20, attack: 25, health: 100, image: "🌊", category: "rare" },
+            22: { name: "Ледяной Маг", price: 25, attack: 28, health: 95, image: "🧊", category: "rare" },
+            23: { name: "Грозовой Рыцарь", price: 22, attack: 26, health: 105, image: "🌩️", category: "rare" },
+            24: { name: "Кристальный Голем", price: 28, attack: 24, health: 120, image: "💎", category: "rare" },
+            25: { name: "Небесный Страж", price: 30, attack: 30, health: 110, image: "👼", category: "rare" },
+            26: { name: "Теневой Убийца", price: 26, attack: 32, health: 85, image: "🗡️", category: "rare" },
+            27: { name: "Маг Огня", price: 27, attack: 29, health: 98, image: "🔥", category: "rare" },
+            28: { name: "Хранитель Времени", price: 35, attack: 27, health: 115, image: "⏳", category: "rare" },
+            29: { name: "Драконий Всадник", price: 32, attack: 31, health: 108, image: "🐉", category: "rare" },
+            30: { name: "Космический Маг", price: 33, attack: 28, health: 112, image: "🚀", category: "rare" },
+            
+            // Epic (золотой) - 10 NFT
+            31: { name: "Золотой Дракон", price: 50, attack: 35, health: 130, image: "🐲", category: "epic" },
+            32: { name: "Огненный Феникс", price: 60, attack: 40, health: 120, image: "🔥", category: "epic" },
+            33: { name: "Небесный Властитель", price: 55, attack: 38, health: 135, image: "👑", category: "epic" },
+            34: { name: "Древний Титан", price: 65, attack: 42, health: 140, image: "🗽", category: "epic" },
+            35: { name: "Мифический Единорог", price: 58, attack: 36, health: 125, image: "🦄", category: "epic" },
+            36: { name: "Король Демонов", price: 70, attack: 45, health: 128, image: "😈", category: "epic" },
+            37: { name: "Архитектор Реальности", price: 75, attack: 39, health: 142, image: "🌀", category: "epic" },
+            38: { name: "Вечный Страж", price: 62, attack: 41, health: 138, image: "⚜️", category: "epic" },
+            39: { name: "Повелитель Стихий", price: 68, attack: 43, health: 132, image: "🌍", category: "epic" },
+            40: { name: "Легендарный Герой", price: 72, attack: 44, health: 136, image: "🦸", category: "epic" },
+            
+            // Legendary (фиолетовый) - 10 NFT
+            41: { name: "Темный Властелин", price: 100, attack: 50, health: 150, image: "👹", category: "legendary" },
+            42: { name: "Архимаг Хаоса", price: 120, attack: 55, health: 140, image: "🌀", category: "legendary" },
+            43: { name: "Бессмертный Демон", price: 110, attack: 52, health: 160, image: "😈", category: "legendary" },
+            44: { name: "Космический Странник", price: 130, attack: 58, health: 155, image: "👽", category: "legendary" },
+            45: { name: "Бог Войны", price: 150, attack: 60, health: 170, image: "⚡", category: "legendary" },
+            46: { name: "Верховный Маг", price: 140, attack: 57, health: 165, image: "🧙", category: "legendary" },
+            47: { name: "Древний Дракон", price: 160, attack: 62, health: 175, image: "🐉", category: "legendary" },
+            48: { name: "Повелитель Теней", price: 135, attack: 59, health: 158, image: "🌑", category: "legendary" },
+            49: { name: "Хранитель Вселенной", price: 170, attack: 65, health: 180, image: "🌌", category: "legendary" },
+            50: { name: "Абсолютный Воин", price: 155, attack: 63, health: 172, image: "⚔️", category: "legendary" },
+            
+            // Mythical (красный) - 10 NFT
+            51: { name: "Божественный Создатель", price: 200, attack: 70, health: 200, image: "✨", category: "mythical" },
+            52: { name: "Верховное Божество", price: 220, attack: 75, health: 190, image: "🌟", category: "mythical" },
+            53: { name: "Абсолютный Властитель", price: 240, attack: 80, health: 210, image: "👑", category: "mythical" },
+            54: { name: "Вечный Император", price: 260, attack: 78, health: 220, image: "🫅", category: "mythical" },
+            55: { name: "Космический Император", price: 280, attack: 82, health: 215, image: "🚀", category: "mythical" },
+            56: { name: "Бесконечный Титан", price: 300, attack: 85, health: 230, image: "🗿", category: "mythical" },
+            57: { name: "Вселенский Дракон", price: 320, attack: 88, health: 225, image: "🐲", category: "mythical" },
+            58: { name: "Абсолютный Маг", price: 290, attack: 83, health: 218, image: "🧙", category: "mythical" },
+            59: { name: "Божественный Воин", price: 270, attack: 79, health: 212, image: "⚔️", category: "mythical" },
+            60: { name: "Легенда Вечности", price: 350, attack: 90, health: 240, image: "💫", category: "mythical" }
         };
         
         // Текущая активная категория NFT
@@ -1448,279 +1122,7 @@
                 }
             };
         }
-
-        // НОВЫЕ ФУНКЦИИ ДЛЯ АЗАРТНЫХ ИГР
-
-        // Показать игру
-        function showGame(gameName) {
-            if (gameName === 'rocket') {
-                document.getElementById('rocketGame').style.display = 'block';
-                resetRocketGame();
-            }
-        }
-
-        // Установить сумму ставки
-        function setBetAmount(amount) {
-            document.getElementById('betAmount').value = amount;
-        }
-
-        // Начать игру Ракета
-        function startRocketGame() {
-            const betAmount = parseInt(document.getElementById('betAmount').value);
-            
-            if (!betAmount || betAmount < 1) {
-                showGameMessage('Введите сумму ставки', 'error');
-                return;
-            }
-            
-            if (betAmount > userData.diamonds) {
-                showGameMessage('Недостаточно алмазов', 'error');
-                return;
-            }
-            
-            // Начинаем игру
-            rocketGame.isPlaying = true;
-            rocketGame.betAmount = betAmount;
-            rocketGame.currentMultiplier = 1.0;
-            rocketGame.targetMultiplier = generateTargetMultiplier();
-            rocketGame.explosionTime = Date.now() + (3000 + Math.random() * 7000); // Взрыв через 3-10 секунд
-            
-            // Обновляем UI
-            document.getElementById('playBtn').disabled = true;
-            document.getElementById('stopBtn').disabled = false;
-            document.getElementById('betAmount').disabled = true;
-            
-            // Запускаем анимацию ракеты
-            startRocketAnimation();
-            
-            // Обновляем множитель
-            updateMultiplierDisplay();
-        }
-
-        // Остановить игру Ракета
-        function stopRocketGame() {
-            if (!rocketGame.isPlaying) return;
-            
-            rocketGame.isPlaying = false;
-            clearInterval(rocketGame.rocketInterval);
-            
-            const winMultiplier = rocketGame.currentMultiplier;
-            const winAmount = Math.floor(rocketGame.betAmount * winMultiplier);
-            
-            // Проверяем успешность остановки
-            const timeUntilExplosion = rocketGame.explosionTime - Date.now();
-            const isWin = timeUntilExplosion > 500; // Запас 500мс
-            
-            if (isWin) {
-                // Победа
-                userData.diamonds += winAmount - rocketGame.betAmount;
-                userData.totalGamblingWins++;
-                
-                showGameResult(`🎉 ПОБЕДА! Выигрыш: ${winAmount} алмазов (x${winMultiplier.toFixed(2)})`, 'win');
-                addToHistory(winMultiplier, true, winAmount);
-            } else {
-                // Проигрыш (взрыв)
-                userData.diamonds -= rocketGame.betAmount;
-                userData.totalGamblingLosses++;
-                
-                showGameResult('💥 ВЗРЫВ! Вы проиграли ставку', 'loss');
-                addToHistory(winMultiplier, false, rocketGame.betAmount);
-                
-                // Анимация взрыва
-                showExplosion();
-            }
-            
-            // Обновляем UI
-            document.getElementById('playBtn').disabled = false;
-            document.getElementById('stopBtn').disabled = true;
-            document.getElementById('betAmount').disabled = false;
-            
-            saveUserData();
-            updateUI();
-        }
-
-        // Запуск анимации ракеты
-        function startRocketAnimation() {
-            const rocket = document.getElementById('rocket');
-            const trail = document.getElementById('rocketTrail');
-            const container = document.getElementById('rocketContainer');
-            
-            // Сбрасываем позиции
-            rocket.style.bottom = '50px';
-            trail.style.height = '0px';
-            
-            // Запускаем движение ракеты
-            let startTime = Date.now();
-            const duration = 10000; // 10 секунд максимум
-            
-            rocketGame.rocketInterval = setInterval(() => {
-                if (!rocketGame.isPlaying) return;
-                
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Обновляем позицию ракеты
-                const rocketPosition = 50 + (progress * 250); // От 50px до 300px
-                rocket.style.bottom = rocketPosition + 'px';
-                trail.style.height = (rocketPosition - 50) + 'px';
-                
-                // Обновляем множитель (экспоненциальный рост)
-                rocketGame.currentMultiplier = 1 + (progress * progress * progress * 49); // От 1x до 50x
-                updateMultiplierDisplay();
-                
-                // Подсвечиваем пройденные линии множителей
-                updateMultiplierLines(progress);
-                
-                // Проверяем взрыв
-                if (Date.now() >= rocketGame.explosionTime) {
-                    stopRocketGame();
-                }
-                
-                // Добавляем тряску при высоких множителях
-                if (rocketGame.currentMultiplier > 10) {
-                    rocket.style.animation = 'rocketShake 0.1s infinite';
-                }
-                
-            }, 16); // ~60fps
-        }
-
-        // Генерация целевого множителя (когда произойдет взрыв)
-        function generateTargetMultiplier() {
-            // Вероятность взрыва увеличивается с множителем
-            const rand = Math.random();
-            if (rand < 0.3) return 1 + Math.random() * 2; // 30% - до 3x
-            if (rand < 0.6) return 3 + Math.random() * 3; // 30% - до 6x
-            if (rand < 0.8) return 6 + Math.random() * 4; // 20% - до 10x
-            if (rand < 0.95) return 10 + Math.random() * 10; // 15% - до 20x
-            return 20 + Math.random() * 30; // 5% - до 50x
-        }
-
-        // Обновление отображения множителя
-        function updateMultiplierDisplay() {
-            const display = document.getElementById('multiplierDisplay');
-            display.textContent = rocketGame.currentMultiplier.toFixed(2) + 'x';
-            
-            // Меняем цвет в зависимости от множителя
-            if (rocketGame.currentMultiplier > 10) {
-                display.style.color = '#ff4444';
-                display.style.animation = 'multiplierGlow 0.5s infinite';
-            } else if (rocketGame.currentMultiplier > 5) {
-                display.style.color = '#ffaa00';
-                display.style.animation = 'multiplierGlow 1s infinite';
-            } else {
-                display.style.color = '#FFD700';
-                display.style.animation = 'none';
-            }
-        }
-
-        // Обновление линий множителей
-        function updateMultiplierLines(progress) {
-            const lines = document.querySelectorAll('.multiplier-line');
-            lines.forEach(line => {
-                const multiplier = parseFloat(line.dataset.multiplier);
-                const lineProgress = (multiplier - 1) / 49; // Нормализуем к 0-1
-                
-                if (progress >= lineProgress) {
-                    line.classList.add('active');
-                }
-            });
-        }
-
-        // Показать взрыв
-        function showExplosion() {
-            const explosion = document.getElementById('explosion');
-            explosion.style.animation = 'explosion 1s forwards';
-            
-            setTimeout(() => {
-                explosion.style.animation = '';
-            }, 1000);
-        }
-
-        // Сброс игры Ракета
-        function resetRocketGame() {
-            rocketGame.isPlaying = false;
-            clearInterval(rocketGame.rocketInterval);
-            
-            const rocket = document.getElementById('rocket');
-            const trail = document.getElementById('rocketTrail');
-            
-            rocket.style.bottom = '50px';
-            trail.style.height = '0px';
-            rocket.style.animation = '';
-            
-            document.getElementById('playBtn').disabled = false;
-            document.getElementById('stopBtn').disabled = true;
-            document.getElementById('betAmount').disabled = false;
-            document.getElementById('gameResult').style.display = 'none';
-            
-            // Сбрасываем линии множителей
-            document.querySelectorAll('.multiplier-line').forEach(line => {
-                line.classList.remove('active');
-            });
-            
-            updateMultiplierDisplay();
-        }
-
-        // Показать результат игры
-        function showGameResult(message, type) {
-            const resultElement = document.getElementById('gameResult');
-            resultElement.textContent = message;
-            resultElement.className = `result-display ${type}-result`;
-            resultElement.style.display = 'block';
-        }
-
-        // Показать сообщение игры
-        function showGameMessage(message, type) {
-            tg.showPopup({
-                title: type === 'error' ? '❌ Ошибка' : 'ℹ️ Информация',
-                message: message,
-                buttons: [{ type: 'ok' }]
-            });
-        }
-
-        // Добавить в историю
-        function addToHistory(multiplier, isWin, amount) {
-            const historyItem = {
-                multiplier: multiplier.toFixed(2),
-                isWin: isWin,
-                amount: amount,
-                timestamp: Date.now()
-            };
-            
-            userData.gamblingHistory.unshift(historyItem);
-            
-            // Ограничиваем историю 20 последними играми
-            if (userData.gamblingHistory.length > 20) {
-                userData.gamblingHistory = userData.gamblingHistory.slice(0, 20);
-            }
-            
-            updateGameHistory();
-        }
-
-        // Обновить историю игр
-        function updateGameHistory() {
-            const historyElement = document.getElementById('gameHistory');
-            historyElement.innerHTML = '';
-            
-            userData.gamblingHistory.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = `history-item ${item.isWin ? 'history-win' : 'history-loss'}`;
-                
-                const date = new Date(item.timestamp);
-                const timeString = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                
-                historyItem.innerHTML = `
-                    <span>${item.multiplier}x</span>
-                    <span>${item.isWin ? '🎉 +' : '💥 -'}${item.amount}</span>
-                    <span>${timeString}</span>
-                `;
-                
-                historyElement.appendChild(historyItem);
-            });
-        }
-
-        // ... остальные существующие функции ...
-
+        
         // Загрузка данных
         function loadUserData() {
             const saved = localStorage.getItem('zephuriumData');
@@ -1773,7 +1175,7 @@
             }, 1000);
         }
         
-        // Обновление интерфейса (добавляем обновление истории)
+        // Обновление интерфейса
         function updateUI() {
             try {
                 document.getElementById('balance').textContent = userData.balance.toLocaleString();
@@ -1801,17 +1203,901 @@
                 
                 updateNFTDisplay();
                 updatePvPNFTSelection();
-                
-                // Обновляем историю игр если открыта вкладка азартных игр
-                if (document.getElementById('gamblingSection').classList.contains('active')) {
-                    updateGameHistory();
-                }
             } catch (error) {
                 console.error("Ошибка обновления UI:", error);
             }
         }
-
-        // Переключение вкладок (добавляем обработку вкладки азартных игр)
+        
+        // Клик по монете
+        function clickCoin() {
+            if (userData.energy < 2) {
+                tg.showPopup({
+                    title: '❌ Недостаточно энергии',
+                    message: 'Подождите восстановления энергии',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            userData.balance += userData.clickPower;
+            userData.clicks++;
+            userData.energy -= 2;
+            
+            const coin = document.getElementById('coin');
+            coin.style.transform = 'scale(0.92)';
+            setTimeout(() => {
+                coin.style.transform = 'scale(1)';
+            }, 100);
+            
+            createFloatingText(`+${userData.clickPower}`);
+            
+            saveUserData();
+            updateUI();
+            
+            try {
+                tg.sendData(JSON.stringify({
+                    type: 'click',
+                    coins: userData.clickPower
+                }));
+            } catch (error) {
+                console.error("Ошибка отправки данных:", error);
+            }
+        }
+        
+        // Создание летающего текста
+        function createFloatingText(text) {
+            const floatingText = document.createElement('div');
+            floatingText.textContent = text;
+            floatingText.style.position = 'absolute';
+            floatingText.style.color = '#FFD700';
+            floatingText.style.fontWeight = 'bold';
+            floatingText.style.fontSize = '1.2em';
+            floatingText.style.pointerEvents = 'none';
+            floatingText.style.animation = 'floatUp 1s ease-out forwards';
+            floatingText.style.zIndex = '1000';
+            
+            const coin = document.getElementById('coin');
+            const coinRect = coin.getBoundingClientRect();
+            
+            floatingText.style.left = (coinRect.left + coinRect.width / 2) + 'px';
+            floatingText.style.top = (coinRect.top + coinRect.height / 2) + 'px';
+            
+            document.body.appendChild(floatingText);
+            
+            setTimeout(() => {
+                if (document.body.contains(floatingText)) {
+                    document.body.removeChild(floatingText);
+                }
+            }, 1000);
+        }
+        
+        // Покупка улучшений
+        function buyUpgrade(type) {
+            if (type === 'click') {
+                const cost = 100;
+                if (userData.balance >= cost) {
+                    userData.balance -= cost;
+                    userData.clickPower += 1;
+                    saveUserData();
+                    updateUI();
+                    
+                    tg.showPopup({
+                        title: '⚡ Улучшение куплено!',
+                        message: 'Теперь вы получаете +1 монету за клик!',
+                        buttons: [{ type: 'ok' }]
+                    });
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно средств',
+                        message: `Нужно ${cost} монет`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            } else if (type === 'auto_click') {
+                const cost = 500;
+                if (userData.autoClickLevel >= 1000) {
+                    tg.showPopup({
+                        title: '🎯 Максимальный уровень!',
+                        message: 'Достигнут максимальный уровень автокликера',
+                        buttons: [{ type: 'ok' }]
+                    });
+                    return;
+                }
+                
+                if (userData.balance >= cost) {
+                    userData.balance -= cost;
+                    userData.autoClickLevel += 1;
+                    saveUserData();
+                    updateUI();
+                    startAutoClicker();
+                    
+                    tg.showPopup({
+                        title: '🤖 Автокликер улучшен!',
+                        message: `Теперь уровень ${userData.autoClickLevel}`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно средств',
+                        message: `Нужно ${cost} монет`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            }
+        }
+        
+        // Запуск автокликера
+        function startAutoClicker() {
+            if (autoClickInterval) {
+                clearInterval(autoClickInterval);
+            }
+            
+            if (userData.autoClickLevel > 0) {
+                const interval = Math.max(100, 1000 - (userData.autoClickLevel * 1));
+                autoClickInterval = setInterval(() => {
+                    userData.balance += userData.autoClickLevel;
+                    userData.clicks += userData.autoClickLevel;
+                    saveUserData();
+                    updateUI();
+                }, interval);
+            }
+        }
+        
+        // Переключение языка
+        function switchLanguage() {
+            const languages = ['RU', 'ENG', 'DE'];
+            const currentLang = userData.language;
+            const currentIndex = languages.indexOf(currentLang);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            userData.language = languages[nextIndex];
+            
+            saveUserData();
+            updateUI();
+            
+            try {
+                tg.sendData(JSON.stringify({
+                    type: 'language_change',
+                    language: userData.language
+                }));
+            } catch (error) {
+                console.error("Ошибка смены языка:", error);
+            }
+        }
+        
+        // Копирование реферальной ссылки
+        function copyReferralLink() {
+            const linkInput = document.getElementById('referralLink');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+            
+            try {
+                navigator.clipboard.writeText(linkInput.value).then(() => {
+                    tg.showPopup({
+                        title: '✅ Успех',
+                        message: 'Реферальная ссылка скопирована!',
+                        buttons: [{ type: 'ok' }]
+                    });
+                });
+            } catch (error) {
+                tg.showPopup({
+                    title: '✅ Успех',
+                    message: 'Ссылка выделена, скопируйте её вручную',
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+        
+        // Просмотр рекламы
+        function watchAd() {
+            userData.balance += 15;
+            userData.adsWatched++;
+            userData.adsEarned += 15;
+            
+            saveUserData();
+            updateUI();
+            
+            tg.showPopup({
+                title: '📺 Реклама просмотрена!',
+                message: '+15 монет добавлено на ваш баланс',
+                buttons: [{ type: 'ok' }]
+            });
+            
+            try {
+                tg.sendData(JSON.stringify({
+                    type: 'ad_watched',
+                    reward: 15
+                }));
+            } catch (error) {
+                console.error("Ошибка отправки данных о рекламе:", error);
+            }
+        }
+        
+        // Обмен валюты
+        function exchangeCurrency(direction) {
+            let amount;
+            if (direction === 'coins_to_diamonds') {
+                amount = parseInt(document.getElementById('coinsToDiamonds').value) || 0;
+                if (amount <= 0) {
+                    tg.showPopup({
+                        title: '❌ Ошибка',
+                        message: 'Введите корректное количество',
+                        buttons: [{ type: 'ok' }]
+                    });
+                    return;
+                }
+                
+                const coinsNeeded = amount * 100000;
+                if (userData.balance >= coinsNeeded) {
+                    userData.balance -= coinsNeeded;
+                    userData.diamonds += amount;
+                    saveUserData();
+                    updateUI();
+                    
+                    document.getElementById('coinsToDiamonds').value = '';
+                    
+                    try {
+                        tg.sendData(JSON.stringify({
+                            type: 'exchange',
+                            direction: 'coins_to_diamonds',
+                            amount: amount
+                        }));
+                    } catch (error) {
+                        console.error("Ошибка отправки данных об обмене:", error);
+                    }
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно средств',
+                        message: `Нужно ${coinsNeeded.toLocaleString()} монет`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            } else {
+                amount = parseInt(document.getElementById('diamondsToCoins').value) || 0;
+                if (amount <= 0) {
+                    tg.showPopup({
+                        title: '❌ Ошибка',
+                        message: 'Введите корректное количество',
+                        buttons: [{ type: 'ok' }]
+                    });
+                    return;
+                }
+                
+                if (userData.diamonds >= amount) {
+                    userData.diamonds -= amount;
+                    userData.balance += amount * 100000;
+                    saveUserData();
+                    updateUI();
+                    
+                    document.getElementById('diamondsToCoins').value = '';
+                    
+                    try {
+                        tg.sendData(JSON.stringify({
+                            type: 'exchange',
+                            direction: 'diamonds_to_coins',
+                            amount: amount
+                        }));
+                    } catch (error) {
+                        console.error("Ошибка отправки данных об обмене:", error);
+                    }
+                } else {
+                    tg.showPopup({
+                        title: '❌ Недостаточно алмазов',
+                        message: `Нужно ${amount} алмазов`,
+                        buttons: [{ type: 'ok' }]
+                    });
+                }
+            }
+        }
+        
+        // Фильтрация NFT по категориям
+        function filterNFTs(category) {
+            document.querySelectorAll('.nft-category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            
+            currentNFTCategory = category;
+            updateNFTDisplay();
+        }
+        
+        // Обновление отображения NFT
+        function updateNFTDisplay() {
+            const nftGrid = document.getElementById('nftGrid');
+            const myNftGrid = document.getElementById('myNftGrid');
+            
+            nftGrid.innerHTML = '';
+            myNftGrid.innerHTML = '';
+            
+            Object.entries(nftCollection).forEach(([id, nft]) => {
+                if (nft.category === currentNFTCategory) {
+                    const nftElement = document.createElement('div');
+                    nftElement.className = `nft-item ${nft.category}`;
+                    if (userData.nftCollection.includes(parseInt(id))) {
+                        nftElement.classList.add('owned');
+                    }
+                    nftElement.innerHTML = `
+                        <div class="nft-image">${nft.image}</div>
+                        <strong>${nft.name}</strong><br>
+                        <small>⚔️ ${nft.attack} ❤️ ${nft.health}</small><br>
+                        <strong>💎 ${nft.price}</strong>
+                        ${!userData.nftCollection.includes(parseInt(id)) ? 
+                            `<br><button onclick="buyNFT(${id})" style="margin-top: 5px; padding: 5px 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Купить</button>` : 
+                            '<br><small>✅ Владеете</small>'
+                        }
+                    `;
+                    nftGrid.appendChild(nftElement);
+                }
+            });
+            
+            userData.nftCollection.forEach(nftId => {
+                const nft = nftCollection[nftId];
+                if (nft) {
+                    const myNftElement = document.createElement('div');
+                    myNftElement.className = `nft-item ${nft.category} owned`;
+                    myNftElement.innerHTML = `
+                        <div class="nft-image">${nft.image}</div>
+                        <strong>${nft.name}</strong><br>
+                        <small>⚔️ ${nft.attack} ❤️ ${nft.health}</small>
+                    `;
+                    myNftGrid.appendChild(myNftElement);
+                }
+            });
+        }
+        
+        // НОВАЯ ФУНКЦИЯ: Обновление выбора NFT для PVP в виде карточек
+        function updatePvPNFTSelection() {
+            const noNftMessage = document.getElementById('noNftMessage');
+            const pvpNftSelection = document.getElementById('pvpNftSelection');
+            const pvpButton = document.getElementById('pvpButton');
+            const pvpNftGrid = document.getElementById('pvpNftGrid');
+            
+            // Очищаем текущую сетку
+            pvpNftGrid.innerHTML = '';
+            
+            // Проверяем есть ли NFT у игрока
+            if (userData.nftCollection.length === 0) {
+                // Если нет NFT, показываем сообщение и скрываем выбор
+                noNftMessage.style.display = 'block';
+                pvpNftSelection.style.display = 'none';
+                pvpButton.style.display = 'none';
+                document.getElementById('selectedNftPreview').style.display = 'none';
+                return;
+            } else {
+                // Если есть NFT, показываем выбор и скрываем сообщение
+                noNftMessage.style.display = 'none';
+                pvpNftSelection.style.display = 'block';
+                pvpButton.style.display = 'block';
+            }
+            
+            // Добавляем NFT из коллекции игрока в виде карточек
+            userData.nftCollection.forEach(nftId => {
+                const nft = nftCollection[nftId];
+                if (nft) {
+                    const nftElement = document.createElement('div');
+                    nftElement.className = `pvp-nft-item ${nft.category}`;
+                    if (selectedPvpNftId === parseInt(nftId)) {
+                        nftElement.classList.add('selected');
+                    }
+                    
+                    nftElement.innerHTML = `
+                        <div class="pvp-nft-image">${nft.image}</div>
+                        <strong>${nft.name}</strong>
+                        <div class="pvp-nft-stats">
+                            ⚔️ ${nft.attack} ❤️ ${nft.health}
+                        </div>
+                    `;
+                    
+                    // Добавляем обработчик клика
+                    nftElement.onclick = function() {
+                        selectPvpNft(parseInt(nftId));
+                    };
+                    
+                    pvpNftGrid.appendChild(nftElement);
+                }
+            });
+            
+            // Автоматически выбираем первый NFT если ничего не выбрано
+            if (!selectedPvpNftId && userData.nftCollection.length > 0) {
+                selectPvpNft(userData.nftCollection[0]);
+            }
+        }
+        
+        // НОВАЯ ФУНКЦИЯ: Выбор NFT для PVP
+        function selectPvpNft(nftId) {
+            selectedPvpNftId = nftId;
+            const nft = nftCollection[nftId];
+            
+            if (!nft) return;
+            
+            // Обновляем выделение в сетке
+            document.querySelectorAll('.pvp-nft-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Находим и выделяем выбранный элемент
+            const selectedElement = Array.from(document.querySelectorAll('.pvp-nft-item')).find(item => {
+                return item.querySelector('strong').textContent === nft.name;
+            });
+            
+            if (selectedElement) {
+                selectedElement.classList.add('selected');
+            }
+            
+            // Обновляем превью
+            document.getElementById('previewNftImage').textContent = nft.image;
+            document.getElementById('previewNftName').textContent = nft.name;
+            document.getElementById('previewNftAttack').textContent = nft.attack;
+            document.getElementById('previewNftHealth').textContent = nft.health;
+            document.getElementById('selectedNftPreview').style.display = 'block';
+            
+            // Обновляем текст текущего выбора
+            document.getElementById('currentSelectionText').textContent = `Выбран: ${nft.name} (⚔️${nft.attack} ❤️${nft.health})`;
+            
+            console.log(`Выбран NFT: ${nft.name} (ID: ${nftId})`);
+        }
+        
+        // Покупка NFT
+        function buyNFT(nftId) {
+            const nft = nftCollection[nftId];
+            if (!nft) return;
+            
+            if (userData.diamonds >= nft.price) {
+                userData.diamonds -= nft.price;
+                if (!userData.nftCollection.includes(parseInt(nftId))) {
+                    userData.nftCollection.push(parseInt(nftId));
+                }
+                saveUserData();
+                updateUI();
+                
+                tg.showPopup({
+                    title: '🎉 NFT Куплен!',
+                    message: `Вы приобрели ${nft.name}!`,
+                    buttons: [{ type: 'ok' }]
+                });
+                
+                try {
+                    tg.sendData(JSON.stringify({
+                        type: 'buy_nft',
+                        nft_id: parseInt(nftId)
+                    }));
+                } catch (error) {
+                    console.error("Ошибка отправки данных о покупке NFT:", error);
+                }
+            } else {
+                tg.showPopup({
+                    title: '❌ Недостаточно алмазов',
+                    message: `Нужно ${nft.price} алмазов`,
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+        
+        // НОВАЯ PVP СИСТЕМА
+        
+        // Создание попапа урона
+        function createDamagePopup(damage, isCritical, element) {
+            const popup = document.createElement('div');
+            popup.className = 'damage-popup';
+            if (isCritical) {
+                popup.classList.add('critical-hit');
+            }
+            popup.textContent = (isCritical ? '💥 ' : '') + damage;
+            popup.style.color = isCritical ? '#ff4444' : '#ffffff';
+            
+            const rect = element.getBoundingClientRect();
+            popup.style.left = (rect.left + rect.width / 2) + 'px';
+            popup.style.top = (rect.top + rect.height / 2) + 'px';
+            
+            document.body.appendChild(popup);
+            
+            setTimeout(() => {
+                if (document.body.contains(popup)) {
+                    document.body.removeChild(popup);
+                }
+            }, 1000);
+        }
+        
+        // Добавление сообщения в лог битвы
+        function addBattleMessage(text, type = 'system') {
+            const message = { text, type, timestamp: Date.now() };
+            battleLog.push(message);
+            
+            const battleLogElement = document.getElementById('battleLog');
+            const messageElement = document.createElement('div');
+            messageElement.className = `battle-message ${type}-message`;
+            messageElement.textContent = text;
+            battleLogElement.appendChild(messageElement);
+            
+            battleLogElement.scrollTop = battleLogElement.scrollHeight;
+        }
+        
+        // Обновление интерфейса битвы
+        function updateBattleUI() {
+            if (!currentBattle) return;
+            
+            const player = currentBattle.player;
+            const enemy = currentBattle.enemy;
+            
+            // Обновление здоровья
+            const playerHealthPercent = (player.currentHealth / player.maxHealth) * 100;
+            const enemyHealthPercent = (enemy.currentHealth / enemy.maxHealth) * 100;
+            
+            document.getElementById('playerHealth').style.width = playerHealthPercent + '%';
+            document.getElementById('enemyHealth').style.width = enemyHealthPercent + '%';
+            
+            document.getElementById('playerHealthPercent').textContent = Math.round(playerHealthPercent) + '%';
+            document.getElementById('enemyHealthPercent').textContent = Math.round(enemyHealthPercent) + '%';
+            
+            document.getElementById('playerHealthText').textContent = `${player.currentHealth}/${player.maxHealth}`;
+            document.getElementById('enemyHealthText').textContent = `${enemy.currentHealth}/${enemy.maxHealth}`;
+            
+            // Обновление кд способностей
+            document.getElementById('specialBtn').disabled = playerCooldowns.special > 0;
+            document.getElementById('specialBtn').textContent = playerCooldowns.special > 0 ? 
+                `💥 Ульт. (${playerCooldowns.special})` : '💥 Ульт.атака';
+                
+            document.getElementById('healBtn').disabled = playerCooldowns.heal > 0;
+            document.getElementById('healBtn').textContent = playerCooldowns.heal > 0 ? 
+                `❤️ Лечение (${playerCooldowns.heal})` : '❤️ Лечение';
+        }
+        
+        // Начало PVP битвы
+        function startPvP() {
+            if (!selectedPvpNftId) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Выберите NFT для битвы',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            const playerNft = nftCollection[selectedPvpNftId];
+            if (!playerNft) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Выбранный NFT не найден',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            // Создание противника на основе рейтинга игрока
+            const enemy = generateEnemy(playerNft, userData.pvpRating);
+            
+            currentBattle = {
+                player: { 
+                    ...playerNft, 
+                    currentHealth: playerNft.health,
+                    maxHealth: playerNft.health,
+                    specialCharges: 2,
+                    healCharges: 1
+                },
+                enemy: enemy,
+                turn: 0,
+                state: 'player_turn'
+            };
+            
+            // Сброс кд
+            playerCooldowns = {
+                special: 0,
+                heal: 0
+            };
+            
+            battleLog = [];
+            
+            // Показываем арену
+            document.getElementById('battleArena').style.display = 'block';
+            document.getElementById('pvpButton').disabled = true;
+            document.getElementById('pvpNftSelection').style.display = 'none';
+            
+            // Обновляем интерфейс
+            document.getElementById('playerFighter').textContent = playerNft.image;
+            document.getElementById('enemyFighter').textContent = enemy.image;
+            document.getElementById('enemyName').textContent = enemy.name;
+            document.getElementById('playerAttack').textContent = playerNft.attack;
+            document.getElementById('enemyAttack').textContent = enemy.attack;
+            
+            addBattleMessage(`⚔️ Начало битвы! Вы против ${enemy.name}`, 'system');
+            addBattleMessage(`🎯 ${playerNft.name} (⚔️${playerNft.attack} ❤️${playerNft.health}) vs ${enemy.name} (⚔️${enemy.attack} ❤️${enemy.health})`, 'system');
+            
+            updateBattleUI();
+        }
+        
+        // Генерация противника
+        function generateEnemy(playerNft, playerRating) {
+            const enemyNames = ["Тёмный Рыцарь", "Огненный Дракон", "Ледяной Маг", "Грозовой Воин", "Теневой Убийца", "Стальной Голем", "Небесный Страж", "Демон Бездны"];
+            const enemyImages = ["🐲", "🔥", "❄️", "⚡", "🗡️", "🗿", "👼", "😈"];
+            
+            // Балансировка противника на основе рейтинга игрока
+            const ratingFactor = Math.max(0.5, Math.min(2, playerRating / 1000));
+            const baseAttack = Math.floor(playerNft.attack * (0.8 + Math.random() * 0.4) * ratingFactor);
+            const baseHealth = Math.floor(playerNft.health * (0.8 + Math.random() * 0.4) * ratingFactor);
+            
+            const nameIndex = Math.floor(Math.random() * enemyNames.length);
+            
+            return {
+                name: enemyNames[nameIndex],
+                image: enemyImages[nameIndex],
+                attack: Math.max(5, baseAttack),
+                health: Math.max(20, baseHealth),
+                currentHealth: Math.max(20, baseHealth),
+                maxHealth: Math.max(20, baseHealth),
+                specialCharges: 1
+            };
+        }
+        
+        // Атака игрока
+        function playerAttack(type) {
+            if (!currentBattle || currentBattle.state !== 'player_turn') return;
+            
+            const player = currentBattle.player;
+            const enemy = currentBattle.enemy;
+            
+            let damage = 0;
+            let isCritical = false;
+            let message = '';
+            
+            switch (type) {
+                case 'normal':
+                    damage = calculateDamage(player.attack, 0.2);
+                    isCritical = Math.random() < 0.1;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.5);
+                        message = `💥 Критическая атака! Вы наносите ${damage} урона!`;
+                    } else {
+                        message = `⚔️ Вы наносите ${damage} урона!`;
+                    }
+                    break;
+                    
+                case 'special':
+                    if (playerCooldowns.special > 0) {
+                        addBattleMessage('⏳ Ультимативная атака ещё не готова!', 'system');
+                        return;
+                    }
+                    damage = calculateDamage(player.attack * 1.5, 0.3);
+                    isCritical = Math.random() < 0.3;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.8);
+                        message = `💥💥 Сверхкритическая атака! Вы наносите ${damage} урона!`;
+                    } else {
+                        message = `💥 Ультимативная атака! Вы наносите ${damage} урона!`;
+                    }
+                    playerCooldowns.special = 3;
+                    break;
+            }
+            
+            // Применяем урон
+            enemy.currentHealth -= damage;
+            enemy.currentHealth = Math.max(0, enemy.currentHealth);
+            
+            // Анимация и сообщения
+            createDamagePopup(damage, isCritical, document.getElementById('enemyFighter'));
+            document.getElementById('enemyFighter').style.animation = 'battleHit 0.3s';
+            setTimeout(() => {
+                document.getElementById('enemyFighter').style.animation = '';
+            }, 300);
+            
+            addBattleMessage(message, 'player');
+            
+            // Проверка победы
+            if (enemy.currentHealth <= 0) {
+                endBattle(true);
+                return;
+            }
+            
+            // Ход противника
+            currentBattle.state = 'enemy_turn';
+            updateBattleUI();
+            
+            setTimeout(() => {
+                enemyTurn();
+            }, 1500);
+        }
+        
+        // Лечение игрока
+        function playerHeal() {
+            if (!currentBattle || currentBattle.state !== 'player_turn') return;
+            
+            if (playerCooldowns.heal > 0) {
+                addBattleMessage('⏳ Лечение ещё не готово!', 'system');
+                return;
+            }
+            
+            const player = currentBattle.player;
+            const healAmount = Math.floor(player.maxHealth * 0.3);
+            const oldHealth = player.currentHealth;
+            player.currentHealth = Math.min(player.maxHealth, player.currentHealth + healAmount);
+            const actualHeal = player.currentHealth - oldHealth;
+            
+            addBattleMessage(`❤️ Вы восстанавливаете ${actualHeal} здоровья!`, 'player');
+            playerCooldowns.heal = 4;
+            
+            // Ход противника
+            currentBattle.state = 'enemy_turn';
+            updateBattleUI();
+            
+            setTimeout(() => {
+                enemyTurn();
+            }, 1500);
+        }
+        
+        // Ход противника
+        function enemyTurn() {
+            if (!currentBattle || currentBattle.state !== 'enemy_turn') return;
+            
+            const enemy = currentBattle.enemy;
+            const player = currentBattle.player;
+            
+            let action = 'attack';
+            // ИИ выбирает действие
+            if (enemy.specialCharges > 0 && Math.random() < 0.3) {
+                action = 'special';
+            } else if (player.currentHealth < player.maxHealth * 0.3 && Math.random() < 0.4) {
+                action = 'heal';
+            }
+            
+            let damage = 0;
+            let isCritical = false;
+            let message = '';
+            
+            switch (action) {
+                case 'attack':
+                    damage = calculateDamage(enemy.attack, 0.25);
+                    isCritical = Math.random() < 0.08;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.5);
+                        message = `💥 Критическая атака! ${enemy.name} наносит ${damage} урона!`;
+                    } else {
+                        message = `⚔️ ${enemy.name} наносит ${damage} урона!`;
+                    }
+                    break;
+                    
+                case 'special':
+                    damage = calculateDamage(enemy.attack * 1.4, 0.35);
+                    isCritical = Math.random() < 0.25;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.7);
+                        message = `💥💥 Сверхсильная атака! ${enemy.name} наносит ${damage} урона!`;
+                    } else {
+                        message = `💥 Мощная атака! ${enemy.name} наносит ${damage} урона!`;
+                    }
+                    enemy.specialCharges--;
+                    break;
+                    
+                case 'heal':
+                    const healAmount = Math.floor(enemy.maxHealth * 0.25);
+                    const oldHealth = enemy.currentHealth;
+                    enemy.currentHealth = Math.min(enemy.maxHealth, enemy.currentHealth + healAmount);
+                    const actualHeal = enemy.currentHealth - oldHealth;
+                    message = `❤️ ${enemy.name} восстанавливает ${actualHeal} здоровья!`;
+                    break;
+            }
+            
+            if (action !== 'heal') {
+                player.currentHealth -= damage;
+                player.currentHealth = Math.max(0, player.currentHealth);
+                
+                createDamagePopup(damage, isCritical, document.getElementById('playerFighter'));
+                document.getElementById('playerFighter').style.animation = 'battleHit 0.3s';
+                setTimeout(() => {
+                    document.getElementById('playerFighter').style.animation = '';
+                }, 300);
+            }
+            
+            addBattleMessage(message, 'enemy');
+            
+            // Проверка поражения
+            if (player.currentHealth <= 0) {
+                endBattle(false);
+                return;
+            }
+            
+            // Уменьшаем кд игрока
+            if (playerCooldowns.special > 0) playerCooldowns.special--;
+            if (playerCooldowns.heal > 0) playerCooldowns.heal--;
+            
+            // Следующий ход игрока
+            currentBattle.state = 'player_turn';
+            currentBattle.turn++;
+            
+            updateBattleUI();
+            
+            // Сообщение о новом ходе
+            if (currentBattle.turn > 1) {
+                addBattleMessage(`🎯 Ваш ход! Ход ${currentBattle.turn}`, 'system');
+            }
+        }
+        
+        // Расчет урона
+        function calculateDamage(baseDamage, variance) {
+            const minDamage = Math.floor(baseDamage * (1 - variance));
+            const maxDamage = Math.floor(baseDamage * (1 + variance));
+            return Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+        }
+        
+        // Завершение битвы
+        function endBattle(playerWon) {
+            const player = currentBattle.player;
+            const enemy = currentBattle.enemy;
+            
+            // Награды
+            const baseReward = 1000;
+            const ratingBonus = Math.floor(userData.pvpRating / 10);
+            const turnPenalty = Math.max(0, 20 - currentBattle.turn) * 50;
+            const totalReward = baseReward + ratingBonus + turnPenalty;
+            const diamondReward = playerWon ? 0.05 : 0.01;
+            
+            if (playerWon) {
+                userData.balance += totalReward;
+                userData.diamonds += diamondReward;
+                userData.pvpWins++;
+                userData.pvpRating += 25;
+                userData.totalPvPEarned += totalReward;
+                
+                addBattleMessage(`🎉 ПОБЕДА! Награда: ${totalReward} монет + ${diamondReward} алмазов`, 'system');
+                addBattleMessage(`⭐ Рейтинг +25!`, 'system');
+            } else {
+                userData.balance += Math.floor(totalReward * 0.3);
+                userData.diamonds += diamondReward;
+                userData.pvpLosses++;
+                userData.pvpRating = Math.max(0, userData.pvpRating - 15);
+                userData.totalPvPEarned += Math.floor(totalReward * 0.3);
+                
+                addBattleMessage(`💔 Поражение... Утешительная награда: ${Math.floor(totalReward * 0.3)} монет + ${diamondReward} алмазов`, 'system');
+                addBattleMessage(`📉 Рейтинг -15`, 'system');
+            }
+            
+            // Показываем результат
+            setTimeout(() => {
+                document.getElementById('battleArena').style.display = 'none';
+                document.getElementById('battleResult').style.display = 'block';
+                
+                const resultContent = document.getElementById('resultContent');
+                if (playerWon) {
+                    resultContent.innerHTML = `
+                        <div class="battle-result victory">
+                            <h3 style="color: #4CAF50; margin-bottom: 15px;">🏆 ПОБЕДА!</h3>
+                            <div style="font-size: 1.2em; margin-bottom: 10px;">Вы одержали победу над ${enemy.name}!</div>
+                            <div style="margin-bottom: 5px;">💰 Получено: ${totalReward} монет</div>
+                            <div style="margin-bottom: 5px;">💎 Получено: ${diamondReward} алмазов</div>
+                            <div style="margin-bottom: 5px;">⭐ Рейтинг: +25</div>
+                            <div>🎯 Ходов сделано: ${currentBattle.turn}</div>
+                        </div>
+                    `;
+                } else {
+                    resultContent.innerHTML = `
+                        <div class="battle-result defeat">
+                            <h3 style="color: #f44336; margin-bottom: 15px;">💔 ПОРАЖЕНИЕ</h3>
+                            <div style="font-size: 1.2em; margin-bottom: 10px;">Вы проиграли ${enemy.name}...</div>
+                            <div style="margin-bottom: 5px;">💰 Получено: ${Math.floor(totalReward * 0.3)} монет</div>
+                            <div style="margin-bottom: 5px;">💎 Получено: ${diamondReward} алмазов</div>
+                            <div style="margin-bottom: 5px;">📉 Рейтинг: -15</div>
+                            <div>🎯 Ходов сделано: ${currentBattle.turn}</div>
+                        </div>
+                    `;
+                }
+            }, 2000);
+            
+            saveUserData();
+            updateUI();
+        }
+        
+        // Сброс битвы
+        function resetBattle() {
+            document.getElementById('battleResult').style.display = 'none';
+            document.getElementById('pvpButton').disabled = false;
+            document.getElementById('pvpNftSelection').style.display = 'block';
+            currentBattle = null;
+            battleLog = [];
+            playerCooldowns = {
+                special: 0,
+                heal: 0
+            };
+        }
+        
+        // Переключение вкладок
         function showTab(tabName) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
@@ -1824,29 +2110,19 @@
             document.getElementById(tabName + 'Section').classList.add('active');
             event.target.classList.add('active');
             
-            // Специальные обработки для разных вкладок
             if (tabName === 'nft') {
                 updateNFTDisplay();
             }
             if (tabName === 'pvp') {
                 updatePvPNFTSelection();
             }
-            if (tabName === 'gambling') {
-                resetRocketGame();
-                updateGameHistory();
-            }
         }
-
-        // Инициализация (добавляем инициализацию истории)
+        
+        // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
             loadUserData();
             console.log("Приложение загружено");
-            
-            // Инициализируем историю игр
-            updateGameHistory();
         });
-
-        // ... остальной существующий код PVP, NFT и других функций ...
     </script>
 </body>
 </html>
