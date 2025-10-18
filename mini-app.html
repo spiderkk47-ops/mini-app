@@ -298,6 +298,7 @@
         .rare { background: linear-gradient(135deg, #42A5F5, #1976D2); color: #E3F2FD; }
         .epic { background: linear-gradient(135deg, #FFA726, #F57C00); color: #FFF3E0; }
         .legendary { background: linear-gradient(135deg, #AB47BC, #8E24AA); color: #F3E5F5; }
+        .mythical { background: linear-gradient(135deg, #FF5722, #D84315); color: #FFE0B2; }
         
         .pvp-item {
             background: rgba(255, 255, 255, 0.1);
@@ -553,6 +554,7 @@
                 <div class="nft-category rare" onclick="filterNFTs('rare')">Rare</div>
                 <div class="nft-category epic" onclick="filterNFTs('epic')">Epic</div>
                 <div class="nft-category legendary" onclick="filterNFTs('legendary')">Legendary</div>
+                <div class="nft-category mythical" onclick="filterNFTs('mythical')">Mythical</div>
             </div>
             
             <div class="nft-grid" id="nftGrid">
@@ -652,43 +654,83 @@
         let autoClickInterval = null;
         let energyInterval = null;
         
-        // NFT данные с категориями
+        // NFT данные с категориями - ПОЛНОСТЬЮ ПЕРЕРАБОТАННЫЕ
         const nftCollection = {
-            // Common (серый)
-            1: { name: "Каменный Воин", price: 2, attack: 10, health: 80, image: "🗿", category: "common" },
-            2: { name: "Железный Страж", price: 3, attack: 12, health: 85, image: "🛡️", category: "common" },
-            3: { name: "Деревянный Лучник", price: 2, attack: 8, health: 75, image: "🏹", category: "common" },
-            4: { name: "Бронзовый Рыцарь", price: 4, attack: 14, health: 90, image: "⚔️", category: "common" },
-            5: { name: "Глиняный Голем", price: 3, attack: 11, health: 95, image: "🗿", category: "common" },
+            // Common (серый) - 10 NFT
+            1: { name: "Каменный Воин", price: 2, attack: 8, health: 70, image: "🗿", category: "common" },
+            2: { name: "Железный Страж", price: 3, attack: 10, health: 75, image: "🛡️", category: "common" },
+            3: { name: "Деревянный Лучник", price: 2, attack: 7, health: 65, image: "🏹", category: "common" },
+            4: { name: "Бронзовый Рыцарь", price: 4, attack: 12, health: 80, image: "⚔️", category: "common" },
+            5: { name: "Глиняный Голем", price: 3, attack: 9, health: 85, image: "🗿", category: "common" },
+            6: { name: "Стальной Защитник", price: 5, attack: 11, health: 78, image: "🛡️", category: "common" },
+            7: { name: "Огненный Дух", price: 4, attack: 13, health: 60, image: "🔥", category: "common" },
+            8: { name: "Водный Странник", price: 3, attack: 8, health: 72, image: "💧", category: "common" },
+            9: { name: "Земляной Титан", price: 6, attack: 14, health: 90, image: "⛰️", category: "common" },
+            10: { name: "Воздушный Ассасин", price: 4, attack: 15, health: 55, image: "💨", category: "common" },
             
-            // Uncommon (зеленый)
-            6: { name: "Лесной Эльф", price: 8, attack: 18, health: 70, image: "🧝", category: "uncommon" },
-            7: { name: "Ядовитый Разведчик", price: 10, attack: 20, health: 65, image: "💨", category: "uncommon" },
-            8: { name: "Ветряной Маг", price: 9, attack: 16, health: 75, image: "🌪️", category: "uncommon" },
-            9: { name: "Болотный Шаман", price: 11, attack: 19, health: 80, image: "🔮", category: "uncommon" },
-            10: { name: "Хранитель Леса", price: 12, attack: 22, health: 85, image: "🌳", category: "uncommon" },
+            // Uncommon (зеленый) - 10 NFT
+            11: { name: "Лесной Эльф", price: 8, attack: 18, health: 70, image: "🧝", category: "uncommon" },
+            12: { name: "Ядовитый Разведчик", price: 10, attack: 20, health: 65, image: "🕷️", category: "uncommon" },
+            13: { name: "Ветряной Маг", price: 9, attack: 16, health: 75, image: "🌪️", category: "uncommon" },
+            14: { name: "Болотный Шаман", price: 11, attack: 19, health: 80, image: "🔮", category: "uncommon" },
+            15: { name: "Хранитель Леса", price: 12, attack: 22, health: 85, image: "🌳", category: "uncommon" },
+            16: { name: "Лунный Охотник", price: 10, attack: 21, health: 68, image: "🌙", category: "uncommon" },
+            17: { name: "Солнечный Рыцарь", price: 13, attack: 23, health: 82, image: "☀️", category: "uncommon" },
+            18: { name: "Грозовой Воин", price: 11, attack: 24, health: 77, image: "⚡", category: "uncommon" },
+            19: { name: "Ледяной Призыватель", price: 14, attack: 17, health: 88, image: "❄️", category: "uncommon" },
+            20: { name: "Песчаный Номад", price: 9, attack: 19, health: 73, image: "🏜️", category: "uncommon" },
             
-            // Rare (синий)
-            11: { name: "Морской Воин", price: 20, attack: 25, health: 100, image: "🌊", category: "rare" },
-            12: { name: "Ледяной Маг", price: 25, attack: 28, health: 95, image: "❄️", category: "rare" },
-            13: { name: "Грозовой Рыцарь", price: 22, attack: 26, health: 105, image: "⚡", category: "rare" },
-            14: { name: "Кристальный Голем", price: 28, attack: 24, health: 120, image: "💎", category: "rare" },
-            15: { name: "Небесный Страж", price: 30, attack: 30, health: 110, image: "👼", category: "rare" },
+            // Rare (синий) - 10 NFT
+            21: { name: "Морской Воин", price: 20, attack: 25, health: 100, image: "🌊", category: "rare" },
+            22: { name: "Ледяной Маг", price: 25, attack: 28, health: 95, image: "🧊", category: "rare" },
+            23: { name: "Грозовой Рыцарь", price: 22, attack: 26, health: 105, image: "🌩️", category: "rare" },
+            24: { name: "Кристальный Голем", price: 28, attack: 24, health: 120, image: "💎", category: "rare" },
+            25: { name: "Небесный Страж", price: 30, attack: 30, health: 110, image: "👼", category: "rare" },
+            26: { name: "Теневой Убийца", price: 26, attack: 32, health: 85, image: "🗡️", category: "rare" },
+            27: { name: "Маг Огня", price: 27, attack: 29, health: 98, image: "🔥", category: "rare" },
+            28: { name: "Хранитель Времени", price: 35, attack: 27, health: 115, image: "⏳", category: "rare" },
+            29: { name: "Драконий Всадник", price: 32, attack: 31, health: 108, image: "🐉", category: "rare" },
+            30: { name: "Космический Маг", price: 33, attack: 28, health: 112, image: "🚀", category: "rare" },
             
-            // Epic (золотой)
-            16: { name: "Золотой Дракон", price: 50, attack: 35, health: 130, image: "🐲", category: "epic" },
-            17: { name: "Огненный Феникс", price: 60, attack: 40, health: 120, image: "🔥", category: "epic" },
-            18: { name: "Небесный Властитель", price: 55, attack: 38, health: 135, image: "👑", category: "epic" },
-            19: { name: "Древний Титан", price: 65, attack: 42, health: 140, image: "🗽", category: "epic" },
-            20: { name: "Мифический Единорог", price: 58, attack: 36, health: 125, image: "🦄", category: "epic" },
+            // Epic (золотой) - 10 NFT
+            31: { name: "Золотой Дракон", price: 50, attack: 35, health: 130, image: "🐲", category: "epic" },
+            32: { name: "Огненный Феникс", price: 60, attack: 40, health: 120, image: "🔥", category: "epic" },
+            33: { name: "Небесный Властитель", price: 55, attack: 38, health: 135, image: "👑", category: "epic" },
+            34: { name: "Древний Титан", price: 65, attack: 42, health: 140, image: "🗽", category: "epic" },
+            35: { name: "Мифический Единорог", price: 58, attack: 36, health: 125, image: "🦄", category: "epic" },
+            36: { name: "Король Демонов", price: 70, attack: 45, health: 128, image: "😈", category: "epic" },
+            37: { name: "Архитектор Реальности", price: 75, attack: 39, health: 142, image: "🌀", category: "epic" },
+            38: { name: "Вечный Страж", price: 62, attack: 41, health: 138, image: "⚜️", category: "epic" },
+            39: { name: "Повелитель Стихий", price: 68, attack: 43, health: 132, image: "🌍", category: "epic" },
+            40: { name: "Легендарный Герой", price: 72, attack: 44, health: 136, image: "🦸", category: "epic" },
             
-            // Legendary (фиолетовый)
-            21: { name: "Темный Властелин", price: 100, attack: 50, health: 150, image: "👹", category: "legendary" },
-            22: { name: "Архимаг Хаоса", price: 120, attack: 55, health: 140, image: "🌀", category: "legendary" },
-            23: { name: "Бессмертный Демон", price: 110, attack: 52, health: 160, image: "😈", category: "legendary" },
-            24: { name: "Космический Странник", price: 130, attack: 58, health: 155, image: "👽", category: "legendary" },
-            25: { name: "Бог Войны", price: 150, attack: 60, health: 170, image: "⚡", category: "legendary" }
+            // Legendary (фиолетовый) - 10 NFT
+            41: { name: "Темный Властелин", price: 100, attack: 50, health: 150, image: "👹", category: "legendary" },
+            42: { name: "Архимаг Хаоса", price: 120, attack: 55, health: 140, image: "🌀", category: "legendary" },
+            43: { name: "Бессмертный Демон", price: 110, attack: 52, health: 160, image: "😈", category: "legendary" },
+            44: { name: "Космический Странник", price: 130, attack: 58, health: 155, image: "👽", category: "legendary" },
+            45: { name: "Бог Войны", price: 150, attack: 60, health: 170, image: "⚡", category: "legendary" },
+            46: { name: "Верховный Маг", price: 140, attack: 57, health: 165, image: "🧙", category: "legendary" },
+            47: { name: "Древний Дракон", price: 160, attack: 62, health: 175, image: "🐉", category: "legendary" },
+            48: { name: "Повелитель Теней", price: 135, attack: 59, health: 158, image: "🌑", category: "legendary" },
+            49: { name: "Хранитель Вселенной", price: 170, attack: 65, health: 180, image: "🌌", category: "legendary" },
+            50: { name: "Абсолютный Воин", price: 155, attack: 63, health: 172, image: "⚔️", category: "legendary" },
+            
+            // Mythical (красный) - 10 NFT
+            51: { name: "Божественный Создатель", price: 200, attack: 70, health: 200, image: "✨", category: "mythical" },
+            52: { name: "Верховное Божество", price: 220, attack: 75, health: 190, image: "🌟", category: "mythical" },
+            53: { name: "Абсолютный Властитель", price: 240, attack: 80, health: 210, image: "👑", category: "mythical" },
+            54: { name: "Вечный Император", price: 260, attack: 78, health: 220, image: "🫅", category: "mythical" },
+            55: { name: "Космический Император", price: 280, attack: 82, health: 215, image: "🚀", category: "mythical" },
+            56: { name: "Бесконечный Титан", price: 300, attack: 85, health: 230, image: "🗿", category: "mythical" },
+            57: { name: "Вселенский Дракон", price: 320, attack: 88, health: 225, image: "🐲", category: "mythical" },
+            58: { name: "Абсолютный Маг", price: 290, attack: 83, health: 218, image: "🧙", category: "mythical" },
+            59: { name: "Божественный Воин", price: 270, attack: 79, health: 212, image: "⚔️", category: "mythical" },
+            60: { name: "Легенда Вечности", price: 350, attack: 90, health: 240, image: "💫", category: "mythical" }
         };
+        
+        // Текущая активная категория NFT
+        let currentNFTCategory = 'common';
         
         // Инициализация Telegram Web App
         let tg;
@@ -699,7 +741,6 @@
             console.log("Telegram Web App инициализирован");
         } catch (error) {
             console.error("Ошибка инициализации Telegram Web App:", error);
-            // Создаем заглушку для тестирования вне Telegram
             tg = {
                 sendData: function(data) {
                     console.log("Данные отправлены в бот:", data);
@@ -734,7 +775,6 @@
             startAutoClicker();
             startEnergyRecovery();
             
-            // Обновляем реферальную ссылку
             updateReferralLink();
         }
         
@@ -787,17 +827,15 @@
                 document.getElementById('pvpLosses').textContent = userData.pvpLosses;
                 document.getElementById('languageBtn').textContent = userData.language;
                 
-                // Обновление энергии
                 const energyPercent = (userData.energy / userData.maxEnergy) * 100;
                 document.getElementById('currentEnergy').textContent = userData.energy.toLocaleString();
                 document.getElementById('maxEnergy').textContent = userData.maxEnergy.toLocaleString();
                 document.getElementById('energyFill').style.width = energyPercent + '%';
                 
-                // Блокировка клика при недостатке энергии
                 document.getElementById('coin').disabled = userData.energy < 2;
                 
-                // Обновление NFT
                 updateNFTDisplay();
+                updatePvPNFTSelect();
             } catch (error) {
                 console.error("Ошибка обновления UI:", error);
             }
@@ -818,26 +856,22 @@
             userData.clicks++;
             userData.energy -= 2;
             
-            // Анимация клика
             const coin = document.getElementById('coin');
             coin.style.transform = 'scale(0.92)';
             setTimeout(() => {
                 coin.style.transform = 'scale(1)';
             }, 100);
             
-            // Создание летающего текста
             createFloatingText(`+${userData.clickPower}`);
             
             saveUserData();
             updateUI();
             
-            // Отправка данных в бот
             try {
                 tg.sendData(JSON.stringify({
                     type: 'click',
                     coins: userData.clickPower
                 }));
-                console.log("Данные о клике отправлены");
             } catch (error) {
                 console.error("Ошибка отправки данных:", error);
             }
@@ -1098,22 +1132,21 @@
             // Добавляем active к выбранной категории
             event.target.classList.add('active');
             
-            updateNFTDisplay(category);
+            currentNFTCategory = category;
+            updateNFTDisplay();
         }
         
         // Обновление отображения NFT - ИСПРАВЛЕННАЯ ВЕРСИЯ
-        function updateNFTDisplay(filterCategory = 'common') {
+        function updateNFTDisplay() {
             const nftGrid = document.getElementById('nftGrid');
             const myNftGrid = document.getElementById('myNftGrid');
-            const nftSelect = document.getElementById('selectedNft');
             
             nftGrid.innerHTML = '';
             myNftGrid.innerHTML = '';
-            nftSelect.innerHTML = '<option value="">Выбери NFT</option>';
             
             // Отображаем NFT магазина по выбранной категории
             Object.entries(nftCollection).forEach(([id, nft]) => {
-                if (nft.category === filterCategory) {
+                if (nft.category === currentNFTCategory) {
                     const nftElement = document.createElement('div');
                     nftElement.className = `nft-item ${nft.category}`;
                     if (userData.nftCollection.includes(parseInt(id))) {
@@ -1133,17 +1166,6 @@
                 }
             });
             
-            // Обновляем выпадающий список для PVP
-            userData.nftCollection.forEach(nftId => {
-                const nft = nftCollection[nftId];
-                if (nft) {
-                    const option = document.createElement('option');
-                    option.value = nftId;
-                    option.textContent = `${nft.image} ${nft.name} (⚔️${nft.attack} ❤️${nft.health})`;
-                    nftSelect.appendChild(option);
-                }
-            });
-            
             // Отображаем коллекцию игрока
             userData.nftCollection.forEach(nftId => {
                 const nft = nftCollection[nftId];
@@ -1160,6 +1182,22 @@
             });
         }
         
+        // Обновление выпадающего списка NFT для PVP
+        function updatePvPNFTSelect() {
+            const nftSelect = document.getElementById('selectedNft');
+            nftSelect.innerHTML = '<option value="">Выбери NFT</option>';
+            
+            userData.nftCollection.forEach(nftId => {
+                const nft = nftCollection[nftId];
+                if (nft) {
+                    const option = document.createElement('option');
+                    option.value = nftId;
+                    option.textContent = `${nft.image} ${nft.name} (⚔️${nft.attack} ❤️${nft.health})`;
+                    nftSelect.appendChild(option);
+                }
+            });
+        }
+        
         // Покупка NFT
         function buyNFT(nftId) {
             const nft = nftCollection[nftId];
@@ -1171,7 +1209,7 @@
                     userData.nftCollection.push(parseInt(nftId));
                 }
                 saveUserData();
-                updateNFTDisplay();
+                updateUI();
                 
                 tg.showPopup({
                     title: '🎉 NFT Куплен!',
@@ -1399,6 +1437,10 @@
             // При переключении на NFT вкладку обновляем отображение
             if (tabName === 'nft') {
                 updateNFTDisplay();
+            }
+            // При переключении на PVP вкладку обновляем список NFT
+            if (tabName === 'pvp') {
+                updatePvPNFTSelect();
             }
         }
         

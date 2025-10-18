@@ -37,23 +37,36 @@ class JSONDatabase:
     def get_user_data(self, user_id):
         data = self._read_data()
         user_str = str(user_id)
+        
+        # Базовая структура данных пользователя
+        default_data = {
+            'balance': 0,
+            'diamonds': 0,
+            'total_earned': 0,
+            'clicks': 0,
+            'referrals': [],
+            'referrer': None,
+            'ads_watched': 0,
+            'click_power': 1,
+            'auto_click_level': 0,
+            'nft_collection': [],
+            'language': 'RU',
+            'pvp_wins': 0,
+            'pvp_losses': 0
+        }
+        
         if user_str not in data:
-            data[user_str] = {
-                'balance': 0,
-                'diamonds': 0,
-                'total_earned': 0,
-                'clicks': 0,
-                'referrals': [],
-                'referrer': None,
-                'ads_watched': 0,
-                'click_power': 1,
-                'auto_click_level': 0,
-                'nft_collection': [],
-                'language': 'RU',
-                'pvp_wins': 0,
-                'pvp_losses': 0
-            }
+            data[user_str] = default_data
             self._write_data(data)
+        else:
+            # Обновляем существующие данные, добавляя недостающие поля
+            user_data = data[user_str]
+            for key, value in default_data.items():
+                if key not in user_data:
+                    user_data[key] = value
+            data[user_str] = user_data
+            self._write_data(data)
+            
         return data[user_str]
     
     def update_balance(self, user_id, amount):
@@ -221,12 +234,19 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
+    # Исправление: безопасное получение значения diamonds
+    diamonds_value = user_data.get('diamonds', 0)
+    if isinstance(diamonds_value, float):
+        diamonds_display = f"{diamonds_value:.2f}" if diamonds_value % 1 != 0 else f"{int(diamonds_value)}"
+    else:
+        diamonds_display = str(diamonds_value)
+    
     await update.message.reply_text(
         f"{texts['welcome']}\n\n"
-        f"{texts['balance'].format(user_data['balance'])}\n"
-        f"{texts['diamonds'].format(user_data['diamonds'])}\n"
-        f"{texts['clicks'].format(user_data['clicks'])}\n"
-        f"{texts['ads_watched'].format(user_data['ads_watched'])}\n\n"
+        f"{texts['balance'].format(user_data.get('balance', 0))}\n"
+        f"💎 Алмазы: {diamonds_display}\n"
+        f"{texts['clicks'].format(user_data.get('clicks', 0))}\n"
+        f"{texts['ads_watched'].format(user_data.get('ads_watched', 0))}\n\n"
         f"Нажмите '{texts['start_game']}' чтобы открыть игру!",
         reply_markup=reply_markup
     )
@@ -238,15 +258,22 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texts = TEXTS[user_data.get('language', 'RU')]
     
     if query.data == 'balance':
-        text = (f"💰 {texts['balance'].format(user_data['balance'])}\n"
-                f"💎 {texts['diamonds'].format(user_data['diamonds'])}\n"
-                f"🏆 Всего заработано: {user_data['total_earned']} монет\n"
-                f"🎯 {texts['clicks'].format(user_data['clicks'])}\n"
-                f"📺 {texts['ads_watched'].format(user_data['ads_watched'])}")
+        # Исправление: безопасное получение значения diamonds
+        diamonds_value = user_data.get('diamonds', 0)
+        if isinstance(diamonds_value, float):
+            diamonds_display = f"{diamonds_value:.2f}" if diamonds_value % 1 != 0 else f"{int(diamonds_value)}"
+        else:
+            diamonds_display = str(diamonds_value)
+            
+        text = (f"💰 {texts['balance'].format(user_data.get('balance', 0))}\n"
+                f"💎 Алмазы: {diamonds_display}\n"
+                f"🏆 Всего заработано: {user_data.get('total_earned', 0)} монет\n"
+                f"🎯 {texts['clicks'].format(user_data.get('clicks', 0))}\n"
+                f"📺 {texts['ads_watched'].format(user_data.get('ads_watched', 0))}")
         await query.answer(text, show_alert=True)
     
     elif query.data == 'referral':
-        ref_count = len(user_data['referrals'])
+        ref_count = len(user_data.get('referrals', []))
         ref_link = f"https://t.me/{(await context.bot.get_me()).username}?start={user_id}"
         text = (f"👥 Реферальная система\n\n"
                 f"🔗 Ваша ссылка:\n{ref_link}\n\n"
@@ -306,7 +333,7 @@ async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if direction == 'coins_to_diamonds':
                 # Обмен монет на алмазы (100000:1)
                 coins_needed = amount * 100000
-                if user_data['balance'] >= coins_needed:
+                if user_data.get('balance', 0) >= coins_needed:
                     db.update_balance(user_id, -coins_needed)
                     db.update_diamonds(user_id, amount)
                     await update.message.reply_text(
@@ -320,7 +347,7 @@ async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
             elif direction == 'diamonds_to_coins':
                 # Обмен алмазов на монеты (1:100000)
                 diamonds_needed = amount
-                if user_data['diamonds'] >= diamonds_needed:
+                if user_data.get('diamonds', 0) >= diamonds_needed:
                     db.update_diamonds(user_id, -diamonds_needed)
                     db.update_balance(user_id, amount * 100000)
                     await update.message.reply_text(
@@ -337,7 +364,7 @@ async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
             
             if nft_data:
                 user_data = db.get_user_data(user_id)
-                if user_data['diamonds'] >= nft_data['price']:
+                if user_data.get('diamonds', 0) >= nft_data['price']:
                     db.update_diamonds(user_id, -nft_data['price'])
                     db.add_nft(user_id, nft_id)
                     await update.message.reply_text(
