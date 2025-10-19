@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заработок в Telegram</title>
+    <title>💰 Заработок в Telegram</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -122,6 +122,16 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .task-button:hover {
+            background: #5a6fd8;
+        }
+
+        .task-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
 
         .withdraw-button {
@@ -134,6 +144,11 @@
             cursor: pointer;
             width: 100%;
             margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .withdraw-button:hover {
+            transform: translateY(-2px);
         }
 
         .stats-grid {
@@ -173,6 +188,7 @@
             border-radius: 10px;
             z-index: 1000;
             display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .level-bar {
@@ -188,6 +204,14 @@
             background: linear-gradient(135deg, #FFD700, #FFA500);
             border-radius: 4px;
             transition: width 0.3s;
+        }
+
+        .domain-info {
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            margin-top: 20px;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -306,6 +330,10 @@
                 </button>
             </div>
         </div>
+
+        <div class="domain-info">
+            🔗 Приложение загружено с: <span id="currentDomain">...</span>
+        </div>
     </div>
 
     <script>
@@ -313,13 +341,16 @@
         tg.expand();
         tg.enableClosingConfirmation();
 
-        // Имитация данных пользователя (в реальном приложении - API к бэкенду)
+        // Показываем текущий домен
+        document.getElementById('currentDomain').textContent = window.location.hostname;
+
+        // Данные пользователя
         let userData = {
-            balance: 0,
-            totalEarned: 0,
-            completedTasks: 0,
-            level: 1,
-            referralsCount: 0
+            balance: 15,
+            totalEarned: 150,
+            completedTasks: 8,
+            level: 2,
+            referralsCount: 3
         };
 
         function showNotification(message, type = 'success') {
@@ -334,15 +365,12 @@
         }
 
         function showTab(tabName) {
-            // Скрыть все вкладки
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Показать выбранную вкладку
             document.getElementById(tabName).classList.add('active');
             
-            // Обновить активную кнопку
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('active');
             });
@@ -354,8 +382,18 @@
             button.disabled = true;
             button.textContent = '⏳ Выполняется...';
 
+            // Отправляем данные в бота
+            const taskData = {
+                type: 'task_completed',
+                task_type: taskType,
+                reward: reward,
+                timestamp: Date.now()
+            };
+
             // Имитация выполнения задания
             setTimeout(() => {
+                tg.sendData(JSON.stringify(taskData));
+                
                 userData.balance += reward;
                 userData.totalEarned += reward;
                 userData.completedTasks += 1;
@@ -375,12 +413,13 @@
             }
 
             if (confirm(`Заказать выплату ${userData.balance}₽?`)) {
-                // Отправка данных в бота
-                tg.sendData(JSON.stringify({
+                const withdrawData = {
                     type: 'withdraw_request',
-                    amount: userData.balance
-                }));
+                    amount: userData.balance,
+                    timestamp: Date.now()
+                };
                 
+                tg.sendData(JSON.stringify(withdrawData));
                 showNotification('📋 Заявка на выплату отправлена!');
                 userData.balance = 0;
                 updateUI();
@@ -394,7 +433,6 @@
             document.getElementById('completedTasks').textContent = userData.completedTasks;
             document.getElementById('referralsCount').textContent = userData.referralsCount;
             
-            // Расчет уровня
             const level = Math.floor(userData.completedTasks / 5) + 1;
             const progress = (userData.completedTasks % 5) / 5 * 100;
             
@@ -405,20 +443,16 @@
                 (userData.completedTasks % 5) + '/5';
         }
 
-        // Имитация загрузки данных пользователя
-        setTimeout(() => {
-            userData = {
-                balance: 15,
-                totalEarned: 150,
-                completedTasks: 8,
-                level: 2,
-                referralsCount: 3
-            };
-            updateUI();
-        }, 1000);
-
-        // Обработка данных от Telegram
+        // Инициализация
         tg.ready();
+        updateUI();
+
+        // Обработка данных от бота
+        tg.onEvent('viewportChanged', function() {
+            tg.expand();
+        });
+
+        console.log('🌐 Web App загружен с:', window.location.href);
     </script>
 </body>
 </html>
