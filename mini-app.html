@@ -692,6 +692,12 @@
             padding: 8px;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .message:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .message-sender {
@@ -750,6 +756,129 @@
         .clan-members {
             font-size: 0.9em;
             color: #ccc;
+        }
+        
+        .clan-member-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .clan-member-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .member-role {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        .role-leader { background: linear-gradient(135deg, #ff4444, #cc0000); }
+        .role-deputy { background: linear-gradient(135deg, #ffaa00, #ff7700); }
+        .role-elder { background: linear-gradient(135deg, #44ff44, #00cc00); }
+        .role-member { background: linear-gradient(135deg, #4285F4, #1967D2); }
+        
+        /* СТИЛИ ДЛЯ МЕНЮ ВЗАИМОДЕЙСТВИЯ */
+        .interaction-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 1000;
+            min-width: 250px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff4081;
+        }
+        
+        .interaction-menu h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ff4081;
+        }
+        
+        .interaction-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+            text-align: left;
+            transition: background 0.3s;
+        }
+        
+        .interaction-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .close-menu {
+            background: #f44336;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        /* СТИЛИ ДЛЯ ОБМЕНА NFT */
+        .exchange-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 1001;
+            min-width: 300px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border: 2px solid #FFD700;
+        }
+        
+        .exchange-nft-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .exchange-nft-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .exchange-nft-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .exchange-nft-item.selected {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
         }
         
         @keyframes shimmer {
@@ -943,7 +1072,7 @@
                     <code style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; display: block; margin: 10px 0; word-break: break-all;">
                         UQBdMpouED5GOqI1HaAanEd1GSTb1KJjDhWV5p_oKZ8-USy7
                     </code>
-                    <small>После оплаты рубины будут зачислены автоматически</small>
+                    <small>После оплаты пришлите скриншот администратору @Kirill_Kotov1982 с суммой транзакции!</small>
                 </div>
             </div>
             
@@ -1253,7 +1382,45 @@
                 <div id="myClanInfo">
                     <!-- Информация о клане будет заполнена динамически -->
                 </div>
+                <div id="clanMembersList" style="margin-top: 15px;">
+                    <!-- Список участников клана -->
+                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Меню взаимодействия с игроком -->
+    <div class="interaction-menu" id="interactionMenu" style="display: none;">
+        <h4 id="interactionPlayerName">Игрок</h4>
+        <button class="interaction-option" onclick="sendPrivateMessage()">💬 Написать в ЛС</button>
+        <button class="interaction-option" onclick="startNFTExchange()">🔄 Отправить обмен</button>
+        <button class="interaction-option" onclick="viewPlayerProfile()">👤 Посмотреть профиль</button>
+        <button class="close-menu" onclick="closeInteractionMenu()">❌ Закрыть</button>
+    </div>
+
+    <!-- Меню управления участниками клана -->
+    <div class="interaction-menu" id="clanMemberMenu" style="display: none;">
+        <h4 id="clanMemberName">Участник</h4>
+        <button class="interaction-option" onclick="changeMemberRole('leader')">👑 Назначить Главой</button>
+        <button class="interaction-option" onclick="changeMemberRole('deputy')">⭐ Назначить Зам.Главой</button>
+        <button class="interaction-option" onclick="changeMemberRole('elder')">🔰 Назначить Старостой</button>
+        <button class="interaction-option" onclick="changeMemberRole('member')">👤 Назначить Участником</button>
+        <button class="interaction-option" style="background: #f44336;" onclick="kickFromClan()">🚪 Исключить из клана</button>
+        <button class="close-menu" onclick="closeClanMemberMenu()">❌ Закрыть</button>
+    </div>
+
+    <!-- Модальное окно обмена NFT -->
+    <div class="exchange-modal" id="exchangeModal" style="display: none;">
+        <h4>🔄 Обмен NFT</h4>
+        <p>Выберите NFT для обмена с <span id="exchangePlayerName">игроком</span></p>
+        
+        <div class="exchange-nft-grid" id="playerNFTsGrid">
+            <!-- NFT игрока для обмена -->
+        </div>
+        
+        <div style="margin-top: 15px;">
+            <button class="ad-button" onclick="confirmExchange()">✅ Подтвердить обмен</button>
+            <button class="ad-button" onclick="closeExchangeModal()" style="background: #f44336; margin-top: 10px;">❌ Отмена</button>
         </div>
     </div>
 
@@ -1272,7 +1439,7 @@
             referralBonus: 0,
             language: 'RU',
             nftCollection: [1, 2],
-            vipNftCollection: [],
+            vipNftCollection: [101],
             pvpWins: 0,
             pvpLosses: 0,
             pvpRating: 1000,
@@ -1285,7 +1452,7 @@
                 global: [
                     { sender: "Система", text: "Добро пожаловать в чат!", timestamp: Date.now() },
                     { sender: "Бот_Игрок", text: "Привет всем! Как дела?", timestamp: Date.now() - 60000 },
-                    { sender: "NFT_Мастер", text: "Продаю редкий NFT за алмазы!", timestamp: Date.now() - 120000 }
+                    { sender: "NFT_Мастер", text: "Продам редкий NFT за алмазы!", timestamp: Date.now() - 120000 }
                 ],
                 private: {},
                 clan: []
@@ -1368,9 +1535,39 @@
 
         // КЛАНЫ
         let clans = [
-            { id: 1, name: "Драконы", tag: "DRGN", members: ["user1", "user2"], level: 5, creator: "user1" },
-            { id: 2, name: "Рыцари", tag: "KNTS", members: ["user3", "user4"], level: 4, creator: "user3" },
-            { id: 3, name: "Маги", tag: "MAGE", members: ["user5"], level: 3, creator: "user5" }
+            { 
+                id: 1, 
+                name: "Драконы", 
+                tag: "DRGN", 
+                members: [
+                    { id: "user1", name: "Игрок_Про", role: "leader" },
+                    { id: "user2", name: "NFT_Коллекционер", role: "deputy" },
+                    { id: "user3", name: "PVP_Мастер", role: "elder" }
+                ], 
+                level: 5, 
+                creator: "user1" 
+            },
+            { 
+                id: 2, 
+                name: "Рыцари", 
+                tag: "KNTS", 
+                members: [
+                    { id: "user4", name: "Новичок2024", role: "leader" },
+                    { id: "user5", name: "Трейдер", role: "member" }
+                ], 
+                level: 4, 
+                creator: "user4" 
+            },
+            { 
+                id: 3, 
+                name: "Маги", 
+                tag: "MAGE", 
+                members: [
+                    { id: "user6", name: "Волшебник", role: "leader" }
+                ], 
+                level: 3, 
+                creator: "user6" 
+            }
         ];
 
         // ОНЛАЙН ИГРОКИ
@@ -1391,6 +1588,10 @@
         let playerCooldowns = { special: 0, heal: 0 };
         let currentChatTab = 'global';
         let chatBotInterval = null;
+        let selectedPlayerForInteraction = null;
+        let selectedClanMember = null;
+        let selectedNFTForExchange = null;
+        let exchangeTargetPlayer = null;
 
         // TELEGRAM WEB APP
         let tg = {
@@ -1612,7 +1813,7 @@
         function buyRubies(amount, tonPrice) {
             tg.showPopup({
                 title: '🔴 Покупка Рубинов',
-                message: `Для покупки ${amount} рубинов отправьте ${tonPrice} TON на адрес:\n\nUQBdMpouED5GOqI1HaAanEd1GSTb1KJjDhWV5p_oKZ8-USy7\n\nПосле подтверждения транзакции рубины будут зачислены.`,
+                message: `Для покупки ${amount} рубинов отправьте ${tonPrice} TON на адрес:\n\nUQBdMpouED5GOqI1HaAanEd1GSTb1KJjDhWV5p_oKZ8-USy7\n\nПосле оплаты пришлите скриншот администратору @Kirill_Kotov1982 с суммой транзакции!`,
                 buttons: [{ type: 'ok' }]
             });
         }
@@ -2344,6 +2545,9 @@
                     const messageElement = document.createElement('div');
                     messageElement.className = 'message';
                     messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
+                    messageElement.onclick = function() {
+                        openInteractionMenu(msg.sender);
+                    };
                     chatMessages.appendChild(messageElement);
                 });
             }
@@ -2381,11 +2585,8 @@
                 playerElement.innerHTML = `
                     <strong>${player.name}</strong> (Ур. ${player.level})
                     <div style="margin-top: 8px;">
-                        <button onclick="startPrivateChat('${player.id}')" style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px;">
-                            💬 Написать
-                        </button>
-                        <button onclick="startExchange('${player.id}')" style="padding: 5px 10px; background: #FF9800; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                            🔄 Обмен
+                        <button onclick="openInteractionMenu('${player.name}')" style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px;">
+                            💬 Взаимодействие
                         </button>
                     </div>
                 `;
@@ -2393,27 +2594,133 @@
             });
         }
 
-        function startPrivateChat(playerId) {
-            const player = onlinePlayers.find(p => p.id === playerId);
-            if (player) {
-                switchChatTab('private');
+        // НОВАЯ ФУНКЦИЯ: Открытие меню взаимодействия
+        function openInteractionMenu(playerName) {
+            selectedPlayerForInteraction = playerName;
+            document.getElementById('interactionPlayerName').textContent = playerName;
+            document.getElementById('interactionMenu').style.display = 'block';
+        }
+
+        function closeInteractionMenu() {
+            document.getElementById('interactionMenu').style.display = 'none';
+            selectedPlayerForInteraction = null;
+        }
+
+        function sendPrivateMessage() {
+            if (selectedPlayerForInteraction) {
                 tg.showPopup({
                     title: '💬 Личный чат',
-                    message: `Чат с ${player.name} открыт!`,
+                    message: `Чат с ${selectedPlayerForInteraction} открыт!`,
                     buttons: [{ type: 'ok' }]
                 });
+                closeInteractionMenu();
             }
         }
 
-        function startExchange(playerId) {
-            const player = onlinePlayers.find(p => p.id === playerId);
-            if (player) {
+        function startNFTExchange() {
+            if (selectedPlayerForInteraction) {
+                exchangeTargetPlayer = selectedPlayerForInteraction;
+                document.getElementById('exchangePlayerName').textContent = selectedPlayerForInteraction;
+                showPlayerNFTsForExchange();
+                closeInteractionMenu();
+            }
+        }
+
+        function viewPlayerProfile() {
+            if (selectedPlayerForInteraction) {
                 tg.showPopup({
-                    title: '🔄 Обмен NFT',
-                    message: `Предложить обмен ${player.name}?`,
+                    title: '👤 Профиль игрока',
+                    message: `Профиль ${selectedPlayerForInteraction}\n\nУровень: 15\nРейтинг PVP: 1200\nКлан: Драконы`,
                     buttons: [{ type: 'ok' }]
                 });
+                closeInteractionMenu();
             }
+        }
+
+        // НОВАЯ ФУНКЦИЯ: Показать NFT игрока для обмена
+        function showPlayerNFTsForExchange() {
+            const playerNFTsGrid = document.getElementById('playerNFTsGrid');
+            playerNFTsGrid.innerHTML = '';
+            
+            // Показываем обычные NFT
+            userData.nftCollection.forEach(nftId => {
+                const nft = nftCollection[nftId];
+                if (nft) {
+                    const nftElement = document.createElement('div');
+                    nftElement.className = 'exchange-nft-item';
+                    nftElement.innerHTML = `
+                        <div class="nft-image">${nft.image}</div>
+                        <strong>${nft.name}</strong><br>
+                        <small>⚔️ ${nft.attack} ❤️ ${nft.health}</small>
+                    `;
+                    nftElement.onclick = function() {
+                        selectNFTForExchange(nftId, 'normal');
+                    };
+                    playerNFTsGrid.appendChild(nftElement);
+                }
+            });
+            
+            // Показываем VIP NFT
+            userData.vipNftCollection.forEach(nftId => {
+                const nft = vipNftCollection[nftId];
+                if (nft) {
+                    const nftElement = document.createElement('div');
+                    nftElement.className = 'exchange-nft-item vip-nft-item';
+                    nftElement.innerHTML = `
+                        <div class="vip-badge">VIP</div>
+                        <div class="nft-image">${nft.image}</div>
+                        <strong>${nft.name}</strong><br>
+                        <small>${nft.description}</small>
+                    `;
+                    nftElement.onclick = function() {
+                        selectNFTForExchange(nftId, 'vip');
+                    };
+                    playerNFTsGrid.appendChild(nftElement);
+                }
+            });
+            
+            document.getElementById('exchangeModal').style.display = 'block';
+        }
+
+        function selectNFTForExchange(nftId, type) {
+            selectedNFTForExchange = { id: nftId, type: type };
+            
+            // Снимаем выделение со всех NFT
+            document.querySelectorAll('.exchange-nft-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Выделяем выбранный NFT
+            event.target.closest('.exchange-nft-item').classList.add('selected');
+        }
+
+        function confirmExchange() {
+            if (!selectedNFTForExchange || !exchangeTargetPlayer) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Выберите NFT для обмена',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            const nft = selectedNFTForExchange.type === 'vip' 
+                ? vipNftCollection[selectedNFTForExchange.id] 
+                : nftCollection[selectedNFTForExchange.id];
+            
+            tg.showPopup({
+                title: '🔄 Обмен отправлен',
+                message: `Вы предложили обмен ${nft.name} игроку ${exchangeTargetPlayer}`,
+                buttons: [{ type: 'ok' }]
+            });
+            
+            closeExchangeModal();
+        }
+
+        function closeExchangeModal() {
+            document.getElementById('exchangeModal').style.display = 'none';
+            selectedNFTForExchange = null;
+            exchangeTargetPlayer = null;
         }
 
         function startChatBots() {
@@ -2479,13 +2786,18 @@
             }
             
             userData.diamonds -= 50;
+            const currentUserId = tg.initDataUnsafe.user?.id || 'current_user';
+            const currentUserName = tg.initDataUnsafe.user?.username || 'player';
+            
             userData.clan = {
                 id: Date.now(),
                 name: clanName,
                 tag: clanTag.toUpperCase(),
-                members: [tg.initDataUnsafe.user?.id || 'user123'],
+                members: [
+                    { id: currentUserId, name: currentUserName, role: "leader" }
+                ],
                 level: 1,
-                creator: tg.initDataUnsafe.user?.id || 'user123'
+                creator: currentUserId
             };
             
             clans.push(userData.clan);
@@ -2527,10 +2839,13 @@
 
         function joinClan(clanId) {
             const clan = clans.find(c => c.id === clanId);
+            const currentUserId = tg.initDataUnsafe.user?.id || 'current_user';
+            const currentUserName = tg.initDataUnsafe.user?.username || 'player';
+            
             if (clan && !userData.clan) {
                 userData.clan = clan;
-                if (!clan.members.includes(tg.initDataUnsafe.user?.id || 'user123')) {
-                    clan.members.push(tg.initDataUnsafe.user?.id || 'user123');
+                if (!clan.members.find(m => m.id === currentUserId)) {
+                    clan.members.push({ id: currentUserId, name: currentUserName, role: "member" });
                 }
                 saveUserData();
                 updateUI();
@@ -2547,39 +2862,154 @@
         function updateClanDisplay() {
             const myClanSection = document.getElementById('myClanSection');
             const myClanInfo = document.getElementById('myClanInfo');
+            const clanMembersList = document.getElementById('clanMembersList');
             
             if (userData.clan) {
                 myClanSection.style.display = 'block';
+                
+                const currentUserId = tg.initDataUnsafe.user?.id || 'current_user';
+                const currentUser = userData.clan.members.find(m => m.id === currentUserId);
+                const isLeader = currentUser && currentUser.role === 'leader';
+                
                 myClanInfo.innerHTML = `
                     <h4>${userData.clan.name} [${userData.clan.tag}]</h4>
                     <div>👥 Участников: ${userData.clan.members.length}</div>
                     <div>⭐ Уровень: ${userData.clan.level}</div>
-                    <div>👑 Создатель: ${userData.clan.creator === (tg.initDataUnsafe.user?.id || 'user123') ? 'Вы' : 'Другой игрок'}</div>
-                    <button class="ad-button" onclick="leaveClan()" style="margin-top: 10px;">
-                        🚪 Покинуть клан
-                    </button>
+                    <div>👑 Ваша роль: ${getRoleDisplayName(currentUser ? currentUser.role : 'member')}</div>
                 `;
+                
+                // Обновляем список участников
+                clanMembersList.innerHTML = '<h5 style="margin: 15px 0 10px 0;">👥 Участники клана:</h5>';
+                userData.clan.members.forEach(member => {
+                    const memberElement = document.createElement('div');
+                    memberElement.className = 'clan-member-item';
+                    memberElement.innerHTML = `
+                        <div>
+                            <strong>${member.name}</strong>
+                            <div style="font-size: 0.8em; color: #ccc;">${getRoleDisplayName(member.role)}</div>
+                        </div>
+                        ${isLeader && member.id !== currentUserId ? 
+                            `<button onclick="openClanMemberMenu('${member.id}')" style="padding: 3px 8px; background: #2196F3; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 0.7em;">
+                                Управление
+                            </button>` : 
+                            `<span class="member-role role-${member.role}">${getRoleDisplayName(member.role)}</span>`
+                        }
+                    `;
+                    clanMembersList.appendChild(memberElement);
+                });
+                
+                if (isLeader) {
+                    myClanInfo.innerHTML += `
+                        <button class="ad-button" onclick="leaveClan()" style="margin-top: 10px; background: #f44336;">
+                            🚪 Распустить клан
+                        </button>
+                    `;
+                } else {
+                    myClanInfo.innerHTML += `
+                        <button class="ad-button" onclick="leaveClan()" style="margin-top: 10px;">
+                            🚪 Покинуть клан
+                        </button>
+                    `;
+                }
             } else {
                 myClanSection.style.display = 'none';
             }
         }
 
+        function getRoleDisplayName(role) {
+            const roleNames = {
+                'leader': '👑 Глава',
+                'deputy': '⭐ Зам.Главы', 
+                'elder': '🔰 Староста',
+                'member': '👤 Участник'
+            };
+            return roleNames[role] || '👤 Участник';
+        }
+
+        // НОВАЯ ФУНКЦИЯ: Открытие меню управления участником клана
+        function openClanMemberMenu(memberId) {
+            const member = userData.clan.members.find(m => m.id === memberId);
+            if (member) {
+                selectedClanMember = member;
+                document.getElementById('clanMemberName').textContent = member.name;
+                document.getElementById('clanMemberMenu').style.display = 'block';
+            }
+        }
+
+        function closeClanMemberMenu() {
+            document.getElementById('clanMemberMenu').style.display = 'none';
+            selectedClanMember = null;
+        }
+
+        function changeMemberRole(newRole) {
+            if (!selectedClanMember || !userData.clan) return;
+            
+            const memberIndex = userData.clan.members.findIndex(m => m.id === selectedClanMember.id);
+            if (memberIndex !== -1) {
+                userData.clan.members[memberIndex].role = newRole;
+                saveUserData();
+                updateClanDisplay();
+                
+                tg.showPopup({
+                    title: '✅ Успех',
+                    message: `Роль ${selectedClanMember.name} изменена на ${getRoleDisplayName(newRole)}`,
+                    buttons: [{ type: 'ok' }]
+                });
+                
+                closeClanMemberMenu();
+            }
+        }
+
+        function kickFromClan() {
+            if (!selectedClanMember || !userData.clan) return;
+            
+            userData.clan.members = userData.clan.members.filter(m => m.id !== selectedClanMember.id);
+            
+            // Если участник был исключен, обновляем данные
+            if (selectedClanMember.id === (tg.initDataUnsafe.user?.id || 'current_user')) {
+                userData.clan = null;
+            }
+            
+            saveUserData();
+            updateUI();
+            updateClanDisplay();
+            
+            tg.showPopup({
+                title: '🚪 Исключен',
+                message: `${selectedClanMember.name} исключен из клана`,
+                buttons: [{ type: 'ok' }]
+            });
+            
+            closeClanMemberMenu();
+        }
+
         function leaveClan() {
             if (userData.clan) {
-                const clan = clans.find(c => c.id === userData.clan.id);
-                if (clan) {
-                    clan.members = clan.members.filter(member => member !== (tg.initDataUnsafe.user?.id || 'user123'));
+                const currentUserId = tg.initDataUnsafe.user?.id || 'current_user';
+                const currentUser = userData.clan.members.find(m => m.id === currentUserId);
+                
+                if (currentUser && currentUser.role === 'leader') {
+                    // Если глава покидает клан - распускаем клан
+                    clans = clans.filter(c => c.id !== userData.clan.id);
+                    tg.showPopup({
+                        title: '🏰 Клан распущен',
+                        message: 'Клан был распущен так как вы были главой',
+                        buttons: [{ type: 'ok' }]
+                    });
+                } else {
+                    // Обычный участник просто покидает клан
+                    userData.clan.members = userData.clan.members.filter(m => m.id !== currentUserId);
+                    tg.showPopup({
+                        title: 'ℹ️ Информация',
+                        message: 'Вы покинули клан',
+                        buttons: [{ type: 'ok' }]
+                    });
                 }
+                
                 userData.clan = null;
                 saveUserData();
                 updateUI();
                 updateClanDisplay();
-                
-                tg.showPopup({
-                    title: 'ℹ️ Информация',
-                    message: 'Вы покинули клан',
-                    buttons: [{ type: 'ok' }]
-                });
             }
         }
 
