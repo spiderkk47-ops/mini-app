@@ -829,7 +829,7 @@
             border: none;
             color: white;
             padding: 8px 15px;
-            borderRadius: 5px;
+            border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
             width: 100%;
@@ -1568,7 +1568,8 @@
                 clan: []
             },
             usedPromoCodes: [],
-            isAdmin: false
+            isAdmin: false,
+            privateChats: {}
         };
 
         // NFT КОЛЛЕКЦИЯ
@@ -1704,7 +1705,7 @@
         let selectedClanMember = null;
         let selectedNFTForExchange = null;
         let exchangeTargetPlayer = null;
-        let privateChats = {};
+        let currentPrivateChat = null;
 
         // TELEGRAM WEB APP
         let tg = {
@@ -2722,27 +2723,33 @@
                     messageElement.className = 'message';
                     messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
                     messageElement.onclick = function() {
-                        openInteractionMenu(msg.sender);
+                        if (msg.sender !== 'Система' && msg.sender !== 'Вы') {
+                            openInteractionMenu(msg.sender);
+                        }
                     };
                     chatMessages.appendChild(messageElement);
                 });
             } else if (currentChatTab === 'private') {
-                // Показываем приватные чаты
-                if (Object.keys(privateChats).length === 0) {
+                // Показываем список приватных чатов
+                if (Object.keys(userData.privateChats).length === 0) {
                     chatMessages.innerHTML = '<div class="message">💬 У вас пока нет приватных сообщений</div>';
                 } else {
-                    Object.entries(privateChats).forEach(([playerName, messages]) => {
-                        messages.forEach(msg => {
-                            const messageElement = document.createElement('div');
-                            messageElement.className = 'message private-chat';
-                            messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
-                            messageElement.onclick = function() {
-                                openPrivateChat(playerName);
-                            };
-                            chatMessages.appendChild(messageElement);
-                        });
+                    Object.entries(userData.privateChats).forEach(([playerName, messages]) => {
+                        const lastMessage = messages[messages.length - 1];
+                        const chatElement = document.createElement('div');
+                        chatElement.className = 'message private-chat';
+                        chatElement.innerHTML = `
+                            <strong>💬 ${playerName}</strong><br>
+                            <small>${lastMessage.text}</small>
+                        `;
+                        chatElement.onclick = function() {
+                            openPrivateChat(playerName);
+                        };
+                        chatMessages.appendChild(chatElement);
                     });
                 }
+            } else if (currentChatTab === 'clan') {
+                chatMessages.innerHTML = '<div class="message">🏰 Клан чат пока недоступен</div>';
             }
         }
 
@@ -2767,6 +2774,57 @@
             }
         }
 
+        // НОВАЯ ФУНКЦИЯ: Открытие приватного чата
+        function openPrivateChat(playerName) {
+            currentPrivateChat = playerName;
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            // Убираем старый input если есть
+            const oldInput = document.getElementById('privateChatInput');
+            if (oldInput) {
+                oldInput.parentNode.remove();
+            }
+            
+            if (userData.privateChats[playerName]) {
+                userData.privateChats[playerName].forEach(msg => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'message private-chat';
+                    messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
+                    chatMessages.appendChild(messageElement);
+                });
+            }
+            
+            // Добавляем поле для ввода сообщения в приватный чат
+            const inputContainer = document.createElement('div');
+            inputContainer.className = 'chat-input';
+            inputContainer.innerHTML = `
+                <input type="text" id="privateChatInput" placeholder="Сообщение для ${playerName}...">
+                <button class="send-button" onclick="sendPrivateChatMessage('${playerName}')">📤</button>
+            `;
+            chatMessages.parentNode.appendChild(inputContainer);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // НОВАЯ ФУНКЦИЯ: Отправка сообщения в приватный чат
+        function sendPrivateChatMessage(playerName) {
+            const input = document.getElementById('privateChatInput');
+            const message = input.value.trim();
+            
+            if (message && userData.privateChats[playerName]) {
+                userData.privateChats[playerName].push({
+                    sender: 'Вы',
+                    text: message,
+                    timestamp: Date.now()
+                });
+                
+                input.value = '';
+                openPrivateChat(playerName); // Обновляем отображение чата
+                saveUserData();
+            }
+        }
+
         // НОВАЯ ФУНКЦИЯ: Открытие меню взаимодействия
         function openInteractionMenu(playerName) {
             selectedPlayerForInteraction = playerName;
@@ -2783,12 +2841,12 @@
         function sendPrivateMessage() {
             if (selectedPlayerForInteraction) {
                 // Создаем приватный чат с игроком
-                if (!privateChats[selectedPlayerForInteraction]) {
-                    privateChats[selectedPlayerForInteraction] = [];
+                if (!userData.privateChats[selectedPlayerForInteraction]) {
+                    userData.privateChats[selectedPlayerForInteraction] = [];
                 }
                 
                 // Добавляем приветственное сообщение
-                privateChats[selectedPlayerForInteraction].push({
+                userData.privateChats[selectedPlayerForInteraction].push({
                     sender: 'Система',
                     text: `Чат с ${selectedPlayerForInteraction} открыт!`,
                     timestamp: Date.now()
@@ -2796,24 +2854,17 @@
                 
                 // Переключаемся на вкладку приватных сообщений
                 switchChatTab('private');
+                updateChatDisplay();
                 
                 tg.showPopup({
                     title: '💬 Личный чат',
-                    message: `Чат с ${selectedPlayerForInteraction} открыт!`,
+                    message: `Чат с ${selectedPlayerForInteraction} открыт! Перейдите на вкладку "ЛС" чтобы продолжить общение.`,
                     buttons: [{ type: 'ok' }]
                 });
+                
                 closeInteractionMenu();
+                saveUserData();
             }
-        }
-
-        function openPrivateChat(playerName) {
-            // Функция для открытия конкретного приватного чата
-            // Можно добавить дополнительный функционал здесь
-            tg.showPopup({
-                title: '💬 Приватный чат',
-                message: `Чат с ${playerName}`,
-                buttons: [{ type: 'ok' }]
-            });
         }
 
         function startNFTExchange() {
@@ -2978,6 +3029,8 @@
                     message: 'Доступ к админ панели разрешен!',
                     buttons: [{ type: 'ok' }]
                 });
+                
+                saveUserData();
             } else {
                 messageElement.innerHTML = '<span style="color: #f44336;">❌ Неверный код доступа</span>';
             }
@@ -3034,20 +3087,22 @@
 
         function adminUnlockAllNFT() {
             if (!userData.isAdmin) return;
-            // Разблокируем все обычные NFT
-            Object.keys(nftCollection).forEach(nftId => {
-                if (!userData.nftCollection.includes(parseInt(nftId))) {
-                    userData.nftCollection.push(parseInt(nftId));
+            // Разблокируем все обычные NFT (1-60)
+            for (let i = 1; i <= 60; i++) {
+                if (!userData.nftCollection.includes(i)) {
+                    userData.nftCollection.push(i);
                 }
-            });
-            // Разблокируем все VIP NFT
-            Object.keys(vipNftCollection).forEach(nftId => {
-                if (!userData.vipNftCollection.includes(parseInt(nftId))) {
-                    userData.vipNftCollection.push(parseInt(nftId));
+            }
+            // Разблокируем все VIP NFT (101-106)
+            for (let i = 101; i <= 106; i++) {
+                if (!userData.vipNftCollection.includes(i)) {
+                    userData.vipNftCollection.push(i);
                 }
-            });
+            }
             saveUserData();
             updateUI();
+            updateNFTDisplay();
+            updateVipNFTDisplay();
             tg.showPopup({
                 title: '✅ Успех',
                 message: 'Все NFT разблокированы!',
@@ -3064,6 +3119,7 @@
             userData.autoClickLevel = 1000;
             userData.pvpWins = 999;
             userData.pvpRating = 9999;
+            userData.energy = userData.maxEnergy;
             saveUserData();
             updateUI();
             tg.showPopup({
