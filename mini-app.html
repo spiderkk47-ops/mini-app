@@ -67,158 +67,11 @@
             margin: 5px 0;
         }
         
-        /* ИСПРАВЛЕННЫЙ СТИЛЬ ДЛЯ РУБИНОВ */
         .ruby-item {
             background: linear-gradient(135deg, #e91e63, #ad1457);
             border: 2px solid #ff4081;
         }
         
-        /* Стили для доната */
-        .donate-option {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            text-align: center;
-            border: 2px solid #e91e63;
-        }
-        
-        .donate-button {
-            background: linear-gradient(135deg, #e91e63, #ad1457);
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-            width: 100%;
-        }
-        
-        /* Стили для VIP NFT */
-        .vip-nft-item {
-            background: linear-gradient(135deg, #ff9800, #e65100);
-            border: 2px solid #ffc107;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .vip-badge {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #ff4081;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7em;
-            font-weight: bold;
-        }
-        
-        /* Стили для чата */
-        .chat-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .chat-tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .chat-tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            cursor: pointer;
-        }
-        
-        .chat-tab.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .chat-messages {
-            height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-        }
-        
-        .message {
-            margin: 8px 0;
-            padding: 8px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .message-sender {
-            font-weight: bold;
-            color: #ff4081;
-        }
-        
-        .chat-input {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .send-button {
-            padding: 10px 15px;
-            background: #4CAF50;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-        }
-        
-        /* Стили для кланов */
-        .clan-create {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 10px 0;
-            text-align: center;
-        }
-        
-        .clan-list {
-            margin-top: 15px;
-        }
-        
-        .clan-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 8px 0;
-        }
-        
-        .clan-name {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        
-        .clan-members {
-            font-size: 0.9em;
-            color: #ccc;
-        }
-        
-        /* Остальные существующие стили */
         .energy-bar {
             background: rgba(255, 255, 255, 0.1);
             padding: 10px;
@@ -458,7 +311,6 @@
         .legendary { background: linear-gradient(135deg, #AB47BC, #8E24AA); color: #F3E5F5; }
         .mythical { background: linear-gradient(135deg, #FF5722, #D84315); color: #FFE0B2; }
         
-        /* PVP стили */
         .pvp-item {
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
@@ -756,6 +608,150 @@
             margin: 5px 0;
         }
         
+        /* НОВЫЕ СТИЛИ ДЛЯ ДОНАТА */
+        .donate-option {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            border: 2px solid #e91e63;
+        }
+        
+        .donate-button {
+            background: linear-gradient(135deg, #e91e63, #ad1457);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .vip-nft-item {
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            border: 2px solid #ffc107;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vip-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff4081;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        /* СТИЛИ ДЛЯ ЧАТА */
+        .chat-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chat-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .chat-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .chat-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .message {
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            color: #ff4081;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .send-button {
+            padding: 10px 15px;
+            background: #4CAF50;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        /* СТИЛИ ДЛЯ КЛАНОВ */
+        .clan-create {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .clan-list {
+            margin-top: 15px;
+        }
+        
+        .clan-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 8px 0;
+        }
+        
+        .clan-name {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .clan-members {
+            font-size: 0.9em;
+            color: #ccc;
+        }
+        
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -793,12 +789,6 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
-        }
-        
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px currentColor; }
-            50% { box-shadow: 0 0 20px currentColor; }
-            100% { box-shadow: 0 0 5px currentColor; }
         }
         
         .damage-popup {
@@ -851,7 +841,7 @@
                 <div class="currency-amount" id="diamonds">0</div>
             </div>
             <div class="currency-item ruby-item">
-                <div>💎 Рубины</div> <!-- ИЗМЕНЕН СИМВОЛ -->
+                <div>🔴 Рубины</div>
                 <div class="currency-amount" id="rubies">0</div>
             </div>
         </div>
@@ -913,10 +903,10 @@
             <p>Пополняйте свой баланс рубинов за TON</p>
             
             <div class="pvp-item">
-                <h4>💎 Покупка Рубинов</h4>
+                <h4>🔴 Покупка Рубинов</h4>
                 
                 <div class="donate-option">
-                    <h4>10 💎 Рубинов</h4>
+                    <h4>10 🔴 Рубинов</h4>
                     <p>Цена: 1 TON</p>
                     <button class="donate-button" onclick="buyRubies(10, 1)">
                         Купить за 1 TON
@@ -924,7 +914,7 @@
                 </div>
                 
                 <div class="donate-option">
-                    <h4>25 💎 Рубинов</h4>
+                    <h4>25 🔴 Рубинов</h4>
                     <p>Цена: 2.5 TON</p>
                     <button class="donate-button" onclick="buyRubies(25, 2.5)">
                         Купить за 2.5 TON
@@ -932,7 +922,7 @@
                 </div>
                 
                 <div class="donate-option">
-                    <h4>50 💎 Рубинов</h4>
+                    <h4>50 🔴 Рубинов</h4>
                     <p>Цена: 5 TON</p>
                     <button class="donate-button" onclick="buyRubies(50, 5)">
                         Купить за 5 TON
@@ -940,7 +930,7 @@
                 </div>
                 
                 <div class="donate-option">
-                    <h4>100 💎 Рубинов</h4>
+                    <h4>100 🔴 Рубинов</h4>
                     <p>Цена: 10 TON</p>
                     <button class="donate-button" onclick="buyRubies(100, 10)">
                         Купить за 10 TON
@@ -992,16 +982,6 @@
                         <div id="referralBonus">0</div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="pvp-item">
-                <h4>🎁 Бонус за приглашение</h4>
-                <p>За каждого приглашенного друга вы получаете:</p>
-                <ul style="text-align: left; margin: 10px 0;">
-                    <li>💰 50 монет</li>
-                    <li>💎 1 алмаз</li>
-                    <li>💎 5 рубинов</li>
-                </ul>
             </div>
         </div>
         
@@ -1278,7 +1258,7 @@
     </div>
 
     <script>
-        // ОБНОВЛЕННЫЕ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
+        // ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
         let userData = {
             balance: 1000,
             diamonds: 10,
@@ -1291,7 +1271,7 @@
             referrals: 0,
             referralBonus: 0,
             language: 'RU',
-            nftCollection: [1, 2], // ДОБАВЛЕНЫ НАЧАЛЬНЫЕ NFT
+            nftCollection: [1, 2],
             vipNftCollection: [],
             pvpWins: 0,
             pvpLosses: 0,
@@ -1302,15 +1282,18 @@
             lastEnergyUpdate: Date.now(),
             clan: null,
             chatHistory: {
-                global: [],
+                global: [
+                    { sender: "Система", text: "Добро пожаловать в чат!", timestamp: Date.now() },
+                    { sender: "Бот_Игрок", text: "Привет всем! Как дела?", timestamp: Date.now() - 60000 },
+                    { sender: "NFT_Мастер", text: "Продаю редкий NFT за алмазы!", timestamp: Date.now() - 120000 }
+                ],
                 private: {},
                 clan: []
             }
         };
 
-        // ПОЛНАЯ NFT КОЛЛЕКЦИЯ
+        // NFT КОЛЛЕКЦИЯ
         const nftCollection = {
-            // Common (серый) - 10 NFT
             1: { name: "Каменный Воин", price: 2, attack: 8, health: 70, image: "🗿", category: "common" },
             2: { name: "Железный Страж", price: 3, attack: 10, health: 75, image: "🛡️", category: "common" },
             3: { name: "Деревянный Лучник", price: 2, attack: 7, health: 65, image: "🏹", category: "common" },
@@ -1321,8 +1304,6 @@
             8: { name: "Водный Странник", price: 3, attack: 8, health: 72, image: "💧", category: "common" },
             9: { name: "Земляной Титан", price: 6, attack: 14, health: 90, image: "⛰️", category: "common" },
             10: { name: "Воздушный Ассасин", price: 4, attack: 15, health: 55, image: "💨", category: "common" },
-            
-            // Uncommon (зеленый) - 10 NFT
             11: { name: "Лесной Эльф", price: 8, attack: 18, health: 70, image: "🧝", category: "uncommon" },
             12: { name: "Ядовитый Разведчик", price: 10, attack: 20, health: 65, image: "🕷️", category: "uncommon" },
             13: { name: "Ветряной Маг", price: 9, attack: 16, health: 75, image: "🌪️", category: "uncommon" },
@@ -1333,8 +1314,6 @@
             18: { name: "Грозовой Воин", price: 11, attack: 24, health: 77, image: "⚡", category: "uncommon" },
             19: { name: "Ледяной Призыватель", price: 14, attack: 17, health: 88, image: "❄️", category: "uncommon" },
             20: { name: "Песчаный Номад", price: 9, attack: 19, health: 73, image: "🏜️", category: "uncommon" },
-            
-            // Rare (синий) - 10 NFT
             21: { name: "Морской Воин", price: 20, attack: 25, health: 100, image: "🌊", category: "rare" },
             22: { name: "Ледяной Маг", price: 25, attack: 28, health: 95, image: "🧊", category: "rare" },
             23: { name: "Грозовой Рыцарь", price: 22, attack: 26, health: 105, image: "🌩️", category: "rare" },
@@ -1345,8 +1324,6 @@
             28: { name: "Хранитель Времени", price: 35, attack: 27, health: 115, image: "⏳", category: "rare" },
             29: { name: "Драконий Всадник", price: 32, attack: 31, health: 108, image: "🐉", category: "rare" },
             30: { name: "Космический Маг", price: 33, attack: 28, health: 112, image: "🚀", category: "rare" },
-            
-            // Epic (золотой) - 10 NFT
             31: { name: "Золотой Дракон", price: 50, attack: 35, health: 130, image: "🐲", category: "epic" },
             32: { name: "Огненный Феникс", price: 60, attack: 40, health: 120, image: "🔥", category: "epic" },
             33: { name: "Небесный Властитель", price: 55, attack: 38, health: 135, image: "👑", category: "epic" },
@@ -1357,8 +1334,6 @@
             38: { name: "Вечный Страж", price: 62, attack: 41, health: 138, image: "⚜️", category: "epic" },
             39: { name: "Повелитель Стихий", price: 68, attack: 43, health: 132, image: "🌍", category: "epic" },
             40: { name: "Легендарный Герой", price: 72, attack: 44, health: 136, image: "🦸", category: "epic" },
-            
-            // Legendary (фиолетовый) - 10 NFT
             41: { name: "Темный Властелин", price: 100, attack: 50, health: 150, image: "👹", category: "legendary" },
             42: { name: "Архимаг Хаоса", price: 120, attack: 55, health: 140, image: "🌀", category: "legendary" },
             43: { name: "Бессмертный Демон", price: 110, attack: 52, health: 160, image: "😈", category: "legendary" },
@@ -1369,8 +1344,6 @@
             48: { name: "Повелитель Теней", price: 135, attack: 59, health: 158, image: "🌑", category: "legendary" },
             49: { name: "Хранитель Вселенной", price: 170, attack: 65, health: 180, image: "🌌", category: "legendary" },
             50: { name: "Абсолютный Воин", price: 155, attack: 63, health: 172, image: "⚔️", category: "legendary" },
-            
-            // Mythical (красный) - 10 NFT
             51: { name: "Божественный Создатель", price: 200, attack: 70, health: 200, image: "✨", category: "mythical" },
             52: { name: "Верховное Божество", price: 220, attack: 75, health: 190, image: "🌟", category: "mythical" },
             53: { name: "Абсолютный Властитель", price: 240, attack: 80, health: 210, image: "👑", category: "mythical" },
@@ -1393,7 +1366,22 @@
             106: { name: "💫 Звездный Странник", price: 25, image: "🌟", category: "vip", description: "Путешественник между звездами", rarity: "mythical" }
         };
 
-        // ОСТАЛЬНЫЕ ПЕРЕМЕННЫЕ
+        // КЛАНЫ
+        let clans = [
+            { id: 1, name: "Драконы", tag: "DRGN", members: ["user1", "user2"], level: 5, creator: "user1" },
+            { id: 2, name: "Рыцари", tag: "KNTS", members: ["user3", "user4"], level: 4, creator: "user3" },
+            { id: 3, name: "Маги", tag: "MAGE", members: ["user5"], level: 3, creator: "user5" }
+        ];
+
+        // ОНЛАЙН ИГРОКИ
+        let onlinePlayers = [
+            { id: "user1", name: "Игрок_Про", level: 15 },
+            { id: "user2", name: "NFT_Коллекционер", level: 22 },
+            { id: "user3", name: "PVP_Мастер", level: 18 },
+            { id: "user4", name: "Новичок2024", level: 5 }
+        ];
+
+        // ПЕРЕМЕННЫЕ
         let selectedPvpNftId = null;
         let autoClickInterval = null;
         let energyInterval = null;
@@ -1404,33 +1392,152 @@
         let currentChatTab = 'global';
         let chatBotInterval = null;
 
-        // ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP
-        let tg;
+        // TELEGRAM WEB APP
+        let tg = {
+            showPopup: function(params) {
+                alert(params.title + ": " + params.message);
+            },
+            initDataUnsafe: {
+                user: {
+                    id: 'current_user',
+                    username: 'player'
+                }
+            }
+        };
+
         try {
             tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
-            console.log("Telegram Web App инициализирован");
         } catch (error) {
-            console.error("Ошибка инициализации Telegram Web App:", error);
-            tg = {
-                sendData: function(data) {
-                    console.log("Данные отправлены в бот:", data);
-                    return true;
-                },
-                showPopup: function(params) {
-                    alert(params.title + ": " + params.message);
-                },
-                initDataUnsafe: {
-                    user: {
-                        id: 123456789,
-                        username: 'test_user'
-                    }
-                }
-            };
+            console.log("Telegram Web App не доступен, используем заглушку");
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Покупка улучшений
+        // ОСНОВНЫЕ ФУНКЦИИ
+        function loadUserData() {
+            const saved = localStorage.getItem('zephuriumData');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    userData = { ...userData, ...data };
+                    updateEnergy();
+                } catch (e) {
+                    console.error("Ошибка загрузки данных:", e);
+                }
+            }
+            updateUI();
+            startAutoClicker();
+            startEnergyRecovery();
+            updateReferralLink();
+            updateVipNFTDisplay();
+            updateOnlinePlayers();
+            updateClanDisplay();
+            startChatBots();
+        }
+
+        function saveUserData() {
+            userData.lastEnergyUpdate = Date.now();
+            localStorage.setItem('zephuriumData', JSON.stringify(userData));
+        }
+
+        function updateUI() {
+            document.getElementById('balance').textContent = userData.balance.toLocaleString();
+            document.getElementById('diamonds').textContent = userData.diamonds;
+            document.getElementById('rubies').textContent = userData.rubies;
+            document.getElementById('clickCount').textContent = userData.clicks.toLocaleString();
+            document.getElementById('clickPower').textContent = userData.clickPower;
+            document.getElementById('coinsPerClick').textContent = userData.clickPower;
+            document.getElementById('adsWatched').textContent = userData.adsWatched;
+            document.getElementById('adsEarned').textContent = userData.adsEarned.toLocaleString();
+            document.getElementById('referralCount').textContent = userData.referrals;
+            document.getElementById('referralBonus').textContent = userData.referralBonus.toLocaleString();
+            document.getElementById('autoClickLevel').textContent = userData.autoClickLevel;
+            document.getElementById('autoClickPower').textContent = userData.autoClickLevel;
+            document.getElementById('pvpWins').textContent = userData.pvpWins;
+            document.getElementById('pvpLosses').textContent = userData.pvpLosses;
+            document.getElementById('pvpRating').textContent = userData.pvpRating;
+            document.getElementById('totalPvPEarned').textContent = userData.totalPvPEarned.toLocaleString();
+            document.getElementById('languageBtn').textContent = userData.language;
+            
+            const energyPercent = (userData.energy / userData.maxEnergy) * 100;
+            document.getElementById('currentEnergy').textContent = userData.energy.toLocaleString();
+            document.getElementById('maxEnergy').textContent = userData.maxEnergy.toLocaleString();
+            document.getElementById('energyFill').style.width = energyPercent + '%';
+            
+            document.getElementById('coin').disabled = userData.energy < 2;
+            
+            updateNFTDisplay();
+            updatePvPNFTSelection();
+        }
+
+        function updateEnergy() {
+            const now = Date.now();
+            const timePassed = (now - userData.lastEnergyUpdate) / 1000;
+            const energyRecovered = Math.floor(timePassed * 4);
+            userData.energy = Math.min(userData.maxEnergy, userData.energy + energyRecovered);
+            userData.lastEnergyUpdate = now;
+        }
+
+        function startEnergyRecovery() {
+            energyInterval = setInterval(() => {
+                updateEnergy();
+                updateUI();
+            }, 1000);
+        }
+
+        // КЛИКЕР СИСТЕМА
+        function clickCoin() {
+            if (userData.energy < 2) {
+                tg.showPopup({
+                    title: '❌ Недостаточно энергии',
+                    message: 'Подождите восстановления энергии',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            userData.balance += userData.clickPower;
+            userData.clicks++;
+            userData.energy -= 2;
+            
+            const coin = document.getElementById('coin');
+            coin.style.transform = 'scale(0.92)';
+            setTimeout(() => {
+                coin.style.transform = 'scale(1)';
+            }, 100);
+            
+            createFloatingText(`+${userData.clickPower}`);
+            
+            saveUserData();
+            updateUI();
+        }
+
+        function createFloatingText(text) {
+            const floatingText = document.createElement('div');
+            floatingText.textContent = text;
+            floatingText.style.position = 'absolute';
+            floatingText.style.color = '#FFD700';
+            floatingText.style.fontWeight = 'bold';
+            floatingText.style.fontSize = '1.2em';
+            floatingText.style.pointerEvents = 'none';
+            floatingText.style.animation = 'floatUp 1s ease-out forwards';
+            floatingText.style.zIndex = '1000';
+            
+            const coin = document.getElementById('coin');
+            const coinRect = coin.getBoundingClientRect();
+            
+            floatingText.style.left = (coinRect.left + coinRect.width / 2) + 'px';
+            floatingText.style.top = (coinRect.top + coinRect.height / 2) + 'px';
+            
+            document.body.appendChild(floatingText);
+            
+            setTimeout(() => {
+                if (document.body.contains(floatingText)) {
+                    document.body.removeChild(floatingText);
+                }
+            }, 1000);
+        }
+
         function buyUpgrade(type) {
             if (type === 'click') {
                 const cost = 100;
@@ -1485,27 +1592,87 @@
             }
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Покупка рубинов
+        function startAutoClicker() {
+            if (autoClickInterval) {
+                clearInterval(autoClickInterval);
+            }
+            
+            if (userData.autoClickLevel > 0) {
+                const interval = Math.max(100, 1000 - (userData.autoClickLevel * 1));
+                autoClickInterval = setInterval(() => {
+                    userData.balance += userData.autoClickLevel;
+                    userData.clicks += userData.autoClickLevel;
+                    saveUserData();
+                    updateUI();
+                }, interval);
+            }
+        }
+
+        // ДОНАТ СИСТЕМА
         function buyRubies(amount, tonPrice) {
             tg.showPopup({
-                title: '💎 Покупка Рубинов',
-                message: `Вы хотите купить ${amount} рубинов за ${tonPrice} TON?\n\nОтправьте ${tonPrice} TON на адрес:\nUQBdMpouED5GOqI1HaAanEd1GSTb1KJjDhWV5p_oKZ8-USy7\n\nПосле подтверждения транзакции в боте рубины будут зачислены.`,
-                buttons: [
-                    { 
-                        type: 'default', 
-                        text: 'Отправить TON',
-                        id: 'send_ton'
-                    },
-                    { 
-                        type: 'destructive', 
-                        text: 'Отмена',
-                        id: 'cancel'
-                    }
-                ]
+                title: '🔴 Покупка Рубинов',
+                message: `Для покупки ${amount} рубинов отправьте ${tonPrice} TON на адрес:\n\nUQBdMpouED5GOqI1HaAanEd1GSTb1KJjDhWV5p_oKZ8-USy7\n\nПосле подтверждения транзакции рубины будут зачислены.`,
+                buttons: [{ type: 'ok' }]
             });
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Реферальная система
+        function buyVipNft(nftId) {
+            const nft = vipNftCollection[nftId];
+            if (!nft) return;
+            
+            if (userData.rubies >= nft.price) {
+                userData.rubies -= nft.price;
+                if (!userData.vipNftCollection.includes(parseInt(nftId))) {
+                    userData.vipNftCollection.push(parseInt(nftId));
+                }
+                saveUserData();
+                updateUI();
+                
+                tg.showPopup({
+                    title: '🎉 VIP NFT Куплен!',
+                    message: `Вы приобрели ${nft.name}!`,
+                    buttons: [{ type: 'ok' }]
+                });
+            } else {
+                tg.showPopup({
+                    title: '❌ Недостаточно рубинов',
+                    message: `Нужно ${nft.price} рубинов`,
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+
+        function updateVipNFTDisplay() {
+            const vipNftGrid = document.getElementById('vipNftGrid');
+            vipNftGrid.innerHTML = '';
+            
+            Object.entries(vipNftCollection).forEach(([id, nft]) => {
+                const nftElement = document.createElement('div');
+                nftElement.className = `nft-item vip-nft-item ${nft.rarity}`;
+                nftElement.innerHTML = `
+                    <div class="vip-badge">VIP</div>
+                    <div class="nft-image">${nft.image}</div>
+                    <strong>${nft.name}</strong><br>
+                    <small>${nft.description}</small><br>
+                    <strong>🔴 ${nft.price}</strong>
+                    ${!userData.vipNftCollection.includes(parseInt(id)) ? 
+                        `<br><button onclick="buyVipNft(${id})" style="margin-top: 5px; padding: 5px 10px; background: #e91e63; color: white; border: none; border-radius: 5px; cursor: pointer;">Купить</button>` : 
+                        '<br><small>✅ Владеете</small>'
+                    }
+                `;
+                vipNftGrid.appendChild(nftElement);
+            });
+        }
+
+        // РЕФЕРАЛЬНАЯ СИСТЕМА
+        function updateReferralLink() {
+            const userId = tg.initDataUnsafe.user?.id || '123456789';
+            const botUsername = 'zephurium_game_bot';
+            const link = `https://t.me/${botUsername}?start=${userId}`;
+            document.getElementById('referralLink').value = link;
+        }
+
         function copyReferralLink() {
             const linkInput = document.getElementById('referralLink');
             linkInput.select();
@@ -1515,7 +1682,7 @@
                 navigator.clipboard.writeText(linkInput.value).then(() => {
                     tg.showPopup({
                         title: '✅ Успех',
-                        message: 'Реферальная ссылка скопирована! Поделитесь ей с друзьями.',
+                        message: 'Реферальная ссылка скопирована!',
                         buttons: [{ type: 'ok' }]
                     });
                 });
@@ -1528,7 +1695,23 @@
             }
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Обмен валюты
+        // РЕКЛАМА
+        function watchAd() {
+            userData.balance += 15;
+            userData.adsWatched++;
+            userData.adsEarned += 15;
+            
+            saveUserData();
+            updateUI();
+            
+            tg.showPopup({
+                title: '📺 Реклама просмотрена!',
+                message: '+15 монет добавлено на ваш баланс',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        // ОБМЕН ВАЛЮТЫ
         function exchangeCurrency(direction) {
             let amount;
             if (direction === 'coins_to_diamonds') {
@@ -1597,7 +1780,18 @@
             }
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Обновление отображения NFT
+        // NFT СИСТЕМА
+        function filterNFTs(category) {
+            document.querySelectorAll('.nft-category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            
+            currentNFTCategory = category;
+            updateNFTDisplay();
+        }
+
         function updateNFTDisplay() {
             const nftGrid = document.getElementById('nftGrid');
             const myNftGrid = document.getElementById('myNftGrid');
@@ -1641,7 +1835,33 @@
             });
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Обновление выбора NFT для PVP
+        function buyNFT(nftId) {
+            const nft = nftCollection[nftId];
+            if (!nft) return;
+            
+            if (userData.diamonds >= nft.price) {
+                userData.diamonds -= nft.price;
+                if (!userData.nftCollection.includes(parseInt(nftId))) {
+                    userData.nftCollection.push(parseInt(nftId));
+                }
+                saveUserData();
+                updateUI();
+                
+                tg.showPopup({
+                    title: '🎉 NFT Куплен!',
+                    message: `Вы приобрели ${nft.name}!`,
+                    buttons: [{ type: 'ok' }]
+                });
+            } else {
+                tg.showPopup({
+                    title: '❌ Недостаточно алмазов',
+                    message: `Нужно ${nft.price} алмазов`,
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+
+        // PVP СИСТЕМА
         function updatePvPNFTSelection() {
             const noNftMessage = document.getElementById('noNftMessage');
             const pvpNftSelection = document.getElementById('pvpNftSelection');
@@ -1692,7 +1912,6 @@
             }
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Выбор NFT для PVP
         function selectPvpNft(nftId) {
             selectedPvpNftId = nftId;
             const nft = nftCollection[nftId];
@@ -1720,7 +1939,6 @@
             document.getElementById('currentSelectionText').textContent = `Выбран: ${nft.name} (⚔️${nft.attack} ❤️${nft.health})`;
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Начало PVP битвы
         function startPvP() {
             if (!selectedPvpNftId) {
                 tg.showPopup({
@@ -1775,12 +1993,410 @@
             updateBattleUI();
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Чат система
+        function generateEnemy(playerNft, playerRating) {
+            const enemyNames = ["Тёмный Рыцарь", "Огненный Дракон", "Ледяной Маг", "Грозовой Воин", "Теневой Убийца"];
+            const enemyImages = ["🐲", "🔥", "❄️", "⚡", "🗡️"];
+            
+            const ratingFactor = Math.max(0.5, Math.min(2, playerRating / 1000));
+            const baseAttack = Math.floor(playerNft.attack * (0.8 + Math.random() * 0.4) * ratingFactor);
+            const baseHealth = Math.floor(playerNft.health * (0.8 + Math.random() * 0.4) * ratingFactor);
+            
+            const nameIndex = Math.floor(Math.random() * enemyNames.length);
+            
+            return {
+                name: enemyNames[nameIndex],
+                image: enemyImages[nameIndex],
+                attack: Math.max(5, baseAttack),
+                health: Math.max(20, baseHealth),
+                currentHealth: Math.max(20, baseHealth),
+                maxHealth: Math.max(20, baseHealth),
+                specialCharges: 1
+            };
+        }
+
+        function addBattleMessage(text, type = 'system') {
+            const message = { text, type, timestamp: Date.now() };
+            battleLog.push(message);
+            
+            const battleLogElement = document.getElementById('battleLog');
+            const messageElement = document.createElement('div');
+            messageElement.className = `battle-message ${type}-message`;
+            messageElement.textContent = text;
+            battleLogElement.appendChild(messageElement);
+            
+            battleLogElement.scrollTop = battleLogElement.scrollHeight;
+        }
+
+        function updateBattleUI() {
+            if (!currentBattle) return;
+            
+            const player = currentBattle.player;
+            const enemy = currentBattle.enemy;
+            
+            const playerHealthPercent = (player.currentHealth / player.maxHealth) * 100;
+            const enemyHealthPercent = (enemy.currentHealth / enemy.maxHealth) * 100;
+            
+            document.getElementById('playerHealth').style.width = playerHealthPercent + '%';
+            document.getElementById('enemyHealth').style.width = enemyHealthPercent + '%';
+            
+            document.getElementById('playerHealthPercent').textContent = Math.round(playerHealthPercent) + '%';
+            document.getElementById('enemyHealthPercent').textContent = Math.round(enemyHealthPercent) + '%';
+            
+            document.getElementById('playerHealthText').textContent = `${player.currentHealth}/${player.maxHealth}`;
+            document.getElementById('enemyHealthText').textContent = `${enemy.currentHealth}/${enemy.maxHealth}`;
+            
+            document.getElementById('specialBtn').disabled = playerCooldowns.special > 0;
+            document.getElementById('specialBtn').textContent = playerCooldowns.special > 0 ? 
+                `💥 Ульт. (${playerCooldowns.special})` : '💥 Ульт.атака';
+                
+            document.getElementById('healBtn').disabled = playerCooldowns.heal > 0;
+            document.getElementById('healBtn').textContent = playerCooldowns.heal > 0 ? 
+                `❤️ Лечение (${playerCooldowns.heal})` : '❤️ Лечение';
+        }
+
+        function playerAttack(type) {
+            if (!currentBattle || currentBattle.state !== 'player_turn') return;
+            
+            const player = currentBattle.player;
+            const enemy = currentBattle.enemy;
+            
+            let damage = 0;
+            let isCritical = false;
+            let message = '';
+            
+            switch (type) {
+                case 'normal':
+                    damage = calculateDamage(player.attack, 0.2);
+                    isCritical = Math.random() < 0.1;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.5);
+                        message = `💥 Критическая атака! Вы наносите ${damage} урона!`;
+                    } else {
+                        message = `⚔️ Вы наносите ${damage} урона!`;
+                    }
+                    break;
+                    
+                case 'special':
+                    if (playerCooldowns.special > 0) {
+                        addBattleMessage('⏳ Ультимативная атака ещё не готова!', 'system');
+                        return;
+                    }
+                    damage = calculateDamage(player.attack * 1.5, 0.3);
+                    isCritical = Math.random() < 0.3;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.8);
+                        message = `💥💥 Сверхкритическая атака! Вы наносите ${damage} урона!`;
+                    } else {
+                        message = `💥 Ультимативная атака! Вы наносите ${damage} урона!`;
+                    }
+                    playerCooldowns.special = 3;
+                    break;
+            }
+            
+            enemy.currentHealth -= damage;
+            enemy.currentHealth = Math.max(0, enemy.currentHealth);
+            
+            createDamagePopup(damage, isCritical, document.getElementById('enemyFighter'));
+            document.getElementById('enemyFighter').style.animation = 'battleHit 0.3s';
+            setTimeout(() => {
+                document.getElementById('enemyFighter').style.animation = '';
+            }, 300);
+            
+            addBattleMessage(message, 'player');
+            
+            if (enemy.currentHealth <= 0) {
+                endBattle(true);
+                return;
+            }
+            
+            currentBattle.state = 'enemy_turn';
+            updateBattleUI();
+            
+            setTimeout(() => {
+                enemyTurn();
+            }, 1500);
+        }
+
+        function playerHeal() {
+            if (!currentBattle || currentBattle.state !== 'player_turn') return;
+            
+            if (playerCooldowns.heal > 0) {
+                addBattleMessage('⏳ Лечение ещё не готово!', 'system');
+                return;
+            }
+            
+            const player = currentBattle.player;
+            const healAmount = Math.floor(player.maxHealth * 0.3);
+            const oldHealth = player.currentHealth;
+            player.currentHealth = Math.min(player.maxHealth, player.currentHealth + healAmount);
+            const actualHeal = player.currentHealth - oldHealth;
+            
+            addBattleMessage(`❤️ Вы восстанавливаете ${actualHeal} здоровья!`, 'player');
+            playerCooldowns.heal = 4;
+            
+            currentBattle.state = 'enemy_turn';
+            updateBattleUI();
+            
+            setTimeout(() => {
+                enemyTurn();
+            }, 1500);
+        }
+
+        function enemyTurn() {
+            if (!currentBattle || currentBattle.state !== 'enemy_turn') return;
+            
+            const enemy = currentBattle.enemy;
+            const player = currentBattle.player;
+            
+            let action = 'attack';
+            if (enemy.specialCharges > 0 && Math.random() < 0.3) {
+                action = 'special';
+            } else if (player.currentHealth < player.maxHealth * 0.3 && Math.random() < 0.4) {
+                action = 'heal';
+            }
+            
+            let damage = 0;
+            let isCritical = false;
+            let message = '';
+            
+            switch (action) {
+                case 'attack':
+                    damage = calculateDamage(enemy.attack, 0.25);
+                    isCritical = Math.random() < 0.08;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.5);
+                        message = `💥 Критическая атака! ${enemy.name} наносит ${damage} урона!`;
+                    } else {
+                        message = `⚔️ ${enemy.name} наносит ${damage} урона!`;
+                    }
+                    break;
+                    
+                case 'special':
+                    damage = calculateDamage(enemy.attack * 1.4, 0.35);
+                    isCritical = Math.random() < 0.25;
+                    if (isCritical) {
+                        damage = Math.floor(damage * 1.7);
+                        message = `💥💥 Сверхсильная атака! ${enemy.name} наносит ${damage} урона!`;
+                    } else {
+                        message = `💥 Мощная атака! ${enemy.name} наносит ${damage} урона!`;
+                    }
+                    enemy.specialCharges--;
+                    break;
+                    
+                case 'heal':
+                    const healAmount = Math.floor(enemy.maxHealth * 0.25);
+                    const oldHealth = enemy.currentHealth;
+                    enemy.currentHealth = Math.min(enemy.maxHealth, enemy.currentHealth + healAmount);
+                    const actualHeal = enemy.currentHealth - oldHealth;
+                    message = `❤️ ${enemy.name} восстанавливает ${actualHeal} здоровья!`;
+                    break;
+            }
+            
+            if (action !== 'heal') {
+                player.currentHealth -= damage;
+                player.currentHealth = Math.max(0, player.currentHealth);
+                
+                createDamagePopup(damage, isCritical, document.getElementById('playerFighter'));
+                document.getElementById('playerFighter').style.animation = 'battleHit 0.3s';
+                setTimeout(() => {
+                    document.getElementById('playerFighter').style.animation = '';
+                }, 300);
+            }
+            
+            addBattleMessage(message, 'enemy');
+            
+            if (player.currentHealth <= 0) {
+                endBattle(false);
+                return;
+            }
+            
+            if (playerCooldowns.special > 0) playerCooldowns.special--;
+            if (playerCooldowns.heal > 0) playerCooldowns.heal--;
+            
+            currentBattle.state = 'player_turn';
+            currentBattle.turn++;
+            
+            updateBattleUI();
+            
+            if (currentBattle.turn > 1) {
+                addBattleMessage(`🎯 Ваш ход! Ход ${currentBattle.turn}`, 'system');
+            }
+        }
+
+        function calculateDamage(baseDamage, variance) {
+            const minDamage = Math.floor(baseDamage * (1 - variance));
+            const maxDamage = Math.floor(baseDamage * (1 + variance));
+            return Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+        }
+
+        function createDamagePopup(damage, isCritical, element) {
+            const popup = document.createElement('div');
+            popup.className = 'damage-popup';
+            if (isCritical) {
+                popup.classList.add('critical-hit');
+            }
+            popup.textContent = (isCritical ? '💥 ' : '') + damage;
+            popup.style.color = isCritical ? '#ff4444' : '#ffffff';
+            
+            const rect = element.getBoundingClientRect();
+            popup.style.left = (rect.left + rect.width / 2) + 'px';
+            popup.style.top = (rect.top + rect.height / 2) + 'px';
+            
+            document.body.appendChild(popup);
+            
+            setTimeout(() => {
+                if (document.body.contains(popup)) {
+                    document.body.removeChild(popup);
+                }
+            }, 1000);
+        }
+
+        function endBattle(playerWon) {
+            const player = currentBattle.player;
+            const enemy = currentBattle.enemy;
+            
+            const baseReward = 1000;
+            const ratingBonus = Math.floor(userData.pvpRating / 10);
+            const turnPenalty = Math.max(0, 20 - currentBattle.turn) * 50;
+            const totalReward = baseReward + ratingBonus + turnPenalty;
+            const diamondReward = playerWon ? 0.05 : 0.01;
+            
+            if (playerWon) {
+                userData.balance += totalReward;
+                userData.diamonds += diamondReward;
+                userData.pvpWins++;
+                userData.pvpRating += 25;
+                userData.totalPvPEarned += totalReward;
+                
+                addBattleMessage(`🎉 ПОБЕДА! Награда: ${totalReward} монет + ${diamondReward} алмазов`, 'system');
+                addBattleMessage(`⭐ Рейтинг +25!`, 'system');
+            } else {
+                userData.balance += Math.floor(totalReward * 0.3);
+                userData.diamonds += diamondReward;
+                userData.pvpLosses++;
+                userData.pvpRating = Math.max(0, userData.pvpRating - 15);
+                userData.totalPvPEarned += Math.floor(totalReward * 0.3);
+                
+                addBattleMessage(`💔 Поражение... Утешительная награда: ${Math.floor(totalReward * 0.3)} монет + ${diamondReward} алмазов`, 'system');
+                addBattleMessage(`📉 Рейтинг -15`, 'system');
+            }
+            
+            setTimeout(() => {
+                document.getElementById('battleArena').style.display = 'none';
+                document.getElementById('battleResult').style.display = 'block';
+                
+                const resultContent = document.getElementById('resultContent');
+                if (playerWon) {
+                    resultContent.innerHTML = `
+                        <div class="battle-result victory">
+                            <h3 style="color: #4CAF50; margin-bottom: 15px;">🏆 ПОБЕДА!</h3>
+                            <div style="font-size: 1.2em; margin-bottom: 10px;">Вы одержали победу над ${enemy.name}!</div>
+                            <div style="margin-bottom: 5px;">💰 Получено: ${totalReward} монет</div>
+                            <div style="margin-bottom: 5px;">💎 Получено: ${diamondReward} алмазов</div>
+                            <div style="margin-bottom: 5px;">⭐ Рейтинг: +25</div>
+                            <div>🎯 Ходов сделано: ${currentBattle.turn}</div>
+                        </div>
+                    `;
+                } else {
+                    resultContent.innerHTML = `
+                        <div class="battle-result defeat">
+                            <h3 style="color: #f44336; margin-bottom: 15px;">💔 ПОРАЖЕНИЕ</h3>
+                            <div style="font-size: 1.2em; margin-bottom: 10px;">Вы проиграли ${enemy.name}...</div>
+                            <div style="margin-bottom: 5px;">💰 Получено: ${Math.floor(totalReward * 0.3)} монет</div>
+                            <div style="margin-bottom: 5px;">💎 Получено: ${diamondReward} алмазов</div>
+                            <div style="margin-bottom: 5px;">📉 Рейтинг: -15</div>
+                            <div>🎯 Ходов сделано: ${currentBattle.turn}</div>
+                        </div>
+                    `;
+                }
+            }, 2000);
+            
+            saveUserData();
+            updateUI();
+        }
+
+        function resetBattle() {
+            document.getElementById('battleResult').style.display = 'none';
+            document.getElementById('pvpButton').disabled = false;
+            document.getElementById('pvpNftSelection').style.display = 'block';
+            currentBattle = null;
+            battleLog = [];
+            playerCooldowns = { special: 0, heal: 0 };
+        }
+
+        // ЧАТ СИСТЕМА
+        function switchChatTab(tab) {
+            document.querySelectorAll('.chat-tab').forEach(chatTab => {
+                chatTab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentChatTab = tab;
+            updateChatDisplay();
+        }
+
+        function updateChatDisplay() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            if (currentChatTab === 'global') {
+                userData.chatHistory.global.forEach(msg => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'message';
+                    messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
+                    chatMessages.appendChild(messageElement);
+                });
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const newMessage = {
+                    sender: 'Вы',
+                    text: message,
+                    timestamp: Date.now()
+                };
+                
+                if (currentChatTab === 'global') {
+                    userData.chatHistory.global.push(newMessage);
+                }
+                
+                input.value = '';
+                updateChatDisplay();
+                saveUserData();
+            }
+        }
+
+        function updateOnlinePlayers() {
+            const onlinePlayersElement = document.getElementById('onlinePlayers');
+            onlinePlayersElement.innerHTML = '';
+            
+            onlinePlayers.forEach(player => {
+                const playerElement = document.createElement('div');
+                playerElement.className = 'pvp-item';
+                playerElement.style.padding = '10px';
+                playerElement.innerHTML = `
+                    <strong>${player.name}</strong> (Ур. ${player.level})
+                    <div style="margin-top: 8px;">
+                        <button onclick="startPrivateChat('${player.id}')" style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px;">
+                            💬 Написать
+                        </button>
+                        <button onclick="startExchange('${player.id}')" style="padding: 5px 10px; background: #FF9800; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            🔄 Обмен
+                        </button>
+                    </div>
+                `;
+                onlinePlayersElement.appendChild(playerElement);
+            });
+        }
+
         function startPrivateChat(playerId) {
             const player = onlinePlayers.find(p => p.id === playerId);
             if (player) {
                 switchChatTab('private');
-                document.getElementById('chatInput').placeholder = `Сообщение для ${player.name}...`;
                 tg.showPopup({
                     title: '💬 Личный чат',
                     message: `Чат с ${player.name} открыт!`,
@@ -1795,20 +2411,16 @@
                 tg.showPopup({
                     title: '🔄 Обмен NFT',
                     message: `Предложить обмен ${player.name}?`,
-                    buttons: [
-                        { type: 'default', text: 'Предложить обмен', id: 'offer_exchange' },
-                        { type: 'cancel', text: 'Отмена', id: 'cancel' }
-                    ]
+                    buttons: [{ type: 'ok' }]
                 });
             }
         }
 
-        // ФУНКЦИЯ ДЛЯ БОТОВ В ЧАТЕ
         function startChatBots() {
             if (chatBotInterval) clearInterval(chatBotInterval);
             
             chatBotInterval = setInterval(() => {
-                if (Math.random() < 0.3) { // 30% шанс сообщения от бота
+                if (Math.random() < 0.3) {
                     const botMessages = [
                         "Кто хочет в PVP? 😎",
                         "Продам редкий NFT! 💎",
@@ -1840,39 +2452,178 @@
                     }
                     saveUserData();
                 }
-            }, 15000); // Сообщение каждые 15 секунд
+            }, 15000);
         }
 
-        // ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ
-        function loadUserData() {
-            const saved = localStorage.getItem('zephuriumData');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    userData = { ...userData, ...data };
-                    updateEnergy();
-                } catch (e) {
-                    console.error("Ошибка загрузки данных:", e);
-                }
+        // КЛАН СИСТЕМА
+        function createClan() {
+            const clanName = document.getElementById('clanName').value.trim();
+            const clanTag = document.getElementById('clanTag').value.trim();
+            
+            if (!clanName || !clanTag) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Заполните все поля',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
             }
+            
+            if (userData.diamonds < 50) {
+                tg.showPopup({
+                    title: '❌ Недостаточно алмазов',
+                    message: 'Нужно 50 алмазов для создания клана',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            userData.diamonds -= 50;
+            userData.clan = {
+                id: Date.now(),
+                name: clanName,
+                tag: clanTag.toUpperCase(),
+                members: [tg.initDataUnsafe.user?.id || 'user123'],
+                level: 1,
+                creator: tg.initDataUnsafe.user?.id || 'user123'
+            };
+            
+            clans.push(userData.clan);
+            
+            saveUserData();
             updateUI();
-            startAutoClicker();
-            startEnergyRecovery();
-            updateReferralLink();
-            updateVipNFTDisplay();
-            updateOnlinePlayers();
             updateClanDisplay();
-            startChatBots(); // ЗАПУСК БОТОВ В ЧАТЕ
+            
+            tg.showPopup({
+                title: '🎉 Клан создан!',
+                message: `Клан "${clanName}" [${clanTag}] успешно создан!`,
+                buttons: [{ type: 'ok' }]
+            });
         }
 
-        function updateReferralLink() {
-            const userId = tg.initDataUnsafe.user?.id || '123456789';
-            const botUsername = 'zephurium_game_bot';
-            const link = `https://t.me/${botUsername}?start=${userId}`;
-            document.getElementById('referralLink').value = link;
+        function searchClans() {
+            const searchTerm = document.getElementById('clanSearch').value.toLowerCase();
+            const clanList = document.getElementById('clanList');
+            clanList.innerHTML = '';
+            
+            const filteredClans = clans.filter(clan => 
+                clan.name.toLowerCase().includes(searchTerm) || 
+                clan.tag.toLowerCase().includes(searchTerm)
+            );
+            
+            filteredClans.forEach(clan => {
+                const clanElement = document.createElement('div');
+                clanElement.className = 'clan-item';
+                clanElement.innerHTML = `
+                    <div class="clan-name">${clan.name} [${clan.tag}]</div>
+                    <div class="clan-members">👥 Участников: ${clan.members.length} | ⭐ Уровень: ${clan.level}</div>
+                    <button onclick="joinClan(${clan.id})" style="margin-top: 8px; padding: 5px 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Вступить
+                    </button>
+                `;
+                clanList.appendChild(clanElement);
+            });
         }
 
-        // ... остальные функции без изменений ...
+        function joinClan(clanId) {
+            const clan = clans.find(c => c.id === clanId);
+            if (clan && !userData.clan) {
+                userData.clan = clan;
+                if (!clan.members.includes(tg.initDataUnsafe.user?.id || 'user123')) {
+                    clan.members.push(tg.initDataUnsafe.user?.id || 'user123');
+                }
+                saveUserData();
+                updateUI();
+                updateClanDisplay();
+                
+                tg.showPopup({
+                    title: '🎉 Успех!',
+                    message: `Вы вступили в клан "${clan.name}"!`,
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+
+        function updateClanDisplay() {
+            const myClanSection = document.getElementById('myClanSection');
+            const myClanInfo = document.getElementById('myClanInfo');
+            
+            if (userData.clan) {
+                myClanSection.style.display = 'block';
+                myClanInfo.innerHTML = `
+                    <h4>${userData.clan.name} [${userData.clan.tag}]</h4>
+                    <div>👥 Участников: ${userData.clan.members.length}</div>
+                    <div>⭐ Уровень: ${userData.clan.level}</div>
+                    <div>👑 Создатель: ${userData.clan.creator === (tg.initDataUnsafe.user?.id || 'user123') ? 'Вы' : 'Другой игрок'}</div>
+                    <button class="ad-button" onclick="leaveClan()" style="margin-top: 10px;">
+                        🚪 Покинуть клан
+                    </button>
+                `;
+            } else {
+                myClanSection.style.display = 'none';
+            }
+        }
+
+        function leaveClan() {
+            if (userData.clan) {
+                const clan = clans.find(c => c.id === userData.clan.id);
+                if (clan) {
+                    clan.members = clan.members.filter(member => member !== (tg.initDataUnsafe.user?.id || 'user123'));
+                }
+                userData.clan = null;
+                saveUserData();
+                updateUI();
+                updateClanDisplay();
+                
+                tg.showPopup({
+                    title: 'ℹ️ Информация',
+                    message: 'Вы покинули клан',
+                    buttons: [{ type: 'ok' }]
+                });
+            }
+        }
+
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        function switchLanguage() {
+            const languages = ['RU', 'ENG', 'DE'];
+            const currentLang = userData.language;
+            const currentIndex = languages.indexOf(currentLang);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            userData.language = languages[nextIndex];
+            
+            saveUserData();
+            updateUI();
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + 'Section').classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'nft') {
+                updateNFTDisplay();
+            }
+            if (tabName === 'pvp') {
+                updatePvPNFTSelection();
+            }
+            if (tabName === 'donate') {
+                updateVipNFTDisplay();
+            }
+            if (tabName === 'chat') {
+                updateChatDisplay();
+                updateOnlinePlayers();
+            }
+            if (tabName === 'clan') {
+                updateClanDisplay();
+            }
+        }
 
         // ИНИЦИАЛИЗАЦИЯ
         document.addEventListener('DOMContentLoaded', function() {
