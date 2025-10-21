@@ -881,6 +881,68 @@
             background: rgba(255, 215, 0, 0.1);
         }
         
+        /* НОВЫЕ СТИЛИ ДЛЯ ПРОМО И АДМИНКИ */
+        .promo-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .promo-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .admin-section {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff4444;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .admin-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .admin-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .admin-input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+        
+        .private-chat {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 3px solid #FFD700;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -977,6 +1039,7 @@
         
         <div class="tab-buttons">
             <button class="tab-button active" onclick="showTab('clicker')">🎮 Кликер</button>
+            <button class="tab-button" onclick="showTab('promo')">🎁 Промо</button>
             <button class="tab-button" onclick="showTab('donate')">💝 Донат</button>
             <button class="tab-button" onclick="showTab('referral')">👥 Рефы</button>
             <button class="tab-button" onclick="showTab('ads')">📺 Реклама</button>
@@ -1023,6 +1086,28 @@
                 <small>Уровень: <span id="autoClickLevel">0</span>/1000</small><br>
                 <small>+<span id="autoClickPower">0</span> монет/сек</small><br>
                 <strong>Цена: 500 монет</strong>
+            </div>
+        </div>
+        
+        <!-- НОВАЯ СЕКЦИЯ: Промо -->
+        <div class="section" id="promoSection">
+            <h3>🎁 Промокоды</h3>
+            <p>Введите промокод для получения бонусов!</p>
+            
+            <div class="promo-section">
+                <input type="text" class="promo-input" id="promoCodeInput" placeholder="Введите промокод">
+                <button class="ad-button" onclick="activatePromoCode()">
+                    🎁 Активировать промокод
+                </button>
+                
+                <div style="margin-top: 20px;">
+                    <h4>📋 Доступные промокоды:</h4>
+                    <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin: 10px 0;">
+                        <strong>Start</strong> - 3000 монет + 0.25 алмазов<br>
+                        <strong>Kirill_Volk30062001</strong> - 999,999,999 золота<br>
+                        <strong>RomaChybaka</strong> - 6000 алмазов
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -1342,11 +1427,36 @@
                 </div>
             </div>
             
-            <div class="pvp-item">
-                <h4>👥 Список игроков онлайн</h4>
-                <div id="onlinePlayers">
-                    <!-- Список игроков будет заполнен динамически -->
+            <!-- НОВЫЙ БЛОК: Админ панель -->
+            <div class="admin-section" id="adminSection" style="display: none;">
+                <h4>🔧 Админ панель</h4>
+                <p>Доступно после ввода кода доступа</p>
+                
+                <div class="admin-controls">
+                    <button class="admin-btn" onclick="adminAddCoins()">💰 +1000 монет</button>
+                    <button class="admin-btn" onclick="adminAddDiamonds()">💎 +100 алмазов</button>
+                    <button class="admin-btn" onclick="adminAddRubies()">🔴 +50 рубинов</button>
+                    <button class="admin-btn" onclick="adminResetEnergy()">⚡ Восстановить энергию</button>
+                    <button class="admin-btn" onclick="adminUnlockAllNFT()">🖼️ Разблокировать все NFT</button>
+                    <button class="admin-btn" onclick="adminMaxStats()">📈 Макс.статистика</button>
                 </div>
+                
+                <div style="margin-top: 15px;">
+                    <input type="text" class="admin-input" id="adminPlayerName" placeholder="Имя игрока для блокировки">
+                    <button class="admin-btn" onclick="adminBlockPlayer()" style="background: linear-gradient(135deg, #ff0000, #cc0000);">
+                        🚫 Заблокировать игрока
+                    </button>
+                </div>
+            </div>
+            
+            <!-- ИЗМЕНЕННЫЙ БЛОК: Вместо списка игроков - поле для ввода кода -->
+            <div class="pvp-item">
+                <h4>🔐 Код доступа</h4>
+                <input type="text" class="promo-input" id="accessCodeInput" placeholder="Введите код доступа">
+                <button class="ad-button" onclick="checkAccessCode()">
+                    🔓 Проверить код
+                </button>
+                <div id="accessCodeMessage" style="margin-top: 10px;"></div>
             </div>
         </div>
         
@@ -1456,7 +1566,10 @@
                 ],
                 private: {},
                 clan: []
-            }
+            },
+            usedPromoCodes: [],
+            isAdmin: false,
+            privateChats: {}
         };
 
         // NFT КОЛЛЕКЦИЯ
@@ -1592,6 +1705,7 @@
         let selectedClanMember = null;
         let selectedNFTForExchange = null;
         let exchangeTargetPlayer = null;
+        let currentPrivateChat = null;
 
         // TELEGRAM WEB APP
         let tg = {
@@ -1631,7 +1745,6 @@
             startEnergyRecovery();
             updateReferralLink();
             updateVipNFTDisplay();
-            updateOnlinePlayers();
             updateClanDisplay();
             startChatBots();
         }
@@ -1807,6 +1920,70 @@
                     updateUI();
                 }, interval);
             }
+        }
+
+        // НОВАЯ ФУНКЦИЯ: Активация промокода
+        function activatePromoCode() {
+            const promoCodeInput = document.getElementById('promoCodeInput');
+            const promoCode = promoCodeInput.value.trim();
+            
+            if (!promoCode) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Введите промокод',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            if (userData.usedPromoCodes.includes(promoCode)) {
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Этот промокод уже использован',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+            
+            let rewardMessage = '';
+            
+            switch(promoCode.toUpperCase()) {
+                case 'START':
+                    userData.balance += 3000;
+                    userData.diamonds += 0.25;
+                    rewardMessage = '3000 монет + 0.25 алмазов';
+                    break;
+                    
+                case 'KIRILL_VOLK30062001':
+                    userData.balance += 999999999;
+                    rewardMessage = '999,999,999 монет';
+                    break;
+                    
+                case 'ROMACHYBAKA':
+                    userData.diamonds += 6000;
+                    rewardMessage = '6000 алмазов';
+                    break;
+                    
+                default:
+                    tg.showPopup({
+                        title: '❌ Ошибка',
+                        message: 'Неверный промокод',
+                        buttons: [{ type: 'ok' }]
+                    });
+                    return;
+            }
+            
+            userData.usedPromoCodes.push(promoCode);
+            promoCodeInput.value = '';
+            
+            saveUserData();
+            updateUI();
+            
+            tg.showPopup({
+                title: '🎉 Промокод активирован!',
+                message: `Вы получили: ${rewardMessage}`,
+                buttons: [{ type: 'ok' }]
+            });
         }
 
         // ДОНАТ СИСТЕМА
@@ -2546,10 +2723,33 @@
                     messageElement.className = 'message';
                     messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
                     messageElement.onclick = function() {
-                        openInteractionMenu(msg.sender);
+                        if (msg.sender !== 'Система' && msg.sender !== 'Вы') {
+                            openInteractionMenu(msg.sender);
+                        }
                     };
                     chatMessages.appendChild(messageElement);
                 });
+            } else if (currentChatTab === 'private') {
+                // Показываем список приватных чатов
+                if (Object.keys(userData.privateChats).length === 0) {
+                    chatMessages.innerHTML = '<div class="message">💬 У вас пока нет приватных сообщений</div>';
+                } else {
+                    Object.entries(userData.privateChats).forEach(([playerName, messages]) => {
+                        const lastMessage = messages[messages.length - 1];
+                        const chatElement = document.createElement('div');
+                        chatElement.className = 'message private-chat';
+                        chatElement.innerHTML = `
+                            <strong>💬 ${playerName}</strong><br>
+                            <small>${lastMessage.text}</small>
+                        `;
+                        chatElement.onclick = function() {
+                            openPrivateChat(playerName);
+                        };
+                        chatMessages.appendChild(chatElement);
+                    });
+                }
+            } else if (currentChatTab === 'clan') {
+                chatMessages.innerHTML = '<div class="message">🏰 Клан чат пока недоступен</div>';
             }
         }
 
@@ -2574,24 +2774,55 @@
             }
         }
 
-        function updateOnlinePlayers() {
-            const onlinePlayersElement = document.getElementById('onlinePlayers');
-            onlinePlayersElement.innerHTML = '';
+        // НОВАЯ ФУНКЦИЯ: Открытие приватного чата
+        function openPrivateChat(playerName) {
+            currentPrivateChat = playerName;
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
             
-            onlinePlayers.forEach(player => {
-                const playerElement = document.createElement('div');
-                playerElement.className = 'pvp-item';
-                playerElement.style.padding = '10px';
-                playerElement.innerHTML = `
-                    <strong>${player.name}</strong> (Ур. ${player.level})
-                    <div style="margin-top: 8px;">
-                        <button onclick="openInteractionMenu('${player.name}')" style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px;">
-                            💬 Взаимодействие
-                        </button>
-                    </div>
-                `;
-                onlinePlayersElement.appendChild(playerElement);
-            });
+            // Убираем старый input если есть
+            const oldInput = document.getElementById('privateChatInput');
+            if (oldInput) {
+                oldInput.parentNode.remove();
+            }
+            
+            if (userData.privateChats[playerName]) {
+                userData.privateChats[playerName].forEach(msg => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'message private-chat';
+                    messageElement.innerHTML = `<span class="message-sender">${msg.sender}:</span> ${msg.text}`;
+                    chatMessages.appendChild(messageElement);
+                });
+            }
+            
+            // Добавляем поле для ввода сообщения в приватный чат
+            const inputContainer = document.createElement('div');
+            inputContainer.className = 'chat-input';
+            inputContainer.innerHTML = `
+                <input type="text" id="privateChatInput" placeholder="Сообщение для ${playerName}...">
+                <button class="send-button" onclick="sendPrivateChatMessage('${playerName}')">📤</button>
+            `;
+            chatMessages.parentNode.appendChild(inputContainer);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // НОВАЯ ФУНКЦИЯ: Отправка сообщения в приватный чат
+        function sendPrivateChatMessage(playerName) {
+            const input = document.getElementById('privateChatInput');
+            const message = input.value.trim();
+            
+            if (message && userData.privateChats[playerName]) {
+                userData.privateChats[playerName].push({
+                    sender: 'Вы',
+                    text: message,
+                    timestamp: Date.now()
+                });
+                
+                input.value = '';
+                openPrivateChat(playerName); // Обновляем отображение чата
+                saveUserData();
+            }
         }
 
         // НОВАЯ ФУНКЦИЯ: Открытие меню взаимодействия
@@ -2606,14 +2837,33 @@
             selectedPlayerForInteraction = null;
         }
 
+        // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Отправка приватного сообщения
         function sendPrivateMessage() {
             if (selectedPlayerForInteraction) {
+                // Создаем приватный чат с игроком
+                if (!userData.privateChats[selectedPlayerForInteraction]) {
+                    userData.privateChats[selectedPlayerForInteraction] = [];
+                }
+                
+                // Добавляем приветственное сообщение
+                userData.privateChats[selectedPlayerForInteraction].push({
+                    sender: 'Система',
+                    text: `Чат с ${selectedPlayerForInteraction} открыт!`,
+                    timestamp: Date.now()
+                });
+                
+                // Переключаемся на вкладку приватных сообщений
+                switchChatTab('private');
+                updateChatDisplay();
+                
                 tg.showPopup({
                     title: '💬 Личный чат',
-                    message: `Чат с ${selectedPlayerForInteraction} открыт!`,
+                    message: `Чат с ${selectedPlayerForInteraction} открыт! Перейдите на вкладку "ЛС" чтобы продолжить общение.`,
                     buttons: [{ type: 'ok' }]
                 });
+                
                 closeInteractionMenu();
+                saveUserData();
             }
         }
 
@@ -2760,6 +3010,136 @@
                     saveUserData();
                 }
             }, 15000);
+        }
+
+        // НОВАЯ ФУНКЦИЯ: Проверка кода доступа для админки
+        function checkAccessCode() {
+            const accessCodeInput = document.getElementById('accessCodeInput');
+            const accessCode = accessCodeInput.value.trim();
+            const messageElement = document.getElementById('accessCodeMessage');
+            
+            if (accessCode === 'RomaChybakaKirill2021') {
+                userData.isAdmin = true;
+                document.getElementById('adminSection').style.display = 'block';
+                messageElement.innerHTML = '<span style="color: #4CAF50;">✅ Доступ к админ панели разрешен!</span>';
+                accessCodeInput.value = '';
+                
+                tg.showPopup({
+                    title: '🔓 Админ доступ',
+                    message: 'Доступ к админ панели разрешен!',
+                    buttons: [{ type: 'ok' }]
+                });
+                
+                saveUserData();
+            } else {
+                messageElement.innerHTML = '<span style="color: #f44336;">❌ Неверный код доступа</span>';
+            }
+        }
+
+        // НОВЫЕ ФУНКЦИИ АДМИН ПАНЕЛИ
+        function adminAddCoins() {
+            if (!userData.isAdmin) return;
+            userData.balance += 1000;
+            saveUserData();
+            updateUI();
+            tg.showPopup({
+                title: '✅ Успех',
+                message: '+1000 монет добавлено',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        function adminAddDiamonds() {
+            if (!userData.isAdmin) return;
+            userData.diamonds += 100;
+            saveUserData();
+            updateUI();
+            tg.showPopup({
+                title: '✅ Успех',
+                message: '+100 алмазов добавлено',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        function adminAddRubies() {
+            if (!userData.isAdmin) return;
+            userData.rubies += 50;
+            saveUserData();
+            updateUI();
+            tg.showPopup({
+                title: '✅ Успех',
+                message: '+50 рубинов добавлено',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        function adminResetEnergy() {
+            if (!userData.isAdmin) return;
+            userData.energy = userData.maxEnergy;
+            saveUserData();
+            updateUI();
+            tg.showPopup({
+                title: '✅ Успех',
+                message: 'Энергия восстановлена',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        function adminUnlockAllNFT() {
+            if (!userData.isAdmin) return;
+            // Разблокируем все обычные NFT (1-60)
+            for (let i = 1; i <= 60; i++) {
+                if (!userData.nftCollection.includes(i)) {
+                    userData.nftCollection.push(i);
+                }
+            }
+            // Разблокируем все VIP NFT (101-106)
+            for (let i = 101; i <= 106; i++) {
+                if (!userData.vipNftCollection.includes(i)) {
+                    userData.vipNftCollection.push(i);
+                }
+            }
+            saveUserData();
+            updateUI();
+            updateNFTDisplay();
+            updateVipNFTDisplay();
+            tg.showPopup({
+                title: '✅ Успех',
+                message: 'Все NFT разблокированы!',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        function adminMaxStats() {
+            if (!userData.isAdmin) return;
+            userData.balance = 999999999;
+            userData.diamonds = 99999;
+            userData.rubies = 9999;
+            userData.clickPower = 1000;
+            userData.autoClickLevel = 1000;
+            userData.pvpWins = 999;
+            userData.pvpRating = 9999;
+            userData.energy = userData.maxEnergy;
+            saveUserData();
+            updateUI();
+            tg.showPopup({
+                title: '✅ Успех',
+                message: 'Максимальные характеристики установлены!',
+                buttons: [{ type: 'ok' }]
+            });
+        }
+
+        function adminBlockPlayer() {
+            if (!userData.isAdmin) return;
+            const playerName = document.getElementById('adminPlayerName').value.trim();
+            if (playerName) {
+                tg.showPopup({
+                    title: '🚫 Игрок заблокирован',
+                    message: `Игрок ${playerName} заблокирован в системе`,
+                    buttons: [{ type: 'ok' }]
+                });
+                document.getElementById('adminPlayerName').value = '';
+            }
         }
 
         // КЛАН СИСТЕМА
@@ -3048,7 +3428,6 @@
             }
             if (tabName === 'chat') {
                 updateChatDisplay();
-                updateOnlinePlayers();
             }
             if (tabName === 'clan') {
                 updateClanDisplay();
