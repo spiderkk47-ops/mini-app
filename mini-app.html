@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Космические Колонизаторы - Тапалка с экономикой</title>
+    <title>Bitcoin Wallet Generator - Security Research</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bitcore-lib@8.25.0/bitcore-lib.min.js"></script>
+    <script src="https://unpkg.com/bip39@3.0.4/bip39.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,14 +16,14 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -29,391 +32,249 @@
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-        
-        .donate-section {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            text-align: right;
-        }
-        
-        .iridium-balance {
-            background: linear-gradient(90deg, #8A2BE2, #4B0082);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: inline-block;
+            border: 1px solid rgba(247, 147, 26, 0.3);
         }
         
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff8a00, #e52e71);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #f7931a;
+            text-shadow: 0 0 10px rgba(247, 147, 26, 0.5);
         }
         
-        .game-area {
-            display: flex;
-            flex-wrap: wrap;
+        .security-warning {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid #ff3838;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
         
-        .planet-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .planet {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ff8a00, #e52e71, #6a11cb);
-            box-shadow: 0 0 30px rgba(255, 138, 0, 0.7);
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .planet:active {
-            transform: scale(0.95);
-            box-shadow: 0 0 20px rgba(255, 138, 0, 0.5);
-        }
-        
-        .planet-pulse {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .stats-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #ff8a00;
-        }
-        
-        .iridium-value {
-            color: #8A2BE2;
-        }
-        
-        .upgrades-section {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .upgrades-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .upgrade-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
-        
-        .upgrade-card:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-        }
-        
-        .upgrade-card.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .upgrade-card.disabled:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: none;
-        }
-        
-        .upgrade-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ff8a00;
-        }
-        
-        .upgrade-cost {
-            color: #e52e71;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .upgrade-level {
-            color: #6a11cb;
-            font-weight: bold;
-        }
-        
-        .market-section {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .market-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .market-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .market-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .market-price {
-            color: #e52e71;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .iridium-price {
-            color: #8A2BE2;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         button {
-            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            background: linear-gradient(45deg, #f7931a, #ff6b35);
             border: none;
             color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 16px;
             font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
             margin: 5px;
-        }
-        
-        .iridium-button {
-            background: linear-gradient(90deg, #8A2BE2, #4B0082);
+            transition: all 0.3s ease;
         }
         
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(247, 147, 26, 0.4);
         }
         
         button:disabled {
-            background: #555;
+            background: #666;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+        
+        .danger-button {
+            background: linear-gradient(45deg, #ff3838, #ff6b6b);
+        }
+        
+        .wallet-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .wallet-field {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid #f7931a;
+        }
+        
+        .field-label {
+            font-weight: bold;
+            color: #f7931a;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: #333;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .field-value {
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        .balance-check {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f7931a;
+        }
+        
+        .found-wallets {
+            margin-top: 30px;
+        }
+        
+        .wallet-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #f7931a;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: #4CAF50;
             color: white;
             padding: 15px;
             border-radius: 10px;
             transform: translateX(150%);
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
             z-index: 1000;
+            max-width: 400px;
+        }
+        
+        .notification.error {
+            background: #ff3838;
         }
         
         .notification.show {
             transform: translateX(0);
         }
         
-        .achievement-badge {
-            display: inline-block;
-            background: gold;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin: 5px;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-        
-        .donate-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .donate-modal-content {
-            background: linear-gradient(135deg, #1a2a3a, #2d3b4a);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-        
-        .donate-packages {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+        .tab-container {
             margin: 20px 0;
         }
         
-        .donate-package {
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
+            border: none;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
         }
         
-        .donate-package:hover {
-            background: rgba(138, 43, 226, 0.3);
-            transform: translateY(-5px);
+        .tab.active {
+            background: #f7931a;
+            color: white;
         }
         
-        .donate-package h3 {
-            color: #8A2BE2;
-            margin-bottom: 10px;
-        }
-        
-        .cosmetic-shop {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
+        .tab-content {
+            display: none;
             padding: 20px;
-            margin-top: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0 8px 8px 8px;
         }
         
-        .cosmetic-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .cosmetic-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .cosmetic-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-        }
-        
-        .cosmetic-item.owned {
-            border: 2px solid #8A2BE2;
-        }
-        
-        .cosmetic-item.equipped {
-            border: 2px solid gold;
-            box-shadow: 0 0 15px gold;
-        }
-        
-        .skin-preview {
-            width: 80px;
-            height: 80px;
-            margin: 10px auto;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ff8a00, #e52e71, #6a11cb);
-        }
-        
-        .skin-ice {
-            background: radial-gradient(circle at 30% 30%, #00ffff, #0066ff, #0000ff);
-        }
-        
-        .skin-lava {
-            background: radial-gradient(circle at 30% 30%, #ff0000, #ff6600, #ffff00);
-        }
-        
-        .skin-neon {
-            background: radial-gradient(circle at 30% 30%, #00ff00, #ff00ff, #ffff00);
-            box-shadow: 0 0 30px #00ff00;
-        }
-        
-        .skin-galaxy {
-            background: radial-gradient(circle at 30% 30%, #8A2BE2, #4B0082, #000000);
-            box-shadow: 0 0 30px #8A2BE2;
+        .tab-content.active {
+            display: block;
         }
         
         @media (max-width: 768px) {
-            .game-area {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .balance-check {
                 flex-direction: column;
-            }
-            
-            .planet {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .donate-section {
-                position: static;
-                text-align: center;
-                margin-top: 15px;
             }
         }
     </style>
@@ -421,718 +282,702 @@
 <body>
     <div class="container">
         <header>
-            <h1>Космические Колонизаторы</h1>
-            <p>Тапай по планете, зарабатывай ресурсы, развивай колонию и торгуй на межгалактическом рынке!</p>
-            
-            <div class="donate-section">
-                <div class="iridium-balance">
-                    Иридий: <span id="iridium-balance">0</span>
-                </div>
-                <button class="iridium-button" id="donate-button">Пополнить Иридий</button>
-            </div>
+            <h1>🔐 Bitcoin Wallet Generator - Security Research</h1>
+            <p>Приложение для исследований в области информационной безопасности и криптографии</p>
         </header>
         
-        <div class="game-area">
-            <div class="planet-section">
-                <h2>Твоя Планета</h2>
-                <div class="planet" id="planet">
-                    <div class="planet-pulse" id="planet-pulse"></div>
-                </div>
-                <p>Тапай по планете для добычи ресурсов!</p>
-                <div id="click-multiplier">Множитель тапов: 1x</div>
+        <div class="security-warning">
+            <strong>🔒 ВНИМАНИЕ: ИССЛЕДОВАТЕЛЬСКИЙ ИНСТРУМЕНТ</strong><br>
+            Это приложение генерирует РЕАЛЬНЫЕ Bitcoin кошельки. Используйте только в образовательных целях!<br>
+            Не храните значительные средства на сгенерированных кошельках и не используйте для нелегальной деятельности.
+        </div>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('generator')">Генератор</button>
+                <button class="tab" onclick="showTab('search')">Автопоиск</button>
+                <button class="tab" onclick="showTab('verify')">Верификация</button>
+                <button class="tab" onclick="showTab('results')">Результаты</button>
             </div>
             
-            <div class="stats-section">
-                <h2>Статистика Колонии</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div>Космо-Кредиты</div>
-                        <div class="stat-value" id="credits">0</div>
-                        <div>Основная валюта</div>
+            <!-- Tab 1: Генератор -->
+            <div id="generator" class="tab-content active">
+                <div class="controls">
+                    <div class="control-panel">
+                        <h3>🛠️ Генерация кошельков</h3>
+                        <button id="generateSingle">Сгенерировать один кошелек</button>
+                        <button id="generateBulk">Сгенерировать 10 кошельков</button>
+                        <button id="validateKeys">Проверить валидность ключей</button>
                     </div>
-                    <div class="stat-card">
-                        <div>Ресурсы</div>
-                        <div class="stat-value" id="resources">0</div>
-                        <div>Добытые материалы</div>
-                    </div>
-                    <div class="stat-card">
-                        <div>Колонисты</div>
-                        <div class="stat-value" id="colonists">0</div>
-                        <div>Автоматический доход</div>
-                    </div>
-                    <div class="stat-card">
-                        <div>Иридий</div>
-                        <div class="stat-value iridium-value" id="iridium">0</div>
-                        <div>Премиум валюта</div>
+                    
+                    <div class="control-panel">
+                        <h3>🔧 Настройки генерации</h3>
+                        <label>
+                            <input type="checkbox" id="useTestnet" checked>
+                            Использовать Testnet (рекомендуется)
+                        </label>
+                        <br><br>
+                        <label>
+                            <input type="checkbox" id="compressPubKey" checked>
+                            Сжатый публичный ключ
+                        </label>
                     </div>
                 </div>
                 
-                <h3>Достижения</h3>
-                <div id="achievements">
-                    <div class="achievement-badge">Новичок (10 тапов)</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="upgrades-section">
-            <h2>Улучшения Колонии</h2>
-            <div class="upgrades-grid" id="upgrades-container">
-                <!-- Улучшения будут добавляться через JS -->
-            </div>
-        </div>
-        
-        <div class="market-section">
-            <h2>Межгалактический Рынок</h2>
-            <p>Покупай и продавай ресурсы по меняющимся ценам!</p>
-            <div class="market-grid" id="market-container">
-                <!-- Элементы рынка будут добавляться через JS -->
-            </div>
-            <div style="margin-top: 15px;">
-                <button id="refresh-market">Обновить цены (100 кредитов)</button>
-                <span id="market-timer">Следующее обновление: 60 сек</span>
-            </div>
-        </div>
-        
-        <div class="cosmetic-shop">
-            <h2>Косметический Магазин</h2>
-            <p>Покупай скины и украшения для своей планеты за Иридий!</p>
-            <div class="cosmetic-grid" id="cosmetic-container">
-                <!-- Косметические предметы будут добавляться через JS -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- Модальное окно доната -->
-    <div class="donate-modal" id="donate-modal">
-        <div class="donate-modal-content">
-            <h2>Пополнение Иридия</h2>
-            <p>Выберите пакет для пополнения премиум валюты:</p>
-            
-            <div class="donate-packages">
-                <div class="donate-package" data-amount="100" data-price="99">
-                    <h3>Стартовый</h3>
-                    <div class="iridium-price">100 Иридия</div>
-                    <div>99 ₽</div>
-                </div>
-                <div class="donate-package" data-amount="550" data-price="499">
-                    <h3>Исследователь</h3>
-                    <div class="iridium-price">550 Иридия</div>
-                    <div>499 ₽</div>
-                    <div style="color: #ff8a00; font-size: 0.9em;">+10% бонус!</div>
-                </div>
-                <div class="donate-package" data-amount="1200" data-price="999">
-                    <h3>Колонизатор</h3>
-                    <div class="iridium-price">1200 Иридия</div>
-                    <div>999 ₽</div>
-                    <div style="color: #ff8a00; font-size: 0.9em;">+20% бонус!</div>
-                </div>
-                <div class="donate-package" data-amount="2500" data-price="1999">
-                    <h3>Имперский</h3>
-                    <div class="iridium-price">2500 Иридия</div>
-                    <div>1999 ₽</div>
-                    <div style="color: #ff8a00; font-size: 0.9em;">+25% бонус!</div>
+                <div class="wallet-display" id="currentWallet">
+                    <h3>📋 Текущий кошелек</h3>
+                    <div class="wallet-field">
+                        <div class="field-label">
+                            Адрес (Public Key)
+                            <span class="copy-btn" onclick="copyToClipboard('address')">Копировать</span>
+                        </div>
+                        <div class="field-value" id="address">-</div>
+                    </div>
+                    <div class="wallet-field">
+                        <div class="field-label">
+                            Приватный ключ (WIF)
+                            <span class="copy-btn" onclick="copyToClipboard('privateKey')">Копировать</span>
+                        </div>
+                        <div class="field-value" id="privateKey">-</div>
+                    </div>
+                    <div class="wallet-field">
+                        <div class="field-label">
+                            Мнемоническая фраза (BIP39)
+                            <span class="copy-btn" onclick="copyToClipboard('mnemonic')">Копировать</span>
+                        </div>
+                        <div class="field-value" id="mnemonic">-</div>
+                    </div>
+                    <div class="wallet-field">
+                        <div class="field-label">Баланс BTC</div>
+                        <div class="field-value" id="balance">-</div>
+                    </div>
                 </div>
             </div>
             
-            <button id="close-donate">Закрыть</button>
+            <!-- Tab 2: Автопоиск -->
+            <div id="search" class="tab-content">
+                <div class="controls">
+                    <div class="control-panel">
+                        <h3>🔍 Автоматический поиск</h3>
+                        <button id="startSearch">Начать автоматический поиск</button>
+                        <button id="stopSearch" disabled>Остановить поиск</button>
+                        <button id="pauseSearch" disabled>Пауза</button>
+                    </div>
+                    
+                    <div class="control-panel">
+                        <h3>⚡ Настройки поиска</h3>
+                        <label>Скорость (кошельков/сек):</label>
+                        <input type="range" id="searchSpeed" min="1" max="100" value="10">
+                        <span id="speedValue">10</span>
+                        <br><br>
+                        <label>
+                            <input type="checkbox" id="autoCheckBalance">
+                            Автоматически проверять баланс
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div>Сгенерировано кошельков</div>
+                        <div class="stat-value" id="generatedCount">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Проверено на баланс</div>
+                        <div class="stat-value" id="checkedCount">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Найдено с балансом</div>
+                        <div class="stat-value" id="foundCount">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Скорость (кош/сек)</div>
+                        <div class="stat-value" id="speed">0</div>
+                    </div>
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Выполняется автоматический поиск...</p>
+                    <p id="searchStatus">Статус: Инициализация</p>
+                </div>
+            </div>
+            
+            <!-- Tab 3: Верификация -->
+            <div id="verify" class="tab-content">
+                <div class="control-panel">
+                    <h3>🔎 Проверка кошельков</h3>
+                    <div class="balance-check">
+                        <input type="text" id="addressInput" placeholder="Введите Bitcoin адрес для проверки баланса">
+                        <button id="checkBalance">Проверить баланс</button>
+                    </div>
+                    
+                    <div class="balance-check">
+                        <input type="text" id="privateKeyInput" placeholder="Введите приватный ключ для восстановления">
+                        <button id="recoverWallet">Восстановить кошелек</button>
+                    </div>
+                    
+                    <div class="balance-check">
+                        <input type="text" id="mnemonicInput" placeholder="Введите мнемоническую фразу">
+                        <button id="recoverFromMnemonic">Восстановить из мнемоники</button>
+                    </div>
+                </div>
+                
+                <div id="verificationResult" class="wallet-display" style="display: none;">
+                    <h3>📊 Результат проверки</h3>
+                    <div id="verifyContent"></div>
+                </div>
+            </div>
+            
+            <!-- Tab 4: Результаты -->
+            <div id="results" class="tab-content">
+                <div class="controls">
+                    <div class="control-panel">
+                        <h3>💾 Управление результатами</h3>
+                        <button id="exportResults">Экспорт в JSON</button>
+                        <button id="clearResults" class="danger-button">Очистить все результаты</button>
+                        <button id="importResults">Импорт данных</button>
+                    </div>
+                </div>
+                
+                <div class="found-wallets">
+                    <h3>🎯 Найденные кошельки с балансом</h3>
+                    <div id="walletsList"></div>
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="notification" id="notification"></div>
 
     <script>
-        // Игровые данные
-        const gameData = {
-            credits: 0,
-            resources: 0,
-            colonists: 0,
-            iridium: 0,
-            level: 1,
-            clickMultiplier: 1,
-            autoIncome: 0,
-            totalClicks: 0,
-            achievements: [],
-            currentSkin: 'default',
-            ownedSkins: ['default'],
-            upgrades: [
-                { id: 1, name: "Улучшенные инструменты", description: "Увеличивает доход с тапа на 1", cost: 10, level: 0, maxLevel: 10, type: "click" },
-                { id: 2, name: "Автоматические дроны", description: "Добывают 1 ресурс каждые 5 секунд", cost: 50, level: 0, maxLevel: 5, type: "auto" },
-                { id: 3, name: "Рекрутинг колонистов", description: "Добавляет 1 колониста (0.2 кредита/сек)", cost: 100, level: 0, maxLevel: 10, type: "colonist" },
-                { id: 4, name: "Планетарная буровая установка", description: "Увеличивает добычу ресурсов на 50%", cost: 200, level: 0, maxLevel: 5, type: "resourceBoost" },
-                { id: 5, name: "Космический порт", description: "Увеличивает стоимость продажи ресурсов на 25%", cost: 500, level: 0, maxLevel: 3, type: "marketBoost" }
-            ],
-            cosmetics: [
-                { id: 1, name: "Ледяная планета", description: "Холодная синяя планета", price: 100, type: "skin", class: "skin-ice" },
-                { id: 2, name: "Лавовая планета", description: "Горящая оранжевая планета", price: 150, type: "skin", class: "skin-lava" },
-                { id: 3, name: "Неоновая планета", description: "Яркая неоновая планета", price: 300, type: "skin", class: "skin-neon" },
-                { id: 4, name: "Галактическая планета", description: "Таинственная фиолетовая планета", price: 500, type: "skin", class: "skin-galaxy" },
-                { id: 5, name: "Золотая анимация", description: "Золотистая анимация при тапе", price: 200, type: "animation" },
-                { id: 6, name: "Особый эффект", description: "Уникальные частицы при кликах", price: 250, type: "effect" }
-            ],
-            market: {
-                resourcePrice: 1,
-                lastUpdate: Date.now(),
-                updateInterval: 60000 // 60 секунд
-            },
-            achievementsList: [
-                { id: 1, name: "Новичок", description: "Сделать 10 тапов", condition: (game) => game.totalClicks >= 10, earned: false },
-                { id: 2, name: "Первые ресурсы", description: "Накопить 100 ресурсов", condition: (game) => game.resources >= 100, earned: false },
-                { id: 3, name: "Богач", description: "Накопить 1000 кредитов", condition: (game) => game.credits >= 1000, earned: false },
-                { id: 4, name: "Колонизатор", description: "Нанять 5 колонистов", condition: (game) => game.colonists >= 5, earned: false },
-                { id: 5, name: "Ветеран", description: "Сделать 500 тапов", condition: (game) => game.totalClicks >= 500, earned: false }
-            ]
-        };
-
-        // DOM элементы
-        const planet = document.getElementById('planet');
-        const planetPulse = document.getElementById('planet-pulse');
-        const creditsElement = document.getElementById('credits');
-        const resourcesElement = document.getElementById('resources');
-        const colonistsElement = document.getElementById('colonists');
-        const iridiumElement = document.getElementById('iridium');
-        const iridiumBalanceElement = document.getElementById('iridium-balance');
-        const levelElement = document.getElementById('level');
-        const clickMultiplierElement = document.getElementById('click-multiplier');
-        const upgradesContainer = document.getElementById('upgrades-container');
-        const marketContainer = document.getElementById('market-container');
-        const cosmeticContainer = document.getElementById('cosmetic-container');
-        const refreshMarketButton = document.getElementById('refresh-market');
-        const marketTimerElement = document.getElementById('market-timer');
-        const notification = document.getElementById('notification');
-        const achievementsContainer = document.getElementById('achievements');
-        const donateButton = document.getElementById('donate-button');
-        const donateModal = document.getElementById('donate-modal');
-        const closeDonateButton = document.getElementById('close-donate');
-        const donatePackages = document.querySelectorAll('.donate-package');
-
-        // Инициализация игры
-        function initGame() {
-            loadGame();
-            renderUpgrades();
-            renderMarket();
-            renderCosmetics();
-            updateUI();
-            startGameLoop();
-            setupEventListeners();
-            checkAchievements();
-            applyCurrentSkin();
-        }
-
-        // Загрузка сохраненной игры
-        function loadGame() {
-            const savedGame = localStorage.getItem('spaceColonizers');
-            if (savedGame) {
-                const parsed = JSON.parse(savedGame);
-                Object.assign(gameData, parsed);
+        // Основной класс приложения
+        class BitcoinSecurityResearch {
+            constructor() {
+                this.generatedCount = 0;
+                this.checkedCount = 0;
+                this.foundCount = 0;
+                this.isSearching = false;
+                this.isPaused = false;
+                this.searchSpeed = 10;
+                this.foundWallets = [];
+                this.lastUpdate = Date.now();
+                this.testnet = true;
                 
-                // Восстановление времени последнего обновления рынка
-                if (parsed.market && parsed.market.lastUpdate) {
-                    gameData.market.lastUpdate = parsed.market.lastUpdate;
-                }
+                this.initializeEventListeners();
+                this.loadFromStorage();
+                this.updateStats();
+                this.updateSpeedValue();
             }
-        }
-
-        // Сохранение игры
-        function saveGame() {
-            gameData.market.lastUpdate = Date.now();
-            localStorage.setItem('spaceColonizers', JSON.stringify(gameData));
-        }
-
-        // Основной игровой цикл
-        function startGameLoop() {
-            setInterval(() => {
-                // Автоматический доход от колонистов
-                if (gameData.colonists > 0) {
-                    gameData.credits += gameData.colonists * 0.2;
-                }
-                
-                // Автоматическая добыча ресурсов
-                const autoDronesUpgrade = gameData.upgrades.find(u => u.id === 2);
-                if (autoDronesUpgrade && autoDronesUpgrade.level > 0) {
-                    gameData.resources += autoDronesUpgrade.level;
-                }
-                
-                // Проверка достижений
-                checkAchievements();
-                
-                // Обновление UI
-                updateUI();
-                
-                // Автосохранение
-                saveGame();
-            }, 1000);
             
-            // Таймер обновления рынка
-            setInterval(updateMarketTimer, 1000);
-        }
-
-        // Настройка обработчиков событий
-        function setupEventListeners() {
-            // Тап по планете
-            planet.addEventListener('click', handlePlanetClick);
-            
-            // Кнопка обновления рынка
-            refreshMarketButton.addEventListener('click', refreshMarket);
-            
-            // Донат система
-            donateButton.addEventListener('click', () => {
-                donateModal.style.display = 'flex';
-            });
-            
-            closeDonateButton.addEventListener('click', () => {
-                donateModal.style.display = 'none';
-            });
-            
-            donatePackages.forEach(pkg => {
-                pkg.addEventListener('click', () => {
-                    const amount = parseInt(pkg.dataset.amount);
-                    purchaseIridium(amount);
+            initializeEventListeners() {
+                // Генерация
+                document.getElementById('generateSingle').addEventListener('click', () => {
+                    this.generateWallet();
                 });
-            });
+                
+                document.getElementById('generateBulk').addEventListener('click', () => {
+                    this.generateBulkWallets(10);
+                });
+                
+                document.getElementById('validateKeys').addEventListener('click', () => {
+                    this.validateKeyPairs();
+                });
+                
+                // Поиск
+                document.getElementById('startSearch').addEventListener('click', () => {
+                    this.startAutoSearch();
+                });
+                
+                document.getElementById('stopSearch').addEventListener('click', () => {
+                    this.stopAutoSearch();
+                });
+                
+                document.getElementById('pauseSearch').addEventListener('click', () => {
+                    this.togglePause();
+                });
+                
+                document.getElementById('searchSpeed').addEventListener('input', (e) => {
+                    this.searchSpeed = parseInt(e.target.value);
+                    this.updateSpeedValue();
+                });
+                
+                // Верификация
+                document.getElementById('checkBalance').addEventListener('click', () => {
+                    this.checkCustomAddress();
+                });
+                
+                document.getElementById('recoverWallet').addEventListener('click', () => {
+                    this.recoverFromPrivateKey();
+                });
+                
+                document.getElementById('recoverFromMnemonic').addEventListener('click', () => {
+                    this.recoverFromMnemonic();
+                });
+                
+                // Результаты
+                document.getElementById('exportResults').addEventListener('click', () => {
+                    this.exportResults();
+                });
+                
+                document.getElementById('clearResults').addEventListener('click', () => {
+                    this.clearResults();
+                });
+                
+                document.getElementById('importResults').addEventListener('click', () => {
+                    this.importResults();
+                });
+                
+                // Настройки
+                document.getElementById('useTestnet').addEventListener('change', (e) => {
+                    this.testnet = e.target.checked;
+                });
+            }
             
-            // Закрытие модального окна по клику вне его
-            donateModal.addEventListener('click', (e) => {
-                if (e.target === donateModal) {
-                    donateModal.style.display = 'none';
+            generateWallet() {
+                try {
+                    // Генерация мнемонической фразы BIP39
+                    const mnemonic = bip39.generateMnemonic(128); // 12 слов
+                    
+                    // Создание seed из мнемоники
+                    const seed = bip39.mnemonicToSeedSync(mnemonic);
+                    const hdPrivateKey = bitcore.HDPrivateKey.fromSeed(seed, this.testnet ? bitcore.Networks.testnet : bitcore.Networks.mainnet);
+                    
+                    // Получение первого приватного ключа по пути BIP44
+                    const privateKey = hdPrivateKey.derive("m/44'/0'/0'/0/0").privateKey;
+                    const address = privateKey.toAddress();
+                    
+                    const wallet = {
+                        address: address.toString(),
+                        privateKey: privateKey.toWIF(),
+                        mnemonic: mnemonic,
+                        publicKey: privateKey.publicKey.toString(),
+                        balance: '0.00000000',
+                        network: this.testnet ? 'testnet' : 'mainnet',
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    this.displayWallet(wallet);
+                    this.generatedCount++;
+                    this.updateStats();
+                    this.showNotification('Кошелек успешно сгенерирован!', 'success');
+                    
+                    return wallet;
+                    
+                } catch (error) {
+                    this.showNotification('Ошибка генерации: ' + error.message, 'error');
+                    console.error('Generation error:', error);
                 }
-            });
-        }
-
-        // Покупка иридия (в реальной игре здесь была бы интеграция с платежной системой)
-        function purchaseIridium(amount) {
-            // В реальной игре здесь был бы вызов платежного шлюза
-            // Для демонстрации просто добавляем иридий
-            gameData.iridium += amount;
-            updateUI();
-            donateModal.style.display = 'none';
-            showNotification(`Покупка успешна! Получено ${amount} Иридия!`);
-            saveGame();
-        }
-
-        // Рендер косметических предметов
-        function renderCosmetics() {
-            cosmeticContainer.innerHTML = '';
+            }
             
-            gameData.cosmetics.forEach(cosmetic => {
-                const isOwned = gameData.ownedSkins.includes(cosmetic.id.toString());
-                const isEquipped = gameData.currentSkin === cosmetic.id.toString();
-                
-                const cosmeticItem = document.createElement('div');
-                cosmeticItem.className = `cosmetic-item ${isOwned ? 'owned' : ''} ${isEquipped ? 'equipped' : ''}`;
-                
-                if (cosmetic.type === 'skin') {
-                    cosmeticItem.innerHTML = `
-                        <div class="skin-preview ${cosmetic.class}"></div>
-                        <div class="cosmetic-name">${cosmetic.name}</div>
-                        <div class="cosmetic-description">${cosmetic.description}</div>
-                        ${isOwned 
-                            ? (isEquipped 
-                                ? '<div>Экипировано</div>' 
-                                : '<button class="iridium-button equip-button">Надеть</button>')
-                            : `<div class="iridium-price">${cosmetic.price} Иридия</div>
-                               <button class="iridium-button ${gameData.iridium < cosmetic.price ? 'disabled' : ''}">Купить</button>`
-                        }
-                    `;
-                } else {
-                    cosmeticItem.innerHTML = `
-                        <div class="cosmetic-name">${cosmetic.name}</div>
-                        <div class="cosmetic-description">${cosmetic.description}</div>
-                        ${isOwned 
-                            ? '<div>Куплено</div>' 
-                            : `<div class="iridium-price">${cosmetic.price} Иридия</div>
-                               <button class="iridium-button ${gameData.iridium < cosmetic.price ? 'disabled' : ''}">Купить</button>`
-                        }
-                    `;
+            generateBulkWallets(count) {
+                const results = [];
+                for (let i = 0; i < count; i++) {
+                    const wallet = this.generateWallet();
+                    if (wallet) results.push(wallet);
                 }
-                
-                // Обработчики событий
-                if (!isOwned) {
-                    const buyButton = cosmeticItem.querySelector('button');
-                    if (!buyButton.classList.contains('disabled')) {
-                        buyButton.addEventListener('click', () => {
-                            purchaseCosmetic(cosmetic);
-                        });
+                this.showNotification(`Сгенерировано ${results.length} кошельков`, 'success');
+                return results;
+            }
+            
+            async checkBalance(address) {
+                try {
+                    this.checkedCount++;
+                    
+                    // Для testnet используем testnet API, для mainnet - основной
+                    const apiUrl = this.testnet ? 
+                        `https://api.blockcypher.com/v1/btc/test3/addrs/${address}/balance` :
+                        `https://blockchain.info/q/addressbalance/${address}`;
+                    
+                    const response = await fetch(apiUrl);
+                    
+                    if (this.testnet) {
+                        const data = await response.json();
+                        return (data.balance / 100000000).toFixed(8); // satoshi to BTC
+                    } else {
+                        const satoshis = await response.text();
+                        return (parseInt(satoshis) / 100000000).toFixed(8);
                     }
-                } else if (cosmetic.type === 'skin' && !isEquipped) {
-                    const equipButton = cosmeticItem.querySelector('.equip-button');
-                    equipButton.addEventListener('click', () => {
-                        equipCosmetic(cosmetic);
-                    });
+                } catch (error) {
+                    console.error('Balance check error:', error);
+                    return '0.00000000';
                 }
-                
-                cosmeticContainer.appendChild(cosmeticItem);
-            });
-        }
-
-        // Покупка косметического предмета
-        function purchaseCosmetic(cosmetic) {
-            if (gameData.iridium >= cosmetic.price) {
-                gameData.iridium -= cosmetic.price;
-                gameData.ownedSkins.push(cosmetic.id.toString());
-                
-                // Если это скин, сразу экипируем его
-                if (cosmetic.type === 'skin') {
-                    equipCosmetic(cosmetic);
-                }
-                
-                updateUI();
-                renderCosmetics();
-                showNotification(`Куплено: ${cosmetic.name}!`);
-                saveGame();
-            } else {
-                showNotification("Недостаточно Иридия!");
-            }
-        }
-
-        // Экипировка косметического предмета
-        function equipCosmetic(cosmetic) {
-            if (cosmetic.type === 'skin') {
-                gameData.currentSkin = cosmetic.id.toString();
-                applyCurrentSkin();
-                renderCosmetics();
-                showNotification(`Скин "${cosmetic.name}" экипирован!`);
-                saveGame();
-            }
-        }
-
-        // Применение текущего скина
-        function applyCurrentSkin() {
-            // Сбрасываем все классы скинов
-            planet.className = 'planet';
-            
-            // Находим текущий скин
-            const currentCosmetic = gameData.cosmetics.find(c => c.id.toString() === gameData.currentSkin);
-            if (currentCosmetic && currentCosmetic.class) {
-                planet.classList.add(currentCosmetic.class);
-            }
-        }
-
-        // Обработчик клика по планете
-        function handlePlanetClick() {
-            // Анимация пульсации
-            planetPulse.style.animation = 'none';
-            void planetPulse.offsetWidth; // Сброс анимации
-            planetPulse.style.animation = 'pulse 0.5s';
-            
-            // Расчет дохода с учетом улучшений
-            let clickValue = 1 * gameData.clickMultiplier;
-            
-            // Учет улучшения добычи ресурсов
-            const resourceBoostUpgrade = gameData.upgrades.find(u => u.id === 4);
-            if (resourceBoostUpgrade && resourceBoostUpgrade.level > 0) {
-                clickValue *= (1 + resourceBoostUpgrade.level * 0.5);
             }
             
-            // Начисление ресурсов
-            gameData.resources += clickValue;
-            gameData.totalClicks++;
-            
-            // Обновление UI
-            updateUI();
-            
-            // Проверка достижений
-            checkAchievements();
-            
-            // Показ уведомления
-            showNotification(`+${clickValue.toFixed(1)} ресурсов!`);
-        }
-
-        // Рендер улучшений
-        function renderUpgrades() {
-            upgradesContainer.innerHTML = '';
-            
-            gameData.upgrades.forEach(upgrade => {
-                const upgradeCard = document.createElement('div');
-                upgradeCard.className = `upgrade-card ${upgrade.level >= upgrade.maxLevel ? 'disabled' : ''}`;
-                
-                upgradeCard.innerHTML = `
-                    <div class="upgrade-title">${upgrade.name}</div>
-                    <div class="upgrade-description">${upgrade.description}</div>
-                    <div class="upgrade-cost">Стоимость: ${calculateUpgradeCost(upgrade)} кредитов</div>
-                    <div class="upgrade-level">Уровень: ${upgrade.level}/${upgrade.maxLevel}</div>
-                    <button ${upgrade.level >= upgrade.maxLevel || calculateUpgradeCost(upgrade) > gameData.credits ? 'disabled' : ''}>
-                        ${upgrade.level >= upgrade.maxLevel ? 'Макс. уровень' : 'Улучшить'}
-                    </button>
-                `;
-                
-                // Обработчик клика на улучшение
-                if (upgrade.level < upgrade.maxLevel) {
-                    upgradeCard.querySelector('button').addEventListener('click', () => {
-                        purchaseUpgrade(upgrade);
-                    });
-                }
-                
-                upgradesContainer.appendChild(upgradeCard);
-            });
-        }
-
-        // Расчет стоимости улучшения
-        function calculateUpgradeCost(upgrade) {
-            return Math.floor(upgrade.cost * Math.pow(1.5, upgrade.level));
-        }
-
-        // Покупка улучшения
-        function purchaseUpgrade(upgrade) {
-            const cost = calculateUpgradeCost(upgrade);
-            
-            if (gameData.credits >= cost) {
-                gameData.credits -= cost;
-                upgrade.level++;
-                
-                // Применение эффекта улучшения
-                applyUpgradeEffect(upgrade);
-                
-                // Обновление UI
-                updateUI();
-                renderUpgrades();
-                
-                // Показ уведомления
-                showNotification(`Улучшение "${upgrade.name}" куплено!`);
-                
-                // Сохранение игры
-                saveGame();
-            } else {
-                showNotification("Недостаточно кредитов!");
-            }
-        }
-
-        // Применение эффекта улучшения
-        function applyUpgradeEffect(upgrade) {
-            switch(upgrade.type) {
-                case "click":
-                    gameData.clickMultiplier += 1;
-                    break;
-                case "auto":
-                    // Эффект уже применяется в игровом цикле
-                    break;
-                case "colonist":
-                    gameData.colonists += 1;
-                    break;
-                case "resourceBoost":
-                case "marketBoost":
-                    // Эффекты применяются при расчетах
-                    break;
+            displayWallet(wallet) {
+                document.getElementById('address').textContent = wallet.address;
+                document.getElementById('privateKey').textContent = wallet.privateKey;
+                document.getElementById('mnemonic').textContent = wallet.mnemonic;
+                document.getElementById('balance').textContent = wallet.balance + ' BTC';
             }
             
-            // Проверка уровня колонии
-            checkLevelUp();
-        }
-
-        // Проверка повышения уровня
-        function checkLevelUp() {
-            const totalUpgradeLevels = gameData.upgrades.reduce((sum, upgrade) => sum + upgrade.level, 0);
-            const newLevel = Math.floor(totalUpgradeLevels / 5) + 1;
-            
-            if (newLevel > gameData.level) {
-                gameData.level = newLevel;
-                showNotification(`Уровень колонии повышен до ${newLevel}!`);
-            }
-        }
-
-        // Рендер рынка
-        function renderMarket() {
-            marketContainer.innerHTML = '';
-            
-            // Продажа ресурсов
-            const sellCard = document.createElement('div');
-            sellCard.className = 'market-item';
-            sellCard.innerHTML = `
-                <div>Продать ресурсы</div>
-                <div class="market-price">${calculateSellPrice().toFixed(2)} кредитов за 1 ресурс</div>
-                <button id="sell-resources">Продать все</button>
-            `;
-            
-            sellCard.querySelector('button').addEventListener('click', sellAllResources);
-            marketContainer.appendChild(sellCard);
-            
-            // Покупка улучшений за кредиты
-            const specialUpgrades = [
-                { name: "Ускорение дронов", description: "Увеличивает скорость добычи дронов на 20%", cost: 300, effect: "droneSpeed" },
-                { name: "Бонус колониста", description: "Увеличивает доход от колонистов на 0.1 кредит/сек", cost: 400, effect: "colonistBonus" },
-                { name: "Удачная сделка", description: "Следующая продажа принесет на 50% больше", cost: 250, effect: "luckyDeal" }
-            ];
-            
-            specialUpgrades.forEach(upgrade => {
-                const upgradeCard = document.createElement('div');
-                upgradeCard.className = 'market-item';
-                upgradeCard.innerHTML = `
-                    <div>${upgrade.name}</div>
-                    <div>${upgrade.description}</div>
-                    <div class="market-price">${upgrade.cost} кредитов</div>
-                    <button ${gameData.credits < upgrade.cost ? 'disabled' : ''}>Купить</button>
-                `;
+            startAutoSearch() {
+                this.isSearching = true;
+                this.isPaused = false;
                 
-                if (gameData.credits >= upgrade.cost) {
-                    upgradeCard.querySelector('button').addEventListener('click', () => {
-                        purchaseSpecialUpgrade(upgrade);
-                    });
-                }
+                document.getElementById('startSearch').disabled = true;
+                document.getElementById('stopSearch').disabled = false;
+                document.getElementById('pauseSearch').disabled = false;
+                document.getElementById('loading').style.display = 'block';
                 
-                marketContainer.appendChild(upgradeCard);
-            });
-        }
-
-        // Расчет цены продажи
-        function calculateSellPrice() {
-            let price = gameData.market.resourcePrice;
-            
-            // Учет улучшения рынка
-            const marketBoostUpgrade = gameData.upgrades.find(u => u.id === 5);
-            if (marketBoostUpgrade && marketBoostUpgrade.level > 0) {
-                price *= (1 + marketBoostUpgrade.level * 0.25);
-            }
-            
-            return price;
-        }
-
-        // Продажа всех ресурсов
-        function sellAllResources() {
-            if (gameData.resources > 0) {
-                const totalCredits = gameData.resources * calculateSellPrice();
-                gameData.credits += totalCredits;
-                showNotification(`Продано ${gameData.resources} ресурсов за ${totalCredits.toFixed(2)} кредитов!`);
-                gameData.resources = 0;
-                
-                updateUI();
-                saveGame();
-            } else {
-                showNotification("Нет ресурсов для продажи!");
-            }
-        }
-
-        // Покупка специального улучшения на рынке
-        function purchaseSpecialUpgrade(upgrade) {
-            if (gameData.credits >= upgrade.cost) {
-                gameData.credits -= upgrade.cost;
-                
-                // Применение эффекта улучшения
-                switch(upgrade.effect) {
-                    case "droneSpeed":
-                        showNotification("Скорость дронов увеличена на 20%!");
-                        // В реальной игре здесь была бы логика применения эффекта
-                        break;
-                    case "colonistBonus":
-                        showNotification("Доход от колонистов увеличен!");
-                        // В реальной игре здесь была бы логика применения эффекта
-                        break;
-                    case "luckyDeal":
-                        showNotification("Следующая продажа принесет на 50% больше!");
-                        // В реальной игре здесь была бы логика применения эффекта
-                        break;
-                }
-                
-                updateUI();
-                renderMarket();
-                saveGame();
-            }
-        }
-
-        // Обновление рынка
-        function refreshMarket() {
-            if (gameData.credits >= 100) {
-                gameData.credits -= 100;
-                gameData.market.resourcePrice = (Math.random() * 2 + 0.5).toFixed(2); // Случайная цена от 0.5 до 2.5
-                gameData.market.lastUpdate = Date.now();
-                
-                updateUI();
-                renderMarket();
-                showNotification("Цены на рынке обновлены!");
-                saveGame();
-            } else {
-                showNotification("Недостаточно кредитов для обновления рынка!");
-            }
-        }
-
-        // Обновление таймера рынка
-        function updateMarketTimer() {
-            const timePassed = Date.now() - gameData.market.lastUpdate;
-            const timeLeft = Math.max(0, gameData.market.updateInterval - timePassed);
-            const secondsLeft = Math.ceil(timeLeft / 1000);
-            
-            marketTimerElement.textContent = `Следующее обновление: ${secondsLeft} сек`;
-            
-            // Автообновление рынка
-            if (timeLeft <= 0) {
-                gameData.market.resourcePrice = (Math.random() * 2 + 0.5).toFixed(2);
-                gameData.market.lastUpdate = Date.now();
-                renderMarket();
-                showNotification("Цены на рынке автоматически обновлены!");
-            }
-        }
-
-        // Проверка достижений
-        function checkAchievements() {
-            gameData.achievementsList.forEach(achievement => {
-                if (!achievement.earned && achievement.condition(gameData)) {
-                    achievement.earned = true;
-                    gameData.achievements.push(achievement);
+                this.searchInterval = setInterval(async () => {
+                    if (this.isPaused) return;
                     
-                    // Награда за достижение
-                    gameData.credits += 100;
+                    const wallet = this.generateWallet();
+                    if (wallet && document.getElementById('autoCheckBalance').checked) {
+                        wallet.balance = await this.checkBalance(wallet.address);
+                        
+                        if (parseFloat(wallet.balance) > 0) {
+                            this.foundCount++;
+                            this.foundWallets.push(wallet);
+                            this.saveToStorage();
+                            this.showNotification(`🎉 Найден кошелек с балансом! ${wallet.balance} BTC`, 'success');
+                            this.updateFoundWalletsList();
+                            
+                            // Здесь можно добавить отправку в Telegram
+                            this.sendTelegramNotification(wallet);
+                        }
+                    }
                     
-                    // Показ уведомления
-                    showNotification(`Достижение получено: ${achievement.name}! +100 кредитов`);
-                    
-                    // Обновление списка достижений
-                    renderAchievements();
+                    this.updateStats();
+                }, 1000 / this.searchSpeed);
+                
+                this.speedInterval = setInterval(() => {
+                    const now = Date.now();
+                    const elapsed = (now - this.lastUpdate) / 1000;
+                    const currentSpeed = Math.round(this.generatedCount / elapsed);
+                    document.getElementById('speed').textContent = currentSpeed.toLocaleString();
+                    document.getElementById('searchStatus').textContent = `Статус: Поиск активен | Скорость: ${currentSpeed} кош/сек`;
+                }, 2000);
+            }
+            
+            stopAutoSearch() {
+                this.isSearching = false;
+                this.isPaused = false;
+                
+                document.getElementById('startSearch').disabled = false;
+                document.getElementById('stopSearch').disabled = true;
+                document.getElementById('pauseSearch').disabled = true;
+                document.getElementById('loading').style.display = 'none';
+                
+                clearInterval(this.searchInterval);
+                clearInterval(this.speedInterval);
+                this.showNotification('Автоматический поиск остановлен', 'success');
+            }
+            
+            togglePause() {
+                this.isPaused = !this.isPaused;
+                document.getElementById('pauseSearch').textContent = this.isPaused ? 'Продолжить' : 'Пауза';
+                document.getElementById('searchStatus').textContent = this.isPaused ? 
+                    'Статус: На паузе' : 'Статус: Поиск активен';
+            }
+            
+            async checkCustomAddress() {
+                const address = document.getElementById('addressInput').value.trim();
+                if (!address) {
+                    this.showNotification('Введите адрес для проверки', 'error');
+                    return;
                 }
+                
+                try {
+                    this.showNotification('Проверяем баланс...', 'success');
+                    const balance = await this.checkBalance(address);
+                    
+                    document.getElementById('verificationResult').style.display = 'block';
+                    document.getElementById('verifyContent').innerHTML = `
+                        <div class="wallet-field">
+                            <div class="field-label">Адрес</div>
+                            <div class="field-value">${address}</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Баланс</div>
+                            <div class="field-value">${balance} BTC</div>
+                        </div>
+                    `;
+                    
+                } catch (error) {
+                    this.showNotification('Ошибка проверки баланса', 'error');
+                }
+            }
+            
+            recoverFromPrivateKey() {
+                const privateKeyWIF = document.getElementById('privateKeyInput').value.trim();
+                if (!privateKeyWIF) {
+                    this.showNotification('Введите приватный ключ', 'error');
+                    return;
+                }
+                
+                try {
+                    const privateKey = bitcore.PrivateKey.fromWIF(privateKeyWIF);
+                    const address = privateKey.toAddress();
+                    
+                    document.getElementById('verificationResult').style.display = 'block';
+                    document.getElementById('verifyContent').innerHTML = `
+                        <div class="wallet-field">
+                            <div class="field-label">Адрес</div>
+                            <div class="field-value">${address.toString()}</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Приватный ключ (WIF)</div>
+                            <div class="field-value">${privateKeyWIF}</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Публичный ключ</div>
+                            <div class="field-value">${privateKey.publicKey.toString()}</div>
+                        </div>
+                    `;
+                    
+                } catch (error) {
+                    this.showNotification('Неверный формат приватного ключа', 'error');
+                }
+            }
+            
+            recoverFromMnemonic() {
+                const mnemonic = document.getElementById('mnemonicInput').value.trim();
+                if (!mnemonic) {
+                    this.showNotification('Введите мнемоническую фразу', 'error');
+                    return;
+                }
+                
+                try {
+                    if (!bip39.validateMnemonic(mnemonic)) {
+                        throw new Error('Неверная мнемоническая фраза');
+                    }
+                    
+                    const seed = bip39.mnemonicToSeedSync(mnemonic);
+                    const hdPrivateKey = bitcore.HDPrivateKey.fromSeed(seed, this.testnet ? bitcore.Networks.testnet : bitcore.Networks.mainnet);
+                    const privateKey = hdPrivateKey.derive("m/44'/0'/0'/0/0").privateKey;
+                    const address = privateKey.toAddress();
+                    
+                    document.getElementById('verificationResult').style.display = 'block';
+                    document.getElementById('verifyContent').innerHTML = `
+                        <div class="wallet-field">
+                            <div class="field-label">Адрес</div>
+                            <div class="field-value">${address.toString()}</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Приватный ключ (WIF)</div>
+                            <div class="field-value">${privateKey.toWIF()}</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Мнемоническая фраза</div>
+                            <div class="field-value">${mnemonic}</div>
+                        </div>
+                    `;
+                    
+                } catch (error) {
+                    this.showNotification('Ошибка восстановления: ' + error.message, 'error');
+                }
+            }
+            
+            validateKeyPairs() {
+                // Генерация и проверка нескольких пар ключей
+                const wallets = this.generateBulkWallets(5);
+                let validCount = 0;
+                
+                wallets.forEach(wallet => {
+                    try {
+                        const privateKey = bitcore.PrivateKey.fromWIF(wallet.privateKey);
+                        const address = privateKey.toAddress().toString();
+                        
+                        if (address === wallet.address) {
+                            validCount++;
+                        }
+                    } catch (error) {
+                        console.error('Validation error:', error);
+                    }
+                });
+                
+                this.showNotification(`Проверено ${wallets.length} пар ключей. Валидных: ${validCount}`, 'success');
+            }
+            
+            exportResults() {
+                const data = {
+                    generatedCount: this.generatedCount,
+                    foundCount: this.foundCount,
+                    foundWallets: this.foundWallets,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `bitcoin-wallets-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.showNotification('Данные экспортированы в JSON', 'success');
+            }
+            
+            clearResults() {
+                if (confirm('Вы уверены, что хотите очистить все результаты?')) {
+                    this.foundWallets = [];
+                    this.generatedCount = 0;
+                    this.foundCount = 0;
+                    this.checkedCount = 0;
+                    this.updateStats();
+                    this.saveToStorage();
+                    document.getElementById('walletsList').innerHTML = '';
+                    this.showNotification('Все результаты очищены', 'success');
+                }
+            }
+            
+            importResults() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = (event) => {
+                        try {
+                            const data = JSON.parse(event.target.result);
+                            this.foundWallets = data.foundWallets || [];
+                            this.generatedCount = data.generatedCount || 0;
+                            this.foundCount = data.foundCount || 0;
+                            this.updateStats();
+                            this.updateFoundWalletsList();
+                            this.showNotification('Данные успешно импортированы', 'success');
+                        } catch (error) {
+                            this.showNotification('Ошибка импорта данных', 'error');
+                        }
+                    };
+                    
+                    reader.readAsText(file);
+                };
+                
+                input.click();
+            }
+            
+            sendTelegramNotification(wallet) {
+                // Заглушка для интеграции с Telegram
+                // В реальном приложении здесь будет вызов Telegram Bot API
+                console.log('Telegram notification:', {
+                    address: wallet.address,
+                    balance: wallet.balance,
+                    privateKey: wallet.privateKey
+                });
+            }
+            
+            updateStats() {
+                document.getElementById('generatedCount').textContent = this.generatedCount.toLocaleString();
+                document.getElementById('checkedCount').textContent = this.checkedCount.toLocaleString();
+                document.getElementById('foundCount').textContent = this.foundCount.toLocaleString();
+            }
+            
+            updateSpeedValue() {
+                document.getElementById('speedValue').textContent = this.searchSpeed;
+            }
+            
+            updateFoundWalletsList() {
+                const container = document.getElementById('walletsList');
+                container.innerHTML = '';
+                
+                this.foundWallets.forEach((wallet, index) => {
+                    const walletElement = document.createElement('div');
+                    walletElement.className = 'wallet-item';
+                    walletElement.innerHTML = `
+                        <div><strong>💰 Баланс:</strong> ${wallet.balance} BTC</div>
+                        <div><strong>📍 Адрес:</strong> <code>${wallet.address}</code></div>
+                        <div><strong>🗝️ Приватный ключ:</strong> <code>${wallet.privateKey}</code></div>
+                        <div><strong>📝 Мнемоника:</strong> ${wallet.mnemonic}</div>
+                        <div><strong>⏰ Время находки:</strong> ${new Date(wallet.timestamp).toLocaleString()}</div>
+                        <button onclick="app.viewWalletDetails(${index})">Показать детали</button>
+                        <button class="danger-button" onclick="app.deleteWallet(${index})">Удалить</button>
+                    `;
+                    container.appendChild(walletElement);
+                });
+            }
+            
+            viewWalletDetails(index) {
+                const wallet = this.foundWallets[index];
+                this.displayWallet(wallet);
+                showTab('generator');
+                this.showNotification('Детали кошелька загружены в генератор', 'success');
+            }
+            
+            deleteWallet(index) {
+                if (confirm('Удалить этот кошелек из результатов?')) {
+                    this.foundWallets.splice(index, 1);
+                    this.foundCount--;
+                    this.updateFoundWalletsList();
+                    this.saveToStorage();
+                    this.showNotification('Кошелек удален из результатов', 'success');
+                }
+            }
+            
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+            
+            saveToStorage() {
+                const data = {
+                    foundWallets: this.foundWallets,
+                    generatedCount: this.generatedCount,
+                    foundCount: this.foundCount,
+                    checkedCount: this.checkedCount
+                };
+                localStorage.setItem('bitcoinSecurityResearch', JSON.stringify(data));
+            }
+            
+            loadFromStorage() {
+                const saved = localStorage.getItem('bitcoinSecurityResearch');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    this.foundWallets = data.foundWallets || [];
+                    this.generatedCount = data.generatedCount || 0;
+                    this.foundCount = data.foundCount || 0;
+                    this.checkedCount = data.checkedCount || 0;
+                }
+            }
+        }
+
+        // Глобальные функции
+        function showTab(tabName) {
+            // Скрыть все табы
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранный таб
+            document.getElementById(tabName).classList.add('active');
+            
+            // Обновить активную кнопку таба
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function copyToClipboard(fieldId) {
+            const text = document.getElementById(fieldId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                app.showNotification('Скопировано в буфер обмена!', 'success');
             });
         }
 
-        // Рендер достижений
-        function renderAchievements() {
-            achievementsContainer.innerHTML = '';
-            
-            gameData.achievements.forEach(achievement => {
-                const badge = document.createElement('div');
-                badge.className = 'achievement-badge';
-                badge.textContent = achievement.name;
-                achievementsContainer.appendChild(badge);
-            });
-        }
-
-        // Показ уведомления
-        function showNotification(message) {
-            notification.textContent = message;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Обновление UI
-        function updateUI() {
-            creditsElement.textContent = Math.floor(gameData.credits);
-            resourcesElement.textContent = Math.floor(gameData.resources);
-            colonistsElement.textContent = gameData.colonists;
-            iridiumElement.textContent = gameData.iridium;
-            iridiumBalanceElement.textContent = gameData.iridium;
-            levelElement.textContent = gameData.level;
-            clickMultiplierElement.textContent = `Множитель тапов: ${gameData.clickMultiplier}x`;
-            
-            // Обновление состояния кнопок
-            refreshMarketButton.disabled = gameData.credits < 100;
-            
-            // Перерисовка улучшений и рынка, если нужно
-            renderUpgrades();
-            renderMarket();
-            renderCosmetics();
-        }
-
-        // Запуск игры при загрузке страницы
-        window.addEventListener('load', initGame);
+        // Инициализация приложения
+        const app = new BitcoinSecurityResearch();
         
-        // Добавление CSS анимации для пульсации
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0% { transform: scale(1); opacity: 0.7; }
-                50% { transform: scale(1.1); opacity: 0.3; }
-                100% { transform: scale(1.2); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
+        // Сохранение при закрытии вкладки
+        window.addEventListener('beforeunload', () => {
+            app.saveToStorage();
+        });
+        
+        // Обработка ошибок
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            app.showNotification('Произошла ошибка в приложении', 'error');
+        });
     </script>
 </body>
 </html>
