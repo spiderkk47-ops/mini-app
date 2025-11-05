@@ -3,388 +3,1136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitcoin Wallet Generator</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Космические Колонизаторы - Тапалка с экономикой</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh; padding: 20px; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
-        .container { max-width: 100%; margin: 0 auto; }
-        .header { text-align: center; color: white; margin-bottom: 20px; }
-        .header h1 { font-size: 1.8rem; margin-bottom: 10px; }
-        .control-panel { 
-            background: white; padding: 20px; border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 15px;
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
         }
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; border: none; padding: 12px 20px; border-radius: 8px;
-            font-size: 1rem; cursor: pointer; transition: all 0.3s ease; width: 100%;
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .donate-section {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+        
+        .iridium-balance {
+            background: linear-gradient(90deg, #8A2BE2, #4B0082);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
             margin-bottom: 10px;
+            display: inline-block;
         }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:disabled { background: #cccccc; cursor: not-allowed; transform: none; }
-        .btn-stop { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
-        .status {
-            text-align: center; padding: 12px; border-radius: 8px; margin: 10px 0;
-            font-weight: bold; font-size: 0.9rem;
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        .status-active { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .status-inactive { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        
+        .game-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .planet-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .planet {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff8a00, #e52e71, #6a11cb);
+            box-shadow: 0 0 30px rgba(255, 138, 0, 0.7);
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .planet:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 20px rgba(255, 138, 0, 0.5);
+        }
+        
+        .planet-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .stats-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
         .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
         }
+        
         .stat-card {
-            background: #f8f9fa; padding: 12px; border-radius: 8px; text-align: center;
-            border-left: 4px solid #667eea;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
         }
-        .stat-number { font-size: 1.4rem; font-weight: bold; color: #667eea; }
-        .stat-label { font-size: 0.8rem; color: #666; margin-top: 3px; }
-        .wallets-container {
-            background: white; padding: 20px; border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-height: 400px; overflow-y: auto;
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ff8a00;
         }
-        .wallet-item {
-            background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px;
-            padding: 15px; margin-bottom: 10px; font-size: 0.8rem;
+        
+        .iridium-value {
+            color: #8A2BE2;
         }
-        .wallet-item.with-balance {
-            border-left: 4px solid #28a745; background: #d4edda;
+        
+        .upgrades-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        .wallet-address { font-family: monospace; word-break: break-all; margin-bottom: 5px; }
-        .wallet-balance { font-weight: bold; color: #28a745; margin-bottom: 5px; }
+        
+        .upgrades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .upgrade-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .upgrade-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .upgrade-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .upgrade-card.disabled:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: none;
+        }
+        
+        .upgrade-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff8a00;
+        }
+        
+        .upgrade-cost {
+            color: #e52e71;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .upgrade-level {
+            color: #6a11cb;
+            font-weight: bold;
+        }
+        
+        .market-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .market-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .market-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .market-price {
+            color: #e52e71;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .iridium-price {
+            color: #8A2BE2;
+        }
+        
+        button {
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 5px;
+        }
+        
+        .iridium-button {
+            background: linear-gradient(90deg, #8A2BE2, #4B0082);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
         .notification {
-            position: fixed; top: 10px; right: 10px; background: #28a745; color: white;
-            padding: 10px 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .achievement-badge {
+            display: inline-block;
+            background: gold;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin: 5px;
+            font-weight: bold;
             font-size: 0.8rem;
         }
-        .notification.show { transform: translateX(0); }
-        .loading { text-align: center; padding: 15px; }
-        .spinner {
-            border: 3px solid #f3f3f3; border-top: 3px solid #667eea; border-radius: 50%;
-            width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 8px;
+        
+        .donate-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }
+        
+        .donate-modal-content {
+            background: linear-gradient(135deg, #1a2a3a, #2d3b4a);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
         }
-        h2 { color: #333; margin-bottom: 15px; font-size: 1.2rem; }
-        .close-btn { 
-            background: #6c757d; margin-top: 10px; font-size: 0.9rem; padding: 8px 15px;
+        
+        .donate-packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .donate-package {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .donate-package:hover {
+            background: rgba(138, 43, 226, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .donate-package h3 {
+            color: #8A2BE2;
+            margin-bottom: 10px;
+        }
+        
+        .cosmetic-shop {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cosmetic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .cosmetic-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cosmetic-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .cosmetic-item.owned {
+            border: 2px solid #8A2BE2;
+        }
+        
+        .cosmetic-item.equipped {
+            border: 2px solid gold;
+            box-shadow: 0 0 15px gold;
+        }
+        
+        .skin-preview {
+            width: 80px;
+            height: 80px;
+            margin: 10px auto;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff8a00, #e52e71, #6a11cb);
+        }
+        
+        .skin-ice {
+            background: radial-gradient(circle at 30% 30%, #00ffff, #0066ff, #0000ff);
+        }
+        
+        .skin-lava {
+            background: radial-gradient(circle at 30% 30%, #ff0000, #ff6600, #ffff00);
+        }
+        
+        .skin-neon {
+            background: radial-gradient(circle at 30% 30%, #00ff00, #ff00ff, #ffff00);
+            box-shadow: 0 0 30px #00ff00;
+        }
+        
+        .skin-galaxy {
+            background: radial-gradient(circle at 30% 30%, #8A2BE2, #4B0082, #000000);
+            box-shadow: 0 0 30px #8A2BE2;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            .planet {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .donate-section {
+                position: static;
+                text-align: center;
+                margin-top: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🚀 Bitcoin Wallet Generator</h1>
-            <p>Встроенное приложение в Telegram</p>
-        </div>
-
-        <div class="control-panel">
-            <h2>⚙️ Управление генерацией</h2>
-            <button class="btn" id="startBtn" onclick="startGeneration()">
-                🚀 Запустить генерацию
-            </button>
-            <button class="btn btn-stop" id="stopBtn" onclick="stopGeneration()" disabled>
-                ⏹️ Остановить генерацию
-            </button>
+        <header>
+            <h1>Космические Колонизаторы</h1>
+            <p>Тапай по планете, зарабатывай ресурсы, развивай колонию и торгуй на межгалактическом рынке!</p>
             
-            <div id="status" class="status status-inactive">
-                🔴 Генерация остановлена
+            <div class="donate-section">
+                <div class="iridium-balance">
+                    Иридий: <span id="iridium-balance">0</span>
+                </div>
+                <button class="iridium-button" id="donate-button">Пополнить Иридий</button>
             </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="walletsGenerated">0</div>
-                    <div class="stat-label">Сгенерировано</div>
+        </header>
+        
+        <div class="game-area">
+            <div class="planet-section">
+                <h2>Твоя Планета</h2>
+                <div class="planet" id="planet">
+                    <div class="planet-pulse" id="planet-pulse"></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="walletsWithBalance">0</div>
-                    <div class="stat-label">С балансом</div>
+                <p>Тапай по планете для добычи ресурсов!</p>
+                <div id="click-multiplier">Множитель тапов: 1x</div>
+            </div>
+            
+            <div class="stats-section">
+                <h2>Статистика Колонии</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div>Космо-Кредиты</div>
+                        <div class="stat-value" id="credits">0</div>
+                        <div>Основная валюта</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Ресурсы</div>
+                        <div class="stat-value" id="resources">0</div>
+                        <div>Добытые материалы</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Колонисты</div>
+                        <div class="stat-value" id="colonists">0</div>
+                        <div>Автоматический доход</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Иридий</div>
+                        <div class="stat-value iridium-value" id="iridium">0</div>
+                        <div>Премиум валюта</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="generationSpeed">0</div>
-                    <div class="stat-label">Кошельков/мин</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="sessionTime">0:00</div>
-                    <div class="stat-label">Время работы</div>
+                
+                <h3>Достижения</h3>
+                <div id="achievements">
+                    <div class="achievement-badge">Новичок (10 тапов)</div>
                 </div>
             </div>
         </div>
-
-        <div class="wallets-container">
-            <h2>👛 Последние кошельки</h2>
-            <div id="walletsList">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Ожидание генерации кошельков...</p>
-                </div>
+        
+        <div class="upgrades-section">
+            <h2>Улучшения Колонии</h2>
+            <div class="upgrades-grid" id="upgrades-container">
+                <!-- Улучшения будут добавляться через JS -->
             </div>
         </div>
-
-        <button class="btn close-btn" onclick="closeApp()">
-            ✖️ Закрыть приложение
-        </button>
+        
+        <div class="market-section">
+            <h2>Межгалактический Рынок</h2>
+            <p>Покупай и продавай ресурсы по меняющимся ценам!</p>
+            <div class="market-grid" id="market-container">
+                <!-- Элементы рынка будут добавляться через JS -->
+            </div>
+            <div style="margin-top: 15px;">
+                <button id="refresh-market">Обновить цены (100 кредитов)</button>
+                <span id="market-timer">Следующее обновление: 60 сек</span>
+            </div>
+        </div>
+        
+        <div class="cosmetic-shop">
+            <h2>Косметический Магазин</h2>
+            <p>Покупай скины и украшения для своей планеты за Иридий!</p>
+            <div class="cosmetic-grid" id="cosmetic-container">
+                <!-- Косметические предметы будут добавляться через JS -->
+            </div>
+        </div>
     </div>
-
-    <div id="notification" class="notification">
-        🎉 Найден кошелек с балансом!
+    
+    <!-- Модальное окно доната -->
+    <div class="donate-modal" id="donate-modal">
+        <div class="donate-modal-content">
+            <h2>Пополнение Иридия</h2>
+            <p>Выберите пакет для пополнения премиум валюты:</p>
+            
+            <div class="donate-packages">
+                <div class="donate-package" data-amount="100" data-price="99">
+                    <h3>Стартовый</h3>
+                    <div class="iridium-price">100 Иридия</div>
+                    <div>99 ₽</div>
+                </div>
+                <div class="donate-package" data-amount="550" data-price="499">
+                    <h3>Исследователь</h3>
+                    <div class="iridium-price">550 Иридия</div>
+                    <div>499 ₽</div>
+                    <div style="color: #ff8a00; font-size: 0.9em;">+10% бонус!</div>
+                </div>
+                <div class="donate-package" data-amount="1200" data-price="999">
+                    <h3>Колонизатор</h3>
+                    <div class="iridium-price">1200 Иридия</div>
+                    <div>999 ₽</div>
+                    <div style="color: #ff8a00; font-size: 0.9em;">+20% бонус!</div>
+                </div>
+                <div class="donate-package" data-amount="2500" data-price="1999">
+                    <h3>Имперский</h3>
+                    <div class="iridium-price">2500 Иридия</div>
+                    <div>1999 ₽</div>
+                    <div style="color: #ff8a00; font-size: 0.9em;">+25% бонус!</div>
+                </div>
+            </div>
+            
+            <button id="close-donate">Закрыть</button>
+        </div>
     </div>
+    
+    <div class="notification" id="notification"></div>
 
     <script>
-        // Инициализация Telegram Web App
-        let tg = window.Telegram.WebApp;
-        
-        // Расширяем на всё окно
-        tg.expand();
-        
-        // Получаем данные пользователя из Telegram
-        const user = tg.initDataUnsafe?.user;
-        const userId = user?.id || getUrlParameter('user_id') || 'telegram_user';
-        
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        // Игровые данные
+        const gameData = {
+            credits: 0,
+            resources: 0,
+            colonists: 0,
+            iridium: 0,
+            level: 1,
+            clickMultiplier: 1,
+            autoIncome: 0,
+            totalClicks: 0,
+            achievements: [],
+            currentSkin: 'default',
+            ownedSkins: ['default'],
+            upgrades: [
+                { id: 1, name: "Улучшенные инструменты", description: "Увеличивает доход с тапа на 1", cost: 10, level: 0, maxLevel: 10, type: "click" },
+                { id: 2, name: "Автоматические дроны", description: "Добывают 1 ресурс каждые 5 секунд", cost: 50, level: 0, maxLevel: 5, type: "auto" },
+                { id: 3, name: "Рекрутинг колонистов", description: "Добавляет 1 колониста (0.2 кредита/сек)", cost: 100, level: 0, maxLevel: 10, type: "colonist" },
+                { id: 4, name: "Планетарная буровая установка", description: "Увеличивает добычу ресурсов на 50%", cost: 200, level: 0, maxLevel: 5, type: "resourceBoost" },
+                { id: 5, name: "Космический порт", description: "Увеличивает стоимость продажи ресурсов на 25%", cost: 500, level: 0, maxLevel: 3, type: "marketBoost" }
+            ],
+            cosmetics: [
+                { id: 1, name: "Ледяная планета", description: "Холодная синяя планета", price: 100, type: "skin", class: "skin-ice" },
+                { id: 2, name: "Лавовая планета", description: "Горящая оранжевая планета", price: 150, type: "skin", class: "skin-lava" },
+                { id: 3, name: "Неоновая планета", description: "Яркая неоновая планета", price: 300, type: "skin", class: "skin-neon" },
+                { id: 4, name: "Галактическая планета", description: "Таинственная фиолетовая планета", price: 500, type: "skin", class: "skin-galaxy" },
+                { id: 5, name: "Золотая анимация", description: "Золотистая анимация при тапе", price: 200, type: "animation" },
+                { id: 6, name: "Особый эффект", description: "Уникальные частицы при кликах", price: 250, type: "effect" }
+            ],
+            market: {
+                resourcePrice: 1,
+                lastUpdate: Date.now(),
+                updateInterval: 60000 // 60 секунд
+            },
+            achievementsList: [
+                { id: 1, name: "Новичок", description: "Сделать 10 тапов", condition: (game) => game.totalClicks >= 10, earned: false },
+                { id: 2, name: "Первые ресурсы", description: "Накопить 100 ресурсов", condition: (game) => game.resources >= 100, earned: false },
+                { id: 3, name: "Богач", description: "Накопить 1000 кредитов", condition: (game) => game.credits >= 1000, earned: false },
+                { id: 4, name: "Колонизатор", description: "Нанять 5 колонистов", condition: (game) => game.colonists >= 5, earned: false },
+                { id: 5, name: "Ветеран", description: "Сделать 500 тапов", condition: (game) => game.totalClicks >= 500, earned: false }
+            ]
+        };
+
+        // DOM элементы
+        const planet = document.getElementById('planet');
+        const planetPulse = document.getElementById('planet-pulse');
+        const creditsElement = document.getElementById('credits');
+        const resourcesElement = document.getElementById('resources');
+        const colonistsElement = document.getElementById('colonists');
+        const iridiumElement = document.getElementById('iridium');
+        const iridiumBalanceElement = document.getElementById('iridium-balance');
+        const levelElement = document.getElementById('level');
+        const clickMultiplierElement = document.getElementById('click-multiplier');
+        const upgradesContainer = document.getElementById('upgrades-container');
+        const marketContainer = document.getElementById('market-container');
+        const cosmeticContainer = document.getElementById('cosmetic-container');
+        const refreshMarketButton = document.getElementById('refresh-market');
+        const marketTimerElement = document.getElementById('market-timer');
+        const notification = document.getElementById('notification');
+        const achievementsContainer = document.getElementById('achievements');
+        const donateButton = document.getElementById('donate-button');
+        const donateModal = document.getElementById('donate-modal');
+        const closeDonateButton = document.getElementById('close-donate');
+        const donatePackages = document.querySelectorAll('.donate-package');
+
+        // Инициализация игры
+        function initGame() {
+            loadGame();
+            renderUpgrades();
+            renderMarket();
+            renderCosmetics();
+            updateUI();
+            startGameLoop();
+            setupEventListeners();
+            checkAchievements();
+            applyCurrentSkin();
         }
 
-        class WalletGeneratorApp {
-            constructor() {
-                this.isGenerating = false;
-                this.walletsGenerated = 0;
-                this.walletsWithBalance = 0;
-                this.sessionStartTime = null;
-                this.lastWallets = [];
-                this.generationInterval = null;
-                this.userId = userId;
+        // Загрузка сохраненной игры
+        function loadGame() {
+            const savedGame = localStorage.getItem('spaceColonizers');
+            if (savedGame) {
+                const parsed = JSON.parse(savedGame);
+                Object.assign(gameData, parsed);
                 
-                this.initializeApp();
-            }
-
-            initializeApp() {
-                this.loadFromStorage();
-                this.updateDisplay();
-                
-                // Показываем информацию о пользователе
-                if (user) {
-                    console.log('Telegram user:', user);
+                // Восстановление времени последнего обновления рынка
+                if (parsed.market && parsed.market.lastUpdate) {
+                    gameData.market.lastUpdate = parsed.market.lastUpdate;
                 }
             }
+        }
 
-            startGeneration() {
-                if (this.isGenerating) return;
+        // Сохранение игры
+        function saveGame() {
+            gameData.market.lastUpdate = Date.now();
+            localStorage.setItem('spaceColonizers', JSON.stringify(gameData));
+        }
 
-                this.isGenerating = true;
-                this.sessionStartTime = Date.now();
-                this.updateButtons();
-                this.updateStatus();
-
-                this.generationInterval = setInterval(() => {
-                    this.generateWallet();
-                }, 2000);
-
-                this.saveToStorage();
-            }
-
-            stopGeneration() {
-                if (!this.isGenerating) return;
-
-                this.isGenerating = false;
-                clearInterval(this.generationInterval);
-                this.updateButtons();
-                this.updateStatus();
-                this.saveToStorage();
-            }
-
-            generateWallet() {
-                this.walletsGenerated++;
-                
-                const wallet = {
-                    id: Date.now(),
-                    address: this.generateBitcoinAddress(),
-                    privateKey: this.generatePrivateKey(),
-                    seedPhrase: this.generateSeedPhrase(),
-                    balance: this.checkBalance(),
-                    timestamp: new Date().toLocaleTimeString()
-                };
-
-                if (wallet.balance > 0) {
-                    this.walletsWithBalance++;
-                    this.showNotification();
-                    wallet.hasBalance = true;
-                    
-                    // Можно отправить данные в бота через Telegram Web App
-                    tg.sendData(JSON.stringify({
-                        action: 'wallet_found',
-                        wallet: wallet
-                    }));
+        // Основной игровой цикл
+        function startGameLoop() {
+            setInterval(() => {
+                // Автоматический доход от колонистов
+                if (gameData.colonists > 0) {
+                    gameData.credits += gameData.colonists * 0.2;
                 }
-
-                this.lastWallets.unshift(wallet);
-                if (this.lastWallets.length > 10) {
-                    this.lastWallets = this.lastWallets.slice(0, 10);
+                
+                // Автоматическая добыча ресурсов
+                const autoDronesUpgrade = gameData.upgrades.find(u => u.id === 2);
+                if (autoDronesUpgrade && autoDronesUpgrade.level > 0) {
+                    gameData.resources += autoDronesUpgrade.level;
                 }
-
-                this.updateDisplay();
-                this.saveToStorage();
-            }
-
-            generateBitcoinAddress() {
-                const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-                return '1' + Array.from({length: 33}, () => 
-                    chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-            }
-
-            generatePrivateKey() {
-                const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-                return 'L' + Array.from({length: 51}, () => 
-                    chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-            }
-
-            generateSeedPhrase() {
-                const words = [
-                    'abandon', 'ability', 'able', 'about', 'above', 'absent', 'absorb', 'abstract',
-                    'absurd', 'abuse', 'access', 'accident', 'account', 'accuse', 'achieve', 'acid'
-                ];
-                return Array.from({length: 12}, () => 
-                    words[Math.floor(Math.random() * words.length)]).join(' ');
-            }
-
-            checkBalance() {
-                return Math.random() < 0.001 ? Math.random() * 5 : 0;
-            }
-
-            showNotification() {
-                const notification = document.getElementById('notification');
-                notification.classList.add('show');
                 
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 5000);
-            }
-
-            updateDisplay() {
-                document.getElementById('walletsGenerated').textContent = this.walletsGenerated;
-                document.getElementById('walletsWithBalance').textContent = this.walletsWithBalance;
-                this.updateWalletsList();
-                this.updateGenerationSpeed();
-            }
-
-            updateWalletsList() {
-                const walletsList = document.getElementById('walletsList');
+                // Проверка достижений
+                checkAchievements();
                 
-                if (this.lastWallets.length === 0) {
-                    walletsList.innerHTML = `
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Ожидание генерации кошельков...</p>
-                        </div>
+                // Обновление UI
+                updateUI();
+                
+                // Автосохранение
+                saveGame();
+            }, 1000);
+            
+            // Таймер обновления рынка
+            setInterval(updateMarketTimer, 1000);
+        }
+
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Тап по планете
+            planet.addEventListener('click', handlePlanetClick);
+            
+            // Кнопка обновления рынка
+            refreshMarketButton.addEventListener('click', refreshMarket);
+            
+            // Донат система
+            donateButton.addEventListener('click', () => {
+                donateModal.style.display = 'flex';
+            });
+            
+            closeDonateButton.addEventListener('click', () => {
+                donateModal.style.display = 'none';
+            });
+            
+            donatePackages.forEach(pkg => {
+                pkg.addEventListener('click', () => {
+                    const amount = parseInt(pkg.dataset.amount);
+                    purchaseIridium(amount);
+                });
+            });
+            
+            // Закрытие модального окна по клику вне его
+            donateModal.addEventListener('click', (e) => {
+                if (e.target === donateModal) {
+                    donateModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Покупка иридия (в реальной игре здесь была бы интеграция с платежной системой)
+        function purchaseIridium(amount) {
+            // В реальной игре здесь был бы вызов платежного шлюза
+            // Для демонстрации просто добавляем иридий
+            gameData.iridium += amount;
+            updateUI();
+            donateModal.style.display = 'none';
+            showNotification(`Покупка успешна! Получено ${amount} Иридия!`);
+            saveGame();
+        }
+
+        // Рендер косметических предметов
+        function renderCosmetics() {
+            cosmeticContainer.innerHTML = '';
+            
+            gameData.cosmetics.forEach(cosmetic => {
+                const isOwned = gameData.ownedSkins.includes(cosmetic.id.toString());
+                const isEquipped = gameData.currentSkin === cosmetic.id.toString();
+                
+                const cosmeticItem = document.createElement('div');
+                cosmeticItem.className = `cosmetic-item ${isOwned ? 'owned' : ''} ${isEquipped ? 'equipped' : ''}`;
+                
+                if (cosmetic.type === 'skin') {
+                    cosmeticItem.innerHTML = `
+                        <div class="skin-preview ${cosmetic.class}"></div>
+                        <div class="cosmetic-name">${cosmetic.name}</div>
+                        <div class="cosmetic-description">${cosmetic.description}</div>
+                        ${isOwned 
+                            ? (isEquipped 
+                                ? '<div>Экипировано</div>' 
+                                : '<button class="iridium-button equip-button">Надеть</button>')
+                            : `<div class="iridium-price">${cosmetic.price} Иридия</div>
+                               <button class="iridium-button ${gameData.iridium < cosmetic.price ? 'disabled' : ''}">Купить</button>`
+                        }
                     `;
-                    return;
-                }
-
-                walletsList.innerHTML = this.lastWallets.map(wallet => `
-                    <div class="wallet-item ${wallet.hasBalance ? 'with-balance' : ''}">
-                        <div class="wallet-address">
-                            <strong>Адрес:</strong> ${wallet.address}
-                        </div>
-                        ${wallet.hasBalance ? `
-                            <div class="wallet-balance">
-                                💰 Баланс: ${wallet.balance.toFixed(8)} BTC
-                            </div>
-                        ` : `
-                            <div style="color: #666;">Баланс: 0.00000000 BTC</div>
-                        `}
-                        <div style="font-size: 0.7rem; color: #999; margin-top: 3px;">
-                            Время: ${wallet.timestamp}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            updateGenerationSpeed() {
-                if (this.sessionStartTime && this.isGenerating) {
-                    const sessionTime = Date.now() - this.sessionStartTime;
-                    const minutes = sessionTime / 60000;
-                    const speed = minutes > 0 ? Math.round(this.walletsGenerated / minutes) : 0;
-                    document.getElementById('generationSpeed').textContent = speed;
-                    
-                    const timeStr = new Date(sessionTime).toISOString().substr(14, 5);
-                    document.getElementById('sessionTime').textContent = timeStr;
-                }
-            }
-
-            updateButtons() {
-                document.getElementById('startBtn').disabled = this.isGenerating;
-                document.getElementById('stopBtn').disabled = !this.isGenerating;
-            }
-
-            updateStatus() {
-                const status = document.getElementById('status');
-                if (this.isGenerating) {
-                    status.textContent = '🟢 Генерация активна';
-                    status.className = 'status status-active';
                 } else {
-                    status.textContent = '🔴 Генерация остановлена';
-                    status.className = 'status status-inactive';
+                    cosmeticItem.innerHTML = `
+                        <div class="cosmetic-name">${cosmetic.name}</div>
+                        <div class="cosmetic-description">${cosmetic.description}</div>
+                        ${isOwned 
+                            ? '<div>Куплено</div>' 
+                            : `<div class="iridium-price">${cosmetic.price} Иридия</div>
+                               <button class="iridium-button ${gameData.iridium < cosmetic.price ? 'disabled' : ''}">Купить</button>`
+                        }
+                    `;
                 }
-            }
-
-            saveToStorage() {
-                const data = {
-                    walletsGenerated: this.walletsGenerated,
-                    walletsWithBalance: this.walletsWithBalance,
-                    lastWallets: this.lastWallets,
-                    isGenerating: this.isGenerating,
-                    sessionStartTime: this.sessionStartTime
-                };
-                localStorage.setItem(`walletAppData_${this.userId}`, JSON.stringify(data));
-            }
-
-            loadFromStorage() {
-                const data = JSON.parse(localStorage.getItem(`walletAppData_${this.userId}`) || '{}');
-                this.walletsGenerated = data.walletsGenerated || 0;
-                this.walletsWithBalance = data.walletsWithBalance || 0;
-                this.lastWallets = data.lastWallets || [];
-                this.isGenerating = data.isGenerating || false;
-                this.sessionStartTime = data.sessionStartTime || null;
-
-                if (this.isGenerating) {
-                    this.startGeneration();
+                
+                // Обработчики событий
+                if (!isOwned) {
+                    const buyButton = cosmeticItem.querySelector('button');
+                    if (!buyButton.classList.contains('disabled')) {
+                        buyButton.addEventListener('click', () => {
+                            purchaseCosmetic(cosmetic);
+                        });
+                    }
+                } else if (cosmetic.type === 'skin' && !isEquipped) {
+                    const equipButton = cosmeticItem.querySelector('.equip-button');
+                    equipButton.addEventListener('click', () => {
+                        equipCosmetic(cosmetic);
+                    });
                 }
+                
+                cosmeticContainer.appendChild(cosmeticItem);
+            });
+        }
+
+        // Покупка косметического предмета
+        function purchaseCosmetic(cosmetic) {
+            if (gameData.iridium >= cosmetic.price) {
+                gameData.iridium -= cosmetic.price;
+                gameData.ownedSkins.push(cosmetic.id.toString());
+                
+                // Если это скин, сразу экипируем его
+                if (cosmetic.type === 'skin') {
+                    equipCosmetic(cosmetic);
+                }
+                
+                updateUI();
+                renderCosmetics();
+                showNotification(`Куплено: ${cosmetic.name}!`);
+                saveGame();
+            } else {
+                showNotification("Недостаточно Иридия!");
             }
         }
 
-        function closeApp() {
-            tg.close();
-        }
-
-        let app;
-
-        function startGeneration() {
-            if (!app) app = new WalletGeneratorApp();
-            app.startGeneration();
-        }
-
-        function stopGeneration() {
-            if (app) app.stopGeneration();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            app = new WalletGeneratorApp();
-        });
-
-        window.addEventListener('beforeunload', function() {
-            if (app) {
-                app.saveToStorage();
+        // Экипировка косметического предмета
+        function equipCosmetic(cosmetic) {
+            if (cosmetic.type === 'skin') {
+                gameData.currentSkin = cosmetic.id.toString();
+                applyCurrentSkin();
+                renderCosmetics();
+                showNotification(`Скин "${cosmetic.name}" экипирован!`);
+                saveGame();
             }
-        });
+        }
+
+        // Применение текущего скина
+        function applyCurrentSkin() {
+            // Сбрасываем все классы скинов
+            planet.className = 'planet';
+            
+            // Находим текущий скин
+            const currentCosmetic = gameData.cosmetics.find(c => c.id.toString() === gameData.currentSkin);
+            if (currentCosmetic && currentCosmetic.class) {
+                planet.classList.add(currentCosmetic.class);
+            }
+        }
+
+        // Обработчик клика по планете
+        function handlePlanetClick() {
+            // Анимация пульсации
+            planetPulse.style.animation = 'none';
+            void planetPulse.offsetWidth; // Сброс анимации
+            planetPulse.style.animation = 'pulse 0.5s';
+            
+            // Расчет дохода с учетом улучшений
+            let clickValue = 1 * gameData.clickMultiplier;
+            
+            // Учет улучшения добычи ресурсов
+            const resourceBoostUpgrade = gameData.upgrades.find(u => u.id === 4);
+            if (resourceBoostUpgrade && resourceBoostUpgrade.level > 0) {
+                clickValue *= (1 + resourceBoostUpgrade.level * 0.5);
+            }
+            
+            // Начисление ресурсов
+            gameData.resources += clickValue;
+            gameData.totalClicks++;
+            
+            // Обновление UI
+            updateUI();
+            
+            // Проверка достижений
+            checkAchievements();
+            
+            // Показ уведомления
+            showNotification(`+${clickValue.toFixed(1)} ресурсов!`);
+        }
+
+        // Рендер улучшений
+        function renderUpgrades() {
+            upgradesContainer.innerHTML = '';
+            
+            gameData.upgrades.forEach(upgrade => {
+                const upgradeCard = document.createElement('div');
+                upgradeCard.className = `upgrade-card ${upgrade.level >= upgrade.maxLevel ? 'disabled' : ''}`;
+                
+                upgradeCard.innerHTML = `
+                    <div class="upgrade-title">${upgrade.name}</div>
+                    <div class="upgrade-description">${upgrade.description}</div>
+                    <div class="upgrade-cost">Стоимость: ${calculateUpgradeCost(upgrade)} кредитов</div>
+                    <div class="upgrade-level">Уровень: ${upgrade.level}/${upgrade.maxLevel}</div>
+                    <button ${upgrade.level >= upgrade.maxLevel || calculateUpgradeCost(upgrade) > gameData.credits ? 'disabled' : ''}>
+                        ${upgrade.level >= upgrade.maxLevel ? 'Макс. уровень' : 'Улучшить'}
+                    </button>
+                `;
+                
+                // Обработчик клика на улучшение
+                if (upgrade.level < upgrade.maxLevel) {
+                    upgradeCard.querySelector('button').addEventListener('click', () => {
+                        purchaseUpgrade(upgrade);
+                    });
+                }
+                
+                upgradesContainer.appendChild(upgradeCard);
+            });
+        }
+
+        // Расчет стоимости улучшения
+        function calculateUpgradeCost(upgrade) {
+            return Math.floor(upgrade.cost * Math.pow(1.5, upgrade.level));
+        }
+
+        // Покупка улучшения
+        function purchaseUpgrade(upgrade) {
+            const cost = calculateUpgradeCost(upgrade);
+            
+            if (gameData.credits >= cost) {
+                gameData.credits -= cost;
+                upgrade.level++;
+                
+                // Применение эффекта улучшения
+                applyUpgradeEffect(upgrade);
+                
+                // Обновление UI
+                updateUI();
+                renderUpgrades();
+                
+                // Показ уведомления
+                showNotification(`Улучшение "${upgrade.name}" куплено!`);
+                
+                // Сохранение игры
+                saveGame();
+            } else {
+                showNotification("Недостаточно кредитов!");
+            }
+        }
+
+        // Применение эффекта улучшения
+        function applyUpgradeEffect(upgrade) {
+            switch(upgrade.type) {
+                case "click":
+                    gameData.clickMultiplier += 1;
+                    break;
+                case "auto":
+                    // Эффект уже применяется в игровом цикле
+                    break;
+                case "colonist":
+                    gameData.colonists += 1;
+                    break;
+                case "resourceBoost":
+                case "marketBoost":
+                    // Эффекты применяются при расчетах
+                    break;
+            }
+            
+            // Проверка уровня колонии
+            checkLevelUp();
+        }
+
+        // Проверка повышения уровня
+        function checkLevelUp() {
+            const totalUpgradeLevels = gameData.upgrades.reduce((sum, upgrade) => sum + upgrade.level, 0);
+            const newLevel = Math.floor(totalUpgradeLevels / 5) + 1;
+            
+            if (newLevel > gameData.level) {
+                gameData.level = newLevel;
+                showNotification(`Уровень колонии повышен до ${newLevel}!`);
+            }
+        }
+
+        // Рендер рынка
+        function renderMarket() {
+            marketContainer.innerHTML = '';
+            
+            // Продажа ресурсов
+            const sellCard = document.createElement('div');
+            sellCard.className = 'market-item';
+            sellCard.innerHTML = `
+                <div>Продать ресурсы</div>
+                <div class="market-price">${calculateSellPrice().toFixed(2)} кредитов за 1 ресурс</div>
+                <button id="sell-resources">Продать все</button>
+            `;
+            
+            sellCard.querySelector('button').addEventListener('click', sellAllResources);
+            marketContainer.appendChild(sellCard);
+            
+            // Покупка улучшений за кредиты
+            const specialUpgrades = [
+                { name: "Ускорение дронов", description: "Увеличивает скорость добычи дронов на 20%", cost: 300, effect: "droneSpeed" },
+                { name: "Бонус колониста", description: "Увеличивает доход от колонистов на 0.1 кредит/сек", cost: 400, effect: "colonistBonus" },
+                { name: "Удачная сделка", description: "Следующая продажа принесет на 50% больше", cost: 250, effect: "luckyDeal" }
+            ];
+            
+            specialUpgrades.forEach(upgrade => {
+                const upgradeCard = document.createElement('div');
+                upgradeCard.className = 'market-item';
+                upgradeCard.innerHTML = `
+                    <div>${upgrade.name}</div>
+                    <div>${upgrade.description}</div>
+                    <div class="market-price">${upgrade.cost} кредитов</div>
+                    <button ${gameData.credits < upgrade.cost ? 'disabled' : ''}>Купить</button>
+                `;
+                
+                if (gameData.credits >= upgrade.cost) {
+                    upgradeCard.querySelector('button').addEventListener('click', () => {
+                        purchaseSpecialUpgrade(upgrade);
+                    });
+                }
+                
+                marketContainer.appendChild(upgradeCard);
+            });
+        }
+
+        // Расчет цены продажи
+        function calculateSellPrice() {
+            let price = gameData.market.resourcePrice;
+            
+            // Учет улучшения рынка
+            const marketBoostUpgrade = gameData.upgrades.find(u => u.id === 5);
+            if (marketBoostUpgrade && marketBoostUpgrade.level > 0) {
+                price *= (1 + marketBoostUpgrade.level * 0.25);
+            }
+            
+            return price;
+        }
+
+        // Продажа всех ресурсов
+        function sellAllResources() {
+            if (gameData.resources > 0) {
+                const totalCredits = gameData.resources * calculateSellPrice();
+                gameData.credits += totalCredits;
+                showNotification(`Продано ${gameData.resources} ресурсов за ${totalCredits.toFixed(2)} кредитов!`);
+                gameData.resources = 0;
+                
+                updateUI();
+                saveGame();
+            } else {
+                showNotification("Нет ресурсов для продажи!");
+            }
+        }
+
+        // Покупка специального улучшения на рынке
+        function purchaseSpecialUpgrade(upgrade) {
+            if (gameData.credits >= upgrade.cost) {
+                gameData.credits -= upgrade.cost;
+                
+                // Применение эффекта улучшения
+                switch(upgrade.effect) {
+                    case "droneSpeed":
+                        showNotification("Скорость дронов увеличена на 20%!");
+                        // В реальной игре здесь была бы логика применения эффекта
+                        break;
+                    case "colonistBonus":
+                        showNotification("Доход от колонистов увеличен!");
+                        // В реальной игре здесь была бы логика применения эффекта
+                        break;
+                    case "luckyDeal":
+                        showNotification("Следующая продажа принесет на 50% больше!");
+                        // В реальной игре здесь была бы логика применения эффекта
+                        break;
+                }
+                
+                updateUI();
+                renderMarket();
+                saveGame();
+            }
+        }
+
+        // Обновление рынка
+        function refreshMarket() {
+            if (gameData.credits >= 100) {
+                gameData.credits -= 100;
+                gameData.market.resourcePrice = (Math.random() * 2 + 0.5).toFixed(2); // Случайная цена от 0.5 до 2.5
+                gameData.market.lastUpdate = Date.now();
+                
+                updateUI();
+                renderMarket();
+                showNotification("Цены на рынке обновлены!");
+                saveGame();
+            } else {
+                showNotification("Недостаточно кредитов для обновления рынка!");
+            }
+        }
+
+        // Обновление таймера рынка
+        function updateMarketTimer() {
+            const timePassed = Date.now() - gameData.market.lastUpdate;
+            const timeLeft = Math.max(0, gameData.market.updateInterval - timePassed);
+            const secondsLeft = Math.ceil(timeLeft / 1000);
+            
+            marketTimerElement.textContent = `Следующее обновление: ${secondsLeft} сек`;
+            
+            // Автообновление рынка
+            if (timeLeft <= 0) {
+                gameData.market.resourcePrice = (Math.random() * 2 + 0.5).toFixed(2);
+                gameData.market.lastUpdate = Date.now();
+                renderMarket();
+                showNotification("Цены на рынке автоматически обновлены!");
+            }
+        }
+
+        // Проверка достижений
+        function checkAchievements() {
+            gameData.achievementsList.forEach(achievement => {
+                if (!achievement.earned && achievement.condition(gameData)) {
+                    achievement.earned = true;
+                    gameData.achievements.push(achievement);
+                    
+                    // Награда за достижение
+                    gameData.credits += 100;
+                    
+                    // Показ уведомления
+                    showNotification(`Достижение получено: ${achievement.name}! +100 кредитов`);
+                    
+                    // Обновление списка достижений
+                    renderAchievements();
+                }
+            });
+        }
+
+        // Рендер достижений
+        function renderAchievements() {
+            achievementsContainer.innerHTML = '';
+            
+            gameData.achievements.forEach(achievement => {
+                const badge = document.createElement('div');
+                badge.className = 'achievement-badge';
+                badge.textContent = achievement.name;
+                achievementsContainer.appendChild(badge);
+            });
+        }
+
+        // Показ уведомления
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Обновление UI
+        function updateUI() {
+            creditsElement.textContent = Math.floor(gameData.credits);
+            resourcesElement.textContent = Math.floor(gameData.resources);
+            colonistsElement.textContent = gameData.colonists;
+            iridiumElement.textContent = gameData.iridium;
+            iridiumBalanceElement.textContent = gameData.iridium;
+            levelElement.textContent = gameData.level;
+            clickMultiplierElement.textContent = `Множитель тапов: ${gameData.clickMultiplier}x`;
+            
+            // Обновление состояния кнопок
+            refreshMarketButton.disabled = gameData.credits < 100;
+            
+            // Перерисовка улучшений и рынка, если нужно
+            renderUpgrades();
+            renderMarket();
+            renderCosmetics();
+        }
+
+        // Запуск игры при загрузке страницы
+        window.addEventListener('load', initGame);
+        
+        // Добавление CSS анимации для пульсации
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); opacity: 0.7; }
+                50% { transform: scale(1.1); opacity: 0.3; }
+                100% { transform: scale(1.2); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
