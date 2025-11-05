@@ -54,6 +54,21 @@
             border: 1px solid #ff3838;
         }
         
+        .github-link {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .github-link a {
+            color: #f7931a;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .github-link a:hover {
+            text-decoration: underline;
+        }
+        
         .controls {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -240,6 +255,7 @@
         .tabs {
             display: flex;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
         .tab {
@@ -250,6 +266,7 @@
             cursor: pointer;
             border-radius: 8px 8px 0 0;
             margin-right: 5px;
+            margin-bottom: 5px;
         }
         
         .tab.active {
@@ -268,6 +285,13 @@
             display: block;
         }
         
+        .telegram-config {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
         @media (max-width: 768px) {
             .controls {
                 grid-template-columns: 1fr;
@@ -275,6 +299,15 @@
             
             .balance-check {
                 flex-direction: column;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-radius: 8px;
+                margin-bottom: 5px;
             }
         }
     </style>
@@ -284,6 +317,11 @@
         <header>
             <h1>🔐 Bitcoin Wallet Generator - Security Research</h1>
             <p>Приложение для исследований в области информационной безопасности и криптографии</p>
+            <div class="github-link">
+                <a href="https://github.com/YOUR_USERNAME/YOUR_REPOSITORY" target="_blank">
+                    📁 GitHub Repository - Исходный код и документация
+                </a>
+            </div>
         </header>
         
         <div class="security-warning">
@@ -298,6 +336,7 @@
                 <button class="tab" onclick="showTab('search')">Автопоиск</button>
                 <button class="tab" onclick="showTab('verify')">Верификация</button>
                 <button class="tab" onclick="showTab('results')">Результаты</button>
+                <button class="tab" onclick="showTab('telegram')">Telegram Bot</button>
             </div>
             
             <!-- Tab 1: Генератор -->
@@ -313,13 +352,18 @@
                     <div class="control-panel">
                         <h3>🔧 Настройки генерации</h3>
                         <label>
-                            <input type="checkbox" id="useTestnet" checked>
-                            Использовать Testnet (рекомендуется)
+                            <input type="checkbox" id="useTestnet">
+                            Использовать Testnet (рекомендуется для тестирования)
                         </label>
                         <br><br>
                         <label>
                             <input type="checkbox" id="compressPubKey" checked>
                             Сжатый публичный ключ
+                        </label>
+                        <br><br>
+                        <label>
+                            <input type="checkbox" id="saveToLocalStorage" checked>
+                            Сохранять в локальное хранилище
                         </label>
                     </div>
                 </div>
@@ -362,17 +406,23 @@
                         <button id="startSearch">Начать автоматический поиск</button>
                         <button id="stopSearch" disabled>Остановить поиск</button>
                         <button id="pauseSearch" disabled>Пауза</button>
+                        <button id="testWebhook" onclick="app.testTelegramWebhook()">Тест Telegram уведомления</button>
                     </div>
                     
                     <div class="control-panel">
                         <h3>⚡ Настройки поиска</h3>
                         <label>Скорость (кошельков/сек):</label>
-                        <input type="range" id="searchSpeed" min="1" max="100" value="10">
+                        <input type="range" id="searchSpeed" min="1" max="50" value="10">
                         <span id="speedValue">10</span>
                         <br><br>
                         <label>
-                            <input type="checkbox" id="autoCheckBalance">
+                            <input type="checkbox" id="autoCheckBalance" checked>
                             Автоматически проверять баланс
+                        </label>
+                        <br>
+                        <label>
+                            <input type="checkbox" id="stopOnFirstFind">
+                            Останавливать при первой находке
                         </label>
                     </div>
                 </div>
@@ -413,12 +463,12 @@
                     </div>
                     
                     <div class="balance-check">
-                        <input type="text" id="privateKeyInput" placeholder="Введите приватный ключ для восстановления">
+                        <input type="text" id="privateKeyInput" placeholder="Введите приватный ключ (WIF) для восстановления">
                         <button id="recoverWallet">Восстановить кошелек</button>
                     </div>
                     
                     <div class="balance-check">
-                        <input type="text" id="mnemonicInput" placeholder="Введите мнемоническую фразу">
+                        <input type="text" id="mnemonicInput" placeholder="Введите мнемоническую фразу (12 слов)">
                         <button id="recoverFromMnemonic">Восстановить из мнемоники</button>
                     </div>
                 </div>
@@ -437,12 +487,53 @@
                         <button id="exportResults">Экспорт в JSON</button>
                         <button id="clearResults" class="danger-button">Очистить все результаты</button>
                         <button id="importResults">Импорт данных</button>
+                        <button id="exportCSV">Экспорт в CSV</button>
                     </div>
                 </div>
                 
                 <div class="found-wallets">
                     <h3>🎯 Найденные кошельки с балансом</h3>
                     <div id="walletsList"></div>
+                </div>
+            </div>
+            
+            <!-- Tab 5: Telegram Bot -->
+            <div id="telegram" class="tab-content">
+                <div class="control-panel">
+                    <h3>🤖 Настройка Telegram уведомлений</h3>
+                    
+                    <div class="telegram-config">
+                        <h4>Конфигурация бота</h4>
+                        <div class="balance-check">
+                            <input type="text" id="botToken" placeholder="Токен Telegram бота">
+                        </div>
+                        <div class="balance-check">
+                            <input type="text" id="chatId" placeholder="ID чата для уведомлений">
+                        </div>
+                        <button id="saveTelegramConfig">Сохранить настройки</button>
+                        <button id="testTelegramConfig">Проверить подключение</button>
+                    </div>
+                    
+                    <div class="telegram-config">
+                        <h4>Инструкция по настройке</h4>
+                        <ol>
+                            <li>Создайте бота через @BotFather в Telegram</li>
+                            <li>Получите токен бота и вставьте в поле выше</li>
+                            <li>Добавьте бота в нужный чат и отправьте любое сообщение</li>
+                            <li>Запустите Python бот для получения ID чата</li>
+                            <li>Сохраните настройки и запустите автопоиск</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="telegram-config">
+                        <h4>Python бот для уведомлений</h4>
+                        <p>Скачайте и запустите бот для получения уведомлений:</p>
+                        <div class="field-value">
+                            <a href="https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/blob/main/telegram_bot.py" target="_blank">
+                                telegram_bot.py - Бот для Telegram уведомлений
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -462,12 +553,17 @@
                 this.searchSpeed = 10;
                 this.foundWallets = [];
                 this.lastUpdate = Date.now();
-                this.testnet = true;
+                this.testnet = false; // По умолчанию mainnet для реального поиска
+                this.telegramConfig = {
+                    botToken: '',
+                    chatId: ''
+                };
                 
                 this.initializeEventListeners();
                 this.loadFromStorage();
                 this.updateStats();
                 this.updateSpeedValue();
+                this.loadTelegramConfig();
             }
             
             initializeEventListeners() {
@@ -528,9 +624,23 @@
                     this.importResults();
                 });
                 
+                document.getElementById('exportCSV').addEventListener('click', () => {
+                    this.exportCSV();
+                });
+                
+                // Telegram
+                document.getElementById('saveTelegramConfig').addEventListener('click', () => {
+                    this.saveTelegramConfig();
+                });
+                
+                document.getElementById('testTelegramConfig').addEventListener('click', () => {
+                    this.testTelegramConnection();
+                });
+                
                 // Настройки
                 document.getElementById('useTestnet').addEventListener('change', (e) => {
                     this.testnet = e.target.checked;
+                    this.showNotification(`Режим изменен на: ${this.testnet ? 'Testnet' : 'Mainnet'}`, 'success');
                 });
             }
             
@@ -541,7 +651,8 @@
                     
                     // Создание seed из мнемоники
                     const seed = bip39.mnemonicToSeedSync(mnemonic);
-                    const hdPrivateKey = bitcore.HDPrivateKey.fromSeed(seed, this.testnet ? bitcore.Networks.testnet : bitcore.Networks.mainnet);
+                    const network = this.testnet ? bitcore.Networks.testnet : bitcore.Networks.mainnet;
+                    const hdPrivateKey = bitcore.HDPrivateKey.fromSeed(seed, network);
                     
                     // Получение первого приватного ключа по пути BIP44
                     const privateKey = hdPrivateKey.derive("m/44'/0'/0'/0/0").privateKey;
@@ -554,19 +665,25 @@
                         publicKey: privateKey.publicKey.toString(),
                         balance: '0.00000000',
                         network: this.testnet ? 'testnet' : 'mainnet',
-                        timestamp: new Date().toISOString()
+                        timestamp: new Date().toISOString(),
+                        derivationPath: "m/44'/0'/0'/0/0"
                     };
                     
                     this.displayWallet(wallet);
                     this.generatedCount++;
                     this.updateStats();
-                    this.showNotification('Кошелек успешно сгенерирован!', 'success');
                     
+                    if (document.getElementById('saveToLocalStorage').checked) {
+                        this.saveToStorage();
+                    }
+                    
+                    this.showNotification('Кошелек успешно сгенерирован!', 'success');
                     return wallet;
                     
                 } catch (error) {
                     this.showNotification('Ошибка генерации: ' + error.message, 'error');
                     console.error('Generation error:', error);
+                    return null;
                 }
             }
             
@@ -584,24 +701,56 @@
                 try {
                     this.checkedCount++;
                     
-                    // Для testnet используем testnet API, для mainnet - основной
-                    const apiUrl = this.testnet ? 
-                        `https://api.blockcypher.com/v1/btc/test3/addrs/${address}/balance` :
-                        `https://blockchain.info/q/addressbalance/${address}`;
-                    
-                    const response = await fetch(apiUrl);
+                    // Используем разные API для testnet и mainnet
+                    let apiUrl, balance;
                     
                     if (this.testnet) {
+                        // API для testnet
+                        apiUrl = `https://api.blockcypher.com/v1/btc/test3/addrs/${address}/balance`;
+                        const response = await fetch(apiUrl);
+                        if (!response.ok) throw new Error('API error');
                         const data = await response.json();
-                        return (data.balance / 100000000).toFixed(8); // satoshi to BTC
+                        balance = (data.balance / 100000000).toFixed(8);
                     } else {
+                        // API для mainnet
+                        apiUrl = `https://blockchain.info/q/addressbalance/${address}`;
+                        const response = await fetch(apiUrl);
+                        if (!response.ok) throw new Error('API error');
                         const satoshis = await response.text();
-                        return (parseInt(satoshis) / 100000000).toFixed(8);
+                        balance = (parseInt(satoshis) / 100000000).toFixed(8);
                     }
+                    
+                    return balance;
                 } catch (error) {
                     console.error('Balance check error:', error);
                     return '0.00000000';
                 }
+            }
+            
+            async checkBalanceWithMultipleAPIs(address) {
+                const apis = [
+                    `https://blockchain.info/q/addressbalance/${address}`,
+                    `https://api.blockchair.com/bitcoin/dashboards/address/${address}`,
+                    `https://chain.api.btc.com/v3/address/${address}`
+                ];
+                
+                for (const api of apis) {
+                    try {
+                        const response = await fetch(api);
+                        if (response.ok) {
+                            if (api.includes('blockchain.info')) {
+                                const satoshis = await response.text();
+                                return (parseInt(satoshis) / 100000000).toFixed(8);
+                            } else if (api.includes('blockchair.com')) {
+                                const data = await response.json();
+                                return (data.data[address].address.balance / 100000000).toFixed(8);
+                            }
+                        }
+                    } catch (error) {
+                        continue;
+                    }
+                }
+                return '0.00000000';
             }
             
             displayWallet(wallet) {
@@ -609,9 +758,16 @@
                 document.getElementById('privateKey').textContent = wallet.privateKey;
                 document.getElementById('mnemonic').textContent = wallet.mnemonic;
                 document.getElementById('balance').textContent = wallet.balance + ' BTC';
+                
+                // Подсветка если есть баланс
+                if (parseFloat(wallet.balance) > 0) {
+                    document.getElementById('currentWallet').style.borderColor = '#4CAF50';
+                } else {
+                    document.getElementById('currentWallet').style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }
             }
             
-            startAutoSearch() {
+            async startAutoSearch() {
                 this.isSearching = true;
                 this.isPaused = false;
                 
@@ -620,34 +776,52 @@
                 document.getElementById('pauseSearch').disabled = false;
                 document.getElementById('loading').style.display = 'block';
                 
+                let walletsPerBatch = Math.max(1, Math.floor(this.searchSpeed / 10));
+                
                 this.searchInterval = setInterval(async () => {
                     if (this.isPaused) return;
                     
-                    const wallet = this.generateWallet();
-                    if (wallet && document.getElementById('autoCheckBalance').checked) {
-                        wallet.balance = await this.checkBalance(wallet.address);
-                        
-                        if (parseFloat(wallet.balance) > 0) {
-                            this.foundCount++;
-                            this.foundWallets.push(wallet);
-                            this.saveToStorage();
-                            this.showNotification(`🎉 Найден кошелек с балансом! ${wallet.balance} BTC`, 'success');
-                            this.updateFoundWalletsList();
-                            
-                            // Здесь можно добавить отправку в Telegram
-                            this.sendTelegramNotification(wallet);
+                    for (let i = 0; i < walletsPerBatch; i++) {
+                        const wallet = this.generateWallet();
+                        if (wallet && document.getElementById('autoCheckBalance').checked) {
+                            try {
+                                wallet.balance = await this.checkBalanceWithMultipleAPIs(wallet.address);
+                                
+                                if (parseFloat(wallet.balance) > 0) {
+                                    this.foundCount++;
+                                    this.foundWallets.push(wallet);
+                                    this.saveToStorage();
+                                    this.showNotification(
+                                        `🎉 НАЙДЕН КОШЕЛЕК С БАЛАНСОМ! ${wallet.balance} BTC`, 
+                                        'success'
+                                    );
+                                    this.updateFoundWalletsList();
+                                    
+                                    // Отправка уведомления в Telegram
+                                    await this.sendTelegramNotification(wallet);
+                                    
+                                    // Остановка если включена соответствующая опция
+                                    if (document.getElementById('stopOnFirstFind').checked) {
+                                        this.stopAutoSearch();
+                                        break;
+                                    }
+                                }
+                            } catch (error) {
+                                console.error('Error checking balance:', error);
+                            }
                         }
                     }
                     
                     this.updateStats();
-                }, 1000 / this.searchSpeed);
+                }, 1000);
                 
                 this.speedInterval = setInterval(() => {
                     const now = Date.now();
                     const elapsed = (now - this.lastUpdate) / 1000;
                     const currentSpeed = Math.round(this.generatedCount / elapsed);
                     document.getElementById('speed').textContent = currentSpeed.toLocaleString();
-                    document.getElementById('searchStatus').textContent = `Статус: Поиск активен | Скорость: ${currentSpeed} кош/сек`;
+                    document.getElementById('searchStatus').textContent = 
+                        `Статус: Поиск активен | Скорость: ${currentSpeed} кош/сек | Проверено: ${this.checkedCount}`;
                 }, 2000);
             }
             
@@ -681,7 +855,7 @@
                 
                 try {
                     this.showNotification('Проверяем баланс...', 'success');
-                    const balance = await this.checkBalance(address);
+                    const balance = await this.checkBalanceWithMultipleAPIs(address);
                     
                     document.getElementById('verificationResult').style.display = 'block';
                     document.getElementById('verifyContent').innerHTML = `
@@ -692,6 +866,10 @@
                         <div class="wallet-field">
                             <div class="field-label">Баланс</div>
                             <div class="field-value">${balance} BTC</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Сеть</div>
+                            <div class="field-value">${this.testnet ? 'Testnet' : 'Mainnet'}</div>
                         </div>
                     `;
                     
@@ -710,6 +888,7 @@
                 try {
                     const privateKey = bitcore.PrivateKey.fromWIF(privateKeyWIF);
                     const address = privateKey.toAddress();
+                    const publicKey = privateKey.publicKey.toString();
                     
                     document.getElementById('verificationResult').style.display = 'block';
                     document.getElementById('verifyContent').innerHTML = `
@@ -723,7 +902,11 @@
                         </div>
                         <div class="wallet-field">
                             <div class="field-label">Публичный ключ</div>
-                            <div class="field-value">${privateKey.publicKey.toString()}</div>
+                            <div class="field-value">${publicKey}</div>
+                        </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Сеть</div>
+                            <div class="field-value">${privateKey.network.name}</div>
                         </div>
                     `;
                     
@@ -745,7 +928,8 @@
                     }
                     
                     const seed = bip39.mnemonicToSeedSync(mnemonic);
-                    const hdPrivateKey = bitcore.HDPrivateKey.fromSeed(seed, this.testnet ? bitcore.Networks.testnet : bitcore.Networks.mainnet);
+                    const network = this.testnet ? bitcore.Networks.testnet : bitcore.Networks.mainnet;
+                    const hdPrivateKey = bitcore.HDPrivateKey.fromSeed(seed, network);
                     const privateKey = hdPrivateKey.derive("m/44'/0'/0'/0/0").privateKey;
                     const address = privateKey.toAddress();
                     
@@ -763,6 +947,10 @@
                             <div class="field-label">Мнемоническая фраза</div>
                             <div class="field-value">${mnemonic}</div>
                         </div>
+                        <div class="wallet-field">
+                            <div class="field-label">Сеть</div>
+                            <div class="field-value">${network.name}</div>
+                        </div>
                     `;
                     
                 } catch (error) {
@@ -771,7 +959,6 @@
             }
             
             validateKeyPairs() {
-                // Генерация и проверка нескольких пар ключей
                 const wallets = this.generateBulkWallets(5);
                 let validCount = 0;
                 
@@ -795,19 +982,35 @@
                 const data = {
                     generatedCount: this.generatedCount,
                     foundCount: this.foundCount,
+                    checkedCount: this.checkedCount,
                     foundWallets: this.foundWallets,
-                    exportDate: new Date().toISOString()
+                    exportDate: new Date().toISOString(),
+                    network: this.testnet ? 'testnet' : 'mainnet'
                 };
                 
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                this.downloadFile(JSON.stringify(data, null, 2), 'bitcoin-wallets.json', 'application/json');
+                this.showNotification('Данные экспортированы в JSON', 'success');
+            }
+            
+            exportCSV() {
+                let csv = 'Address,Private Key,Mnemonic,Balance,Network,Timestamp\n';
+                
+                this.foundWallets.forEach(wallet => {
+                    csv += `"${wallet.address}","${wallet.privateKey}","${wallet.mnemonic}",${wallet.balance},${wallet.network},"${wallet.timestamp}"\n`;
+                });
+                
+                this.downloadFile(csv, 'bitcoin-wallets.csv', 'text/csv');
+                this.showNotification('Данные экспортированы в CSV', 'success');
+            }
+            
+            downloadFile(content, filename, contentType) {
+                const blob = new Blob([content], { type: contentType });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `bitcoin-wallets-${Date.now()}.json`;
+                a.download = filename;
                 a.click();
                 URL.revokeObjectURL(url);
-                
-                this.showNotification('Данные экспортированы в JSON', 'success');
             }
             
             clearResults() {
@@ -826,7 +1029,7 @@
             importResults() {
                 const input = document.createElement('input');
                 input.type = 'file';
-                input.accept = '.json';
+                input.accept = '.json,.csv';
                 input.onchange = (e) => {
                     const file = e.target.files[0];
                     const reader = new FileReader();
@@ -837,6 +1040,7 @@
                             this.foundWallets = data.foundWallets || [];
                             this.generatedCount = data.generatedCount || 0;
                             this.foundCount = data.foundCount || 0;
+                            this.checkedCount = data.checkedCount || 0;
                             this.updateStats();
                             this.updateFoundWalletsList();
                             this.showNotification('Данные успешно импортированы', 'success');
@@ -851,14 +1055,116 @@
                 input.click();
             }
             
-            sendTelegramNotification(wallet) {
-                // Заглушка для интеграции с Telegram
-                // В реальном приложении здесь будет вызов Telegram Bot API
-                console.log('Telegram notification:', {
-                    address: wallet.address,
-                    balance: wallet.balance,
-                    privateKey: wallet.privateKey
-                });
+            async sendTelegramNotification(wallet) {
+                if (!this.telegramConfig.botToken || !this.telegramConfig.chatId) {
+                    console.log('Telegram не настроен');
+                    return false;
+                }
+                
+                try {
+                    const message = `
+🚨 **НАЙДЕН BITCOIN КОШЕЛЕК С БАЛАНСОМ!** 🚨
+
+💰 **Баланс:** ${wallet.balance} BTC
+📍 **Адрес:** \`${wallet.address}\`
+🗝️ **Приватный ключ:** \`${wallet.privateKey}\`
+📝 **Мнемоническая фраза:** \`${wallet.mnemonic}\`
+🌐 **Сеть:** ${wallet.network}
+⏰ **Время находки:** ${new Date(wallet.timestamp).toLocaleString()}
+
+⚠️ *Образовательный проект - Security Research*
+                    `.trim();
+                    
+                    const url = `https://api.telegram.org/bot${this.telegramConfig.botToken}/sendMessage`;
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: this.telegramConfig.chatId,
+                            text: message,
+                            parse_mode: 'Markdown'
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        this.showNotification('Уведомление отправлено в Telegram', 'success');
+                        return true;
+                    } else {
+                        throw new Error('Telegram API error');
+                    }
+                    
+                } catch (error) {
+                    console.error('Telegram notification error:', error);
+                    return false;
+                }
+            }
+            
+            async testTelegramWebhook() {
+                if (!this.telegramConfig.botToken || !this.telegramConfig.chatId) {
+                    this.showNotification('Сначала настройте Telegram в соответствующей вкладке', 'error');
+                    return;
+                }
+                
+                const testWallet = {
+                    address: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+                    privateKey: 'TEST_PRIVATE_KEY',
+                    mnemonic: 'test mnemonic phrase for demonstration',
+                    balance: '0.00123456',
+                    network: 'mainnet',
+                    timestamp: new Date().toISOString()
+                };
+                
+                const success = await this.sendTelegramNotification(testWallet);
+                if (success) {
+                    this.showNotification('Тестовое уведомление отправлено!', 'success');
+                } else {
+                    this.showNotification('Ошибка отправки тестового уведомления', 'error');
+                }
+            }
+            
+            saveTelegramConfig() {
+                const botToken = document.getElementById('botToken').value.trim();
+                const chatId = document.getElementById('chatId').value.trim();
+                
+                if (!botToken || !chatId) {
+                    this.showNotification('Заполните все поля конфигурации', 'error');
+                    return;
+                }
+                
+                this.telegramConfig = { botToken, chatId };
+                localStorage.setItem('telegramConfig', JSON.stringify(this.telegramConfig));
+                this.showNotification('Настройки Telegram сохранены!', 'success');
+            }
+            
+            loadTelegramConfig() {
+                const saved = localStorage.getItem('telegramConfig');
+                if (saved) {
+                    this.telegramConfig = JSON.parse(saved);
+                    document.getElementById('botToken').value = this.telegramConfig.botToken || '';
+                    document.getElementById('chatId').value = this.telegramConfig.chatId || '';
+                }
+            }
+            
+            async testTelegramConnection() {
+                if (!this.telegramConfig.botToken) {
+                    this.showNotification('Введите токен бота', 'error');
+                    return;
+                }
+                
+                try {
+                    const url = `https://api.telegram.org/bot${this.telegramConfig.botToken}/getMe`;
+                    const response = await fetch(url);
+                    
+                    if (response.ok) {
+                        this.showNotification('✅ Подключение к Telegram успешно!', 'success');
+                    } else {
+                        throw new Error('Invalid token');
+                    }
+                } catch (error) {
+                    this.showNotification('❌ Ошибка подключения к Telegram', 'error');
+                }
             }
             
             updateStats() {
@@ -875,6 +1181,11 @@
                 const container = document.getElementById('walletsList');
                 container.innerHTML = '';
                 
+                if (this.foundWallets.length === 0) {
+                    container.innerHTML = '<p>Найденные кошельки будут отображаться здесь</p>';
+                    return;
+                }
+                
                 this.foundWallets.forEach((wallet, index) => {
                     const walletElement = document.createElement('div');
                     walletElement.className = 'wallet-item';
@@ -883,6 +1194,7 @@
                         <div><strong>📍 Адрес:</strong> <code>${wallet.address}</code></div>
                         <div><strong>🗝️ Приватный ключ:</strong> <code>${wallet.privateKey}</code></div>
                         <div><strong>📝 Мнемоника:</strong> ${wallet.mnemonic}</div>
+                        <div><strong>🌐 Сеть:</strong> ${wallet.network}</div>
                         <div><strong>⏰ Время находки:</strong> ${new Date(wallet.timestamp).toLocaleString()}</div>
                         <button onclick="app.viewWalletDetails(${index})">Показать детали</button>
                         <button class="danger-button" onclick="app.deleteWallet(${index})">Удалить</button>
@@ -924,7 +1236,8 @@
                     foundWallets: this.foundWallets,
                     generatedCount: this.generatedCount,
                     foundCount: this.foundCount,
-                    checkedCount: this.checkedCount
+                    checkedCount: this.checkedCount,
+                    testnet: this.testnet
                 };
                 localStorage.setItem('bitcoinSecurityResearch', JSON.stringify(data));
             }
@@ -937,7 +1250,11 @@
                     this.generatedCount = data.generatedCount || 0;
                     this.foundCount = data.foundCount || 0;
                     this.checkedCount = data.checkedCount || 0;
+                    this.testnet = data.testnet || false;
+                    document.getElementById('useTestnet').checked = this.testnet;
                 }
+                
+                this.updateFoundWalletsList();
             }
         }
 
